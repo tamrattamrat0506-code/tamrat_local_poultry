@@ -1,7 +1,7 @@
-node_modules
+node_modules/
 media/
-db.sqlite3
 staticfiles/
+db.sqlite3
 .vscode/
 __pycache__/
 *.pyc
