@@ -1,0 +1,93 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-05-08 20:46+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "EthioPoultry - Ethiopian Poultry Marketplace"
+msgstr "EthioPoultry - Gabaa Horsiisa Lukkuu Itoophiyaa"
+
+msgid "Home"
+msgstr "Mana"
+
+msgid "Marketplace"
+msgstr "Gabaa"
+
+msgid "Add Item"
+msgstr "Meeshaa dabaluu"
+
+msgid "Conversations"
+msgstr "Haasawaa"
+
+msgid "Contact Us"
+msgstr "Nu qunnamaa"
+
+msgid "About"
+msgstr "Waa'ee keenya"
+
+msgid "Sell"
+msgstr "Gurguruu"
+
+msgid "My Profile"
+msgstr "Piroofaayila koo"
+
+msgid "Edit Profile"
+msgstr "Piroofaayila gulaalu"
+
+msgid "Logout"
+msgstr "Baʼuu"
+
+msgid "Register"
+msgstr "Galmaaʼuu"
+
+msgid "Login"
+msgstr "Seenuu"
+
+msgid "Empowering Ethiopian <br> poultry farmers."
+msgstr "Horsiistota lukkuu Itoophiyaa <br> cimsuuf"
+
+msgid "Quick Links"
+msgstr "Liinkii ariitii"
+
+msgid "Buy Items"
+msgstr "Meeshaalee bituu"
+
+msgid "Contact"
+msgstr "Walqunnamtii"
+
+msgid "Follow Us"
+msgstr "Nu hordofaa"
+
+msgid "Telegram"
+msgstr "Teelagraamii"
+
+msgid "Group"
+msgstr "Garee"
+
+msgid "Fraol"
+msgstr "Fira'ol"
+
+msgid "EthioPoultry. All rights reserved."
+msgstr "EthioPoultry. Mirgi hundi eebbifameera."
+
+msgid "Welcome to EthioPoultry"
+msgstr "Baga nagaan EthioPoultry dhufte"
+
+msgid "Connecting Ethiopian poultry farmers with buyers nationwide"
+msgstr "Horsiistota lukkuu Itoophiyaa daldaltoota biyya guutuu waliin walqunnamsiisuu"
+
+msgid "Browse Marketplace"
+msgstr "Gabaa daawwadhu"

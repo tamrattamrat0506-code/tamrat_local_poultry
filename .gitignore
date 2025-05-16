@@ -1,1 +1,8 @@
 node_modules
+media/
+db.sqlite3
+staticfiles/
+.vscode/
+__pycache__/
+*.pyc
+.env

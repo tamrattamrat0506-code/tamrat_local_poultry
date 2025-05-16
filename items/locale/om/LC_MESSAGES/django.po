@@ -1,0 +1,66 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-05-08 20:49+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Create New Item"
+msgstr "Meeshaa Haaraa Uumi"
+
+msgid "Save Item"
+msgstr "Meeshaa Olkaa'i"
+
+msgid "Contact Seller"
+msgstr "Itti Gadhi Fudhii Gurguraa"
+
+msgid "Price: ETB"
+msgstr "Gatii: ETB"
+
+msgid "Gallery"
+msgstr "Suuraalee"
+
+msgid "Poultry Marketplace"
+msgstr "Gabaa Horii Bosonaa"
+
+msgid "Sell Item"
+msgstr "Meeshaa Gurguri"
+
+msgid "ETB"
+msgstr "ETB"
+
+msgid "Posted"
+msgstr "Maxxanfame"
+
+msgid "No poultry items available yet"
+msgstr "Meeshaan horii ammaa hin jiru"
+
+msgid "Be the first to sell"
+msgstr "Nama jalqabaa ta’i meeshaa gurguruuf"
+
+msgid "Please login to add items"
+msgstr "Meeshaalee dabaluu dura seeni"
+
+msgid "First"
+msgstr "Jalqaba"
+
+msgid "Previous"
+msgstr "Duraa"
+
+msgid "Page"
+msgstr "Fuula"
+
+msgid "of"
+msgstr "irra"

@@ -1,0 +1,93 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-05-08 20:46+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "EthioPoultry - Ethiopian Poultry Marketplace"
+msgstr "ኢትዮፖልትሪ - የኢትዮጵያ የዶሮ ምርት ገበያ"
+
+msgid "Home"
+msgstr "መነሻ"
+
+msgid "Marketplace"
+msgstr "ገበያ"
+
+msgid "Add Item"
+msgstr "ንብረት ያክሉ"
+
+msgid "Conversations"
+msgstr "ውይይቶች"
+
+msgid "Contact Us"
+msgstr "ያግኙን"
+
+msgid "About"
+msgstr "ስለ እኛ"
+
+msgid "Sell"
+msgstr "ሽያጭ"
+
+msgid "My Profile"
+msgstr "የኔ መገለጫ"
+
+msgid "Edit Profile"
+msgstr "መገለጫ አርትዕ"
+
+msgid "Logout"
+msgstr "ውጣ"
+
+msgid "Register"
+msgstr "ይመዝገቡ"
+
+msgid "Login"
+msgstr "ይግቡ"
+
+msgid "Empowering Ethiopian <br> poultry farmers."
+msgstr "የኢትዮጵያ የዶሮ እርሻ አርሶ አደሮችን <br> ማበረታታት"
+
+msgid "Quick Links"
+msgstr "ፈጣን አገናኞች"
+
+msgid "Buy Items"
+msgstr "ንብረቶችን ይግዙ"
+
+msgid "Contact"
+msgstr "አግኙን"
+
+msgid "Follow Us"
+msgstr "ይከተሉን"
+
+msgid "Telegram"
+msgstr "ቴሌግራም"
+
+msgid "Group"
+msgstr "ቡድን"
+
+msgid "Fraol"
+msgstr "ፍራኦል"
+
+msgid "EthioPoultry. All rights reserved."
+msgstr "ኢትዮፖልትሪ። መብት ሁሉ የተጠበቀ ነው።"
+
+msgid "Welcome to EthioPoultry"
+msgstr "እንኳን ወደ ኢትዮ ፖልትሪ በደህና መጡ"
+
+msgid "Connecting Ethiopian poultry farmers with buyers nationwide"
+msgstr "የኢትዮጵያ የዶሮ እርሻ አርሶ አደሮችን ከገዢዎች ጋር በሀገር አቀፍ ሁኔታ እንዲገናኙ እናገናኛለን"
+
+msgid "Browse Marketplace"
+msgstr "ገበያን ይመልከቱ"

@@ -1,0 +1,54 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'items/css/item_create.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="item-form-container">
+    <h1 class="item-form-title">{% trans "Create New Item" %}</h1>
+    <form method="post" enctype="multipart/form-data" class="item-form">
+        {% csrf_token %}
+        
+         {% for field in form %}
+    {% if field.name != "sub_images" %}
+    <div class="form-group">
+        {{ field.label_tag }}
+        {% if field.errors %}
+            <ul class="errorlist">
+                {% for error in field.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        {{ field }}
+        {% if field.help_text %}
+            <small class="help-text">{{ field.help_text }}</small>
+        {% endif %}
+    </div>
+    {% endif %}
+{% endfor %}
+
+<div class="form-group">
+    <label for="id_sub_images">{% trans "Additional Images" %}</label>
+    {{ form.sub_images }}
+    {% if form.sub_images.errors %}
+        <ul class="errorlist">
+            {% for error in form.sub_images.errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <small class="help-text">{% trans "You can upload multiple images." %}</small>
+</div>
+
+        <button type="submit" class="submit-btn">{% trans "Save Item" %}</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'items/js/item_create.js' %}"></script>
+{% endblock %}

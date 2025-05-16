@@ -1,0 +1,67 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'users/css/profile_update.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="profile-update-container">
+    <h2>{% trans "Update Your Profile" %}</h2>
+
+    {% if form.errors %}
+    <div class="alert alert-danger">
+        {% trans "Please correct the errors below." %}
+    </div>
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data" class="profile-form">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+        <div class="form-group">
+            <label>{% trans "Registered Phone Number:" %}</label>
+            <div class="form-control-plaintext">
+                {{ user.phone_number }}
+            </div>
+            <small class="text-muted">{% trans "Contact support to change your phone number" %}</small>
+        </div>
+
+        <div class="form-group">
+            <label>{{ form.profile_picture.label }}</label>
+            {% if form.instance.profile_picture %}
+                <img src="{{ form.instance.profile_picture.url }}" 
+                     alt="Current Profile Picture" class="current-avatar mb-2">
+            {% endif %}
+            {{ form.profile_picture }}
+            {{ form.profile_picture.errors }}
+        </div>
+
+        <div class="form-group">
+            <label>{{ form.user_name.label }}</label>
+            {{ form.user_name }}
+            {{ form.user_name.errors }}
+        </div>
+
+        <div class="form-group">
+            <label>{{ form.bio.label }}</label>
+            {{ form.bio }}
+            {{ form.bio.errors }}
+        </div>
+
+        <div class="form-group">
+            <label>{{ form.location.label }}</label>
+            {{ form.location }}
+            {{ form.location.errors }}
+        </div>
+
+        <button type="submit" class="btn">{% trans "Save Changes" %}</button>
+    </form>
+</div>
+{% endblock %}
+
+
+{% block js %}
+<script src="{% static 'users/js/profile_update.js' %}"></script>
+{% endblock %}

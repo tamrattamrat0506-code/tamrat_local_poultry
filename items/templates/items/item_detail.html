@@ -1,0 +1,52 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css">
+<link rel="stylesheet" href="{% static 'items/css/item_detail.css' %}">
+{% endblock %}
+
+
+{% block content %}
+
+<div class="item-detail-container">
+    <h1 class="item-title">{{ item.name }}</h1>
+    
+    {% if request.user.is_authenticated and request.user != item.created_by %}
+    <div class="contact-seller-section">
+        <a href="{% url 'conversation:new' item.id %}" class="contact-seller-btn">
+            {% trans "Contact Seller" %}
+        </a>
+    </div>
+    {% endif %}
+
+    <div class="main-image-container">
+        <img src="{{ item.main_image.url }}" alt="{{ item.name }}" class="main-image">
+    </div>
+    <p class="item-price">{% trans "Price: ETB" %} {{ item.price }}</p>
+    <div class="item-description">
+        {{ item.description }}
+    </div>
+    
+    <div class="gallery-section">
+    <h2 class="gallery-title">{% trans "Gallery" %}</h2>
+    <div class="gallery-grid">
+        {% for image in item.sub_images.all %}
+        <a href="{{ image.image.url }}" data-lightbox="gallery" data-title="{{ item.name }}">
+            <img src="{{ image.image.url }}" alt="Sub Image {{ forloop.counter }}" class="gallery-thumbnail">
+        </a>
+        {% empty %}
+        <p>{% trans "No additional images available." %}</p>
+        {% endfor %}
+    </div>
+</div>
+</div>
+    
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'items/js/item_detail.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+{% endblock %}
+
