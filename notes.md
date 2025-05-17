@@ -1,3 +1,13 @@
+git init
+git add .
+git commit -m "Initial commit"
+git remote add origin https://github.com/fraollemma/REPO-NAME.git
+git push -u origin main
+
+
+git remote remove origin
+git remote add origin https://github.com/fraollemma/poultry.git
+
 0975516360
 0913610673
 
