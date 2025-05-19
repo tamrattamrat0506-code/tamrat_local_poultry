@@ -11,9 +11,13 @@ git remote add origin https://github.com/fraollemma/poultry.git
 0975516360
 0913610673
 
+
 Make a css that makes contact us page formal contact us page.
 
 1 django-admin makemessages -l om
+ //
+django-admin makemessages
+
 2 django-admin compilemessages
 3 npx expo start --web
 

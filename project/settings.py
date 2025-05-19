@@ -1,3 +1,4 @@
+# project\settings.py
 import os
 from pathlib import Path
 from django.utils.translation import gettext_lazy as _
@@ -14,6 +15,7 @@ LOCALE_PATHS = [
     os.path.join(BASE_DIR, 'locale'),
 ]
 CSRF_TRUSTED_ORIGINS = [
+    "http://127.0.0.1:8000",
     'https://*.railway.app',
     'https://poultryweb-production.up.railway.app'
 ]
@@ -41,17 +43,27 @@ AUTHENTICATION_BACKENDS = ['users.backends.UsernamePhoneBackend']
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'dashboard'
 LOGOUT_REDIRECT_URL = 'home'
+
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "channels_redis.core.RedisChannelLayer",
+#         "CONFIG": {
+#             "hosts": [os.environ.get('REDIS_URL', 'redis://localhost:6379')],
+#         },
+#     },
+# }
+
 CHANNEL_LAYERS = {
     "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [os.environ.get('REDIS_URL', 'redis://localhost:6379')],
-        },
-    },
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
 }
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware', 
     'django.middleware.common.CommonMiddleware',
     'django.middleware.locale.LocaleMiddleware',
@@ -59,15 +71,17 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
 ]
-CORS_ALLOWED_ORIGINS = [
-    "https://poultryweb-production.up.railway.app",
-    "https://*.railway.app",
-]
+CORS_ALLOW_ALL_ORIGINS = True
+
 ROOT_URLCONF = 'project.urls'
-SESSION_COOKIE_DOMAIN = '.railway.app'
-CSRF_COOKIE_DOMAIN = '.railway.app'
+# SESSION_COOKIE_DOMAIN = '.railway.app'
+# CSRF_COOKIE_DOMAIN = '.railway.app'
+
+SESSION_COOKIE_DOMAIN = None
+CSRF_COOKIE_DOMAIN    = None
+
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -94,16 +108,16 @@ INSTALLED_APPS += [
     'cloudinary_storage',
 ]
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME', 'default-cloud-name'),
-    'API_KEY': os.getenv('CLOUDINARY_API_KEY', 'default-api-key'),
-    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET', 'default-api-secret'),
+    'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME', 'doixo5oiw'),
+    'API_KEY': os.getenv('CLOUDINARY_API_KEY', '435759228322341'),
+    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET', 'H3_ZVEXWGcyuE28IfKWUYsTo5sY'),
 }
 DATA_UPLOAD_MAX_MEMORY_SIZE = 15485760
 FILE_UPLOAD_MAX_MEMORY_SIZE = 15485760
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 AUTH_PASSWORD_VALIDATORS = []
 LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Africa/Addis_Ababa'
 USE_I18N = True
 USE_TZ = True
 STATIC_URL = '/static/'

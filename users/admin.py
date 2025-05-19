@@ -1,3 +1,4 @@
+# users\admin.py
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .models import CustomUser, Profile
@@ -5,7 +6,7 @@ from .models import CustomUser, Profile
 class CustomUserAdmin(UserAdmin):
     list_display = ('username', 'phone_number', 'is_staff')
     fieldsets = (
-        (None, {'fields': ('username', 'phone_number')}),  # Removed password since you're password-less
+        (None, {'fields': ('username', 'phone_number')}), 
         ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
     )
     add_fieldsets = (

@@ -1,4 +1,4 @@
-# filepath: c:\Users\Na\Desktop\firaol\project\contact\templatetags\contact_extras.py
+# contact_extras.py
 from django import template
 
 register = template.Library()

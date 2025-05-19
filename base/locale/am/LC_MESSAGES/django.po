@@ -1,93 +1,176 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Amharic translations for EthioPoultry
+# Copyright (C) 2024 EthioPoultry
+# This file is distributed under the same license as the EthioPoultry package.
+# Fraol <fraol@ethiopoultry.com>, 2024.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-08 20:46+0300\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Project-Id-Version: EthioPoultry 1.0\n"
+"Report-Msgid-Bugs-To: support@ethiopoultry.com\n"
+"POT-Creation-Date: 2025-05-18 23:38+0300\n"
+"PO-Revision-Date: 2024-05-19 15:00+0300\n"
+"Last-Translator: Fraol <fraol@ethiopoultry.com>\n"
+"Language-Team: Amharic <am@ethiopoultry.com>\n"
+"Language: am\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: .\base\templates\base\base.html:9
 msgid "EthioPoultry - Ethiopian Poultry Marketplace"
 msgstr "ኢትዮፖልትሪ - የኢትዮጵያ የዶሮ ምርት ገበያ"
 
+#: .\base\templates\base\base.html:19
+msgid "Skip to main content"
+msgstr "ወደ ዋናው ይዘት ይሂዱ"
+
+#: .\base\templates\base\base.html:23 .\base\templates\base\base.html:30
 msgid "Home"
 msgstr "መነሻ"
 
+#: .\base\templates\base\base.html:24
+msgid "POULTRY"
+msgstr "የዶሮ �ቀቅ"
+
+#: .\base\templates\base\base.html:27
+msgid "Main navigation"
+msgstr "ዋና አሰሳ"
+
+#: .\base\templates\base\base.html:33
 msgid "Marketplace"
 msgstr "ገበያ"
 
+#: .\base\templates\base\base.html:36
 msgid "Add Item"
 msgstr "ንብረት ያክሉ"
 
+#: .\base\templates\base\base.html:40
 msgid "Conversations"
 msgstr "ውይይቶች"
 
+#: .\base\templates\base\base.html:42
+msgid "Unread messages:"
+msgstr "ያልተነበቡ መልዕክቶች፦"
+
+#: .\base\templates\base\base.html:46 .\base\templates\base\base.html:102
 msgid "Contact Us"
 msgstr "ያግኙን"
 
+#: .\base\templates\base\base.html:49
 msgid "About"
 msgstr "ስለ እኛ"
 
+#: .\base\templates\base\base.html:57
 msgid "Sell"
 msgstr "ሽያጭ"
 
+#: .\base\templates\base\base.html:60
+msgid "User menu"
+msgstr "የተጠቃሚ ምናሌ"
+
+#: .\base\templates\base\base.html:68
 msgid "My Profile"
 msgstr "የኔ መገለጫ"
 
+#: .\base\templates\base\base.html:70
 msgid "Edit Profile"
 msgstr "መገለጫ አርትዕ"
 
+#: .\base\templates\base\base.html:71
 msgid "Logout"
 msgstr "ውጣ"
 
+#: .\base\templates\base\base.html:75
 msgid "Register"
 msgstr "ይመዝገቡ"
 
+#: .\base\templates\base\base.html:76
 msgid "Login"
 msgstr "ይግቡ"
 
-msgid "Empowering Ethiopian <br> poultry farmers."
-msgstr "የኢትዮጵያ የዶሮ እርሻ አርሶ አደሮችን <br> ማበረታታት"
+#: .\base\templates\base\base.html:78
+msgid "Toggle navigation"
+msgstr "አሰሳ ቀያይር"
 
-msgid "Quick Links"
-msgstr "ፈጣን አገናኞች"
+#: .\base\templates\base\base.html:103
+msgid "Designed by"
+msgstr "በዲዛይን የተሰራ"
 
-msgid "Buy Items"
-msgstr "ንብረቶችን ይግዙ"
+#: .\base\templates\base\index.html:37
+msgid "Empowering Ethiopia's Poultry Farmers with Fairness & Growth"
+msgstr "የኢትዮጵያን የዶሮ እርባታ አርሶ አደሮች በአግባቡና በእድገት ማበረታታት"
 
-msgid "Contact"
-msgstr "አግኙን"
-
-msgid "Follow Us"
-msgstr "ይከተሉን"
-
-msgid "Telegram"
-msgstr "ቴሌግራም"
-
-msgid "Group"
-msgstr "ቡድን"
-
-msgid "Fraol"
-msgstr "ፍራኦል"
-
-msgid "EthioPoultry. All rights reserved."
-msgstr "ኢትዮፖልትሪ። መብት ሁሉ የተጠበቀ ነው።"
-
-msgid "Welcome to EthioPoultry"
-msgstr "እንኳን ወደ ኢትዮ ፖልትሪ በደህና መጡ"
-
+#: .\base\templates\base\index.html:38
 msgid "Connecting Ethiopian poultry farmers with buyers nationwide"
 msgstr "የኢትዮጵያ የዶሮ እርሻ አርሶ አደሮችን ከገዢዎች ጋር በሀገር አቀፍ ሁኔታ እንዲገናኙ እናገናኛለን"
 
+#: .\base\templates\base\index.html:39
 msgid "Browse Marketplace"
 msgstr "ገበያን ይመልከቱ"
+
+#: .\base\templates\base\index.html:44
+msgid "Our Impact So Far"
+msgstr "እስካሁን ያለን ተጽዕኖ"
+
+#: .\base\templates\base\index.html:49
+msgid "Total Users"
+msgstr "ጠቅላላ ተጠቃሚዎች"
+
+#: .\base\templates\base\index.html:53
+msgid "Active Users"
+msgstr "ንቁ ተጠቃሚዎች"
+
+#: .\base\templates\base\index.html:57
+msgid "Items for Sale"
+msgstr "ለመሸጥ የቀረቡ እቃዎች"
+
+#: .\base\templates\base\index.html:61
+msgid "Conversations Started"
+msgstr "የተጀመሩ ውይይቶች"
+
+#: .\base\templates\base\index.html:65
+msgid ""
+"Join a growing community of Ethiopian poultry farmers, buyers, and experts. "
+"List your products, connect with partners, and start meaningful "
+"conversations today!"
+msgstr "የኢትዮጵያን የዶሮ እርባታ አርሶ አደሮች፣ ገዢዎች እና ባለሙያዎች ያሉበት እየደረሰ ያለ ማህበረሰብ �ን ይቀላቀሉ። �ምርቶችዎን ይዝገቡ፣ ከአጋሮች ጋር ተገናኝተው ትርጉም ያለው ውይይት ይጀምሩ!"
+
+#: .\base\templates\base\index.html:71
+msgid "Why We Built This Platform?"
+msgstr "ይህን መድረክ �ስላል እንደገነባነው?"
+
+#: .\base\templates\base\index.html:72
+msgid "Stop Price Shocks, Grow with Confidence"
+msgstr "የዋጋ መዛባትን አቁሙ፣ በራስ መተማመን �ድረስ"
+
+#: .\base\templates\base\index.html:73
+#, python-format
+msgid ""
+"Did you know? 40%% of small poultry farmers lose profits due to "
+"unpredictable price swings. We're changing that."
+msgstr "ያውቃሉ? 40%% የሚሆኑ አነስተኛ የዶሮ እርባታ አርሶ አደሮች በማያሻማ የዋጋ ለውጦች ምክንያት ትርፋቸውን ያጣሉ። እኛ ይህን እየቀየርን ነው።"
+
+#: .\base\templates\base\index.html:74
+msgid "→ Real-time pricing + expert tips = steadier income for YOU."
+msgstr "→ በቅጽበት የዋጋ መረጃ + የባለሙያ ምክሮች = የበለጠ የተረጋጋ ገቢ ለእርስዎ።"
+
+#: .\base\templates\base\index.html:79
+msgid "Connect Directly—No More Middlemen!"
+msgstr "በቀጥታ ይገናኙ - መካከለኛዎች አያስፈልጉም!"
+
+#: .\base\templates\base\index.html:80
+#, python-format
+msgid ""
+"Over 70%% of farmers struggle to find fair buyers. We link you directly to "
+"trusted traders, suppliers, and experts—cutting costs, boosting profits."
+msgstr "ከ70%% በላይ የሚሆኑ አርሶ አደሮች ፍትሃዊ ገዢዎችን ለማግኘት ይቸገራሉ። እኛ እርስዎን በቀጥታ ከታመኑ ነጋዴዎች፣ አቅራቢዎች እና ባለሙያዎች ጋር እናገናኝዎታለን - �ስጫዎችን በመቀነስ ትርፍ እናሳድጋለን።"
+
+#: .\base\templates\base\index.html:85
+msgid "Transparent Markets = Stronger Farmers"
+msgstr "ግልጽ የሆኑ ገበያዎች = የበለጠ ጠንካራ አርሶ አደሮች"
+
+#: .\base\templates\base\index.html:86
+msgid ""
+"Rumors of 'shortages' hurt small farms. Truth: Ethiopia produces 300M+ eggs/"
+"year—enough for all! We expose manipulation and highlight REAL data."
+msgstr "'ጉድለት' የሚሉ ጠብመንገዶች አነስተኛ እርባታዎችን ይጎዳሉ። እውነታ፡ ኢትዮጵያ በየዓመቱ ከ300 ሚሊዮን በላይ እንቁላል ትመርታለች - ለሁሉም በቂ! እኛ ማጭበርበርን እንገልፃለን እና እውነተኛ ዳታን እናብራራለን።"

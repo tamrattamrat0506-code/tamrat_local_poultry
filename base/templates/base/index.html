@@ -1,3 +1,4 @@
+<!-- base\index.html -->
 {% extends 'base/base.html' %}
 {% load static %}
 {% load i18n %}
@@ -8,7 +9,6 @@
 
 {% block content %}
 
-
 <main class="main-container">
     <!-- Hero Section -->
      <div class="language-selector">
@@ -18,25 +18,52 @@
             <input name="next" type="hidden" value="{{ request.path }}">
             <div class="language-btn-group" role="group">
                 <button type="submit" name="language" value="en" 
-                        class="language-btn {% if LANGUAGE_CODE == 'en' %}active{% endif %}">
+                        class="language-btn en {% if LANGUAGE_CODE == 'en' %}active{% endif %}">
                     English
                 </button>
                 <button type="submit" name="language" value="am" 
-                        class="language-btn {% if LANGUAGE_CODE == 'am' %}active{% endif %}">
+                        class="language-btn am {% if LANGUAGE_CODE == 'am' %}active{% endif %}">
                     አማርኛ
                 </button>
                 <button type="submit" name="language" value="om" 
-                        class="language-btn {% if LANGUAGE_CODE == 'om' %}active{% endif %}">
+                        class="language-btn om {% if LANGUAGE_CODE == 'om' %}active{% endif %}">
                     Oromiffa
                 </button>
             </div>
         </form>
     </div>
 </div>
-    <section id="heroSection" class="main-hero-section">
-        <h1>{% trans "Empowering Ethiopia’s Poultry Farmers with Fairness & Growth" %}</h1>
+    <section id="heroSection" class="main-hero-section">{% trans "Empowering Ethiopia's Poultry Farmers with Fairness & Growth" %}
+        <h1></h1>
         <p class="main-lead">{% trans "Connecting Ethiopian poultry farmers with buyers nationwide" %}</p>
         <a href="{% url 'items:item_list' %}" class="main-btn">{% trans "Browse Marketplace" %}</a>
+    </section>
+
+    <!-- Plan Section -->
+    <section class="plan-section">
+        <h2>{% trans "Our Impact So Far" %}</h2>
+        <div class="plan-stats">
+            <!-- Total Users -->
+            <div class="plan-stat">
+                <span class="plan-number">{{ users_count }}+</span>
+                <span class="plan-label">{% trans "Total Users" %}</span>
+            </div>
+            <div class="plan-stat">
+                <span class="plan-number">{{ active_users_count }}+</span>
+                <span class="plan-label">{% trans "Active Users" %}</span>
+            </div>
+            <div class="plan-stat">
+                <span class="plan-number">100+</span>
+                <span class="plan-label">{% trans "Items for Sale" %}</span>
+            </div>
+            <div class="plan-stat">
+                <span class="plan-number">100+</span>
+                <span class="plan-label">{% trans "Conversations Started" %}</span>
+            </div>
+        </div>
+        <p class="plan-description">
+            {% trans "Join a growing community of Ethiopian poultry farmers, buyers, and experts. List your products, connect with partners, and start meaningful conversations today!" %}
+        </p>
     </section>
 
     <!-- Why We Built This Platform -->

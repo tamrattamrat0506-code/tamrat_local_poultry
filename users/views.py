@@ -1,3 +1,4 @@
+# users\views.py
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth import login
@@ -8,6 +9,8 @@ from .models import Profile
 
 from django.http import JsonResponse
 from conversation.models import Conversation, ConversationMessage 
+
+
 
 @login_required
 def unread_count_api(request):
@@ -25,7 +28,7 @@ def unread_count_api(request):
 def user_logout(request):
     """Logout view"""
     auth_logout(request)
-    return redirect('base:base')
+    return redirect('base:index')
 
 @login_required
 def dashboard(request):
@@ -77,3 +80,5 @@ def profile_update(request):
 def profile(request):
     """View for displaying the user's profile"""
     return render(request, 'users/profile.html', {'user': request.user})
+
+

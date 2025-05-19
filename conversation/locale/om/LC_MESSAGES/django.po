@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-08 20:47+0300\n"
+"POT-Creation-Date: 2025-05-18 23:36+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,38 +17,50 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: .\conversation\templates\conversation\detail.html:15
 msgid "Conversation about"
 msgstr "Mariin waa'ee"
 
+#: .\conversation\templates\conversation\detail.html:56
 msgid "Send"
 msgstr "Ergi"
 
+#: .\conversation\templates\conversation\inbox.html:13
 msgid "Your Conversations"
 msgstr "Mariwwan kee"
 
+#: .\conversation\templates\conversation\inbox.html:28
 msgid "No Image"
 msgstr "Suuraa hin jiru"
 
+#: .\conversation\templates\conversation\inbox.html:48
 msgid "No messages yet"
 msgstr "Ergaan homtuu hin jiru"
 
+#: .\conversation\templates\conversation\inbox.html:58
 msgid "No conversations yet"
 msgstr "Mariin homtuu hin jalqabamne"
 
+#: .\conversation\templates\conversation\inbox.html:59
 msgid "Browse Items"
 msgstr "Meeshaalee daawwadhu"
 
+#: .\conversation\templates\conversation\new.html:12
 msgid "New Message"
 msgstr "Ergaa Haaraa"
 
+#: .\conversation\templates\conversation\new.html:13
 msgid "Contact the seller about:"
 msgstr "Waa’ee kanaaf gurguraa qunnamu:"
 
+#: .\conversation\templates\conversation\new.html:33
 msgid "Your Message"
 msgstr "Ergaa kee"
 
+#: .\conversation\templates\conversation\new.html:41
 msgid "Send Message"
 msgstr "Ergaa ergi"
 
+#: .\conversation\templates\conversation\new.html:43
 msgid "Cancel"
 msgstr "Haquu"

@@ -1,3 +1,4 @@
+# users\consumers.py
 import json
 import logging
 from channels.generic.websocket import AsyncWebsocketConsumer
@@ -5,35 +6,33 @@ from django.contrib.auth import get_user_model
 from conversation.models import Conversation, ConversationMessage
 from asgiref.sync import sync_to_async
 
+
 logger = logging.getLogger(__name__)
 User = get_user_model()
 
 class UserNotificationsConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         try:
-            # Verify authentication
             if not self.scope["user"].is_authenticated:
-                await self.close(code=4001)  # Unauthorized
+                await self.close(code=4001) 
                 return
 
             self.user_id = str(self.scope["user"].id)
             self.room_group_name = f'user_{self.user_id}'
             
-            # Add to group
             await self.channel_layer.group_add(
                 self.room_group_name,
                 self.channel_name
             )
             await self.accept()
             
-            # Send initial unread count
             await self.send_unread_count()
             
             logger.info(f"WebSocket connected for user {self.user_id}")
 
         except Exception as e:
             logger.error(f"Connection error: {e}")
-            await self.close(code=4003)  # Internal error
+            await self.close(code=4003) 
 
     async def disconnect(self, close_code):
         try:
@@ -50,7 +49,6 @@ class UserNotificationsConsumer(AsyncWebsocketConsumer):
         try:
             data = json.loads(text_data)
             
-            # Handle different message types
             if data.get('type') == 'mark_read':
                 conversation_id = data.get('conversation_id')
                 if conversation_id:
@@ -106,3 +104,16 @@ class UserNotificationsConsumer(AsyncWebsocketConsumer):
             'type': 'error',
             'message': message
         }))
+
+
+
+class UserConsumer(AsyncWebsocketConsumer):
+    async def connect(self):
+        await self.accept()
+        # Add your logic here
+
+    async def disconnect(self, close_code):
+        pass
+
+    async def receive(self, text_data):
+        pass
