@@ -45,14 +45,14 @@ LOGIN_REDIRECT_URL = 'dashboard'
 LOGOUT_REDIRECT_URL = 'home'
 
            # for production
- CHANNEL_LAYERS = {
-     "default": {
-         "BACKEND": "channels_redis.core.RedisChannelLayer",
-         "CONFIG": {
-             "hosts": [os.environ.get('REDIS_URL', 'redis://localhost:6379')],
-         },
-     },
- }
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("redis://default:AgThlMiKVZFJEDqtfShIRAGVSDaNywtZ@redis.railway.internal:6379@redis-server:6379/0")],
+        },
+    },
+}
 
            # for development
 #CHANNEL_LAYERS = {
