@@ -44,14 +44,7 @@ LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'dashboard'
 LOGOUT_REDIRECT_URL = 'home'
 
-           # production
-#CHANNEL_LAYERS = {
-#    "default": {
-#        "BACKEND": "channels.layers.InMemoryChannelLayer"
-#    }
-#}
-
-           # Developnment
+           # for production
  CHANNEL_LAYERS = {
      "default": {
          "BACKEND": "channels_redis.core.RedisChannelLayer",
@@ -60,6 +53,14 @@ LOGOUT_REDIRECT_URL = 'home'
          },
      },
  }
+
+           # for development
+#CHANNEL_LAYERS = {
+#    "default": {
+#        "BACKEND": "channels.layers.InMemoryChannelLayer"
+#    }
+#}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -77,12 +78,12 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'project.urls'
 
-                # production
- SESSION_COOKIE_DOMAIN = '.railway.app'
- CSRF_COOKIE_DOMAIN = '.railway.app'
-                 # developnment
-# SESSION_COOKIE_DOMAIN = None
-# CSRF_COOKIE_DOMAIN    = None
+                # for production
+# SESSION_COOKIE_DOMAIN = '.railway.app'
+# CSRF_COOKIE_DOMAIN = '.railway.app'
+                 # for development
+ SESSION_COOKIE_DOMAIN = None
+ CSRF_COOKIE_DOMAIN    = None
 
 
 TEMPLATES = [
@@ -95,6 +96,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.i18n',
             ],
         },
     },
@@ -110,13 +112,13 @@ INSTALLED_APPS += [
     'cloudinary',
     'cloudinary_storage',
 ]
-                   # production
+                   # for production
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME', 'doixo5oiw'),
     'API_KEY': os.getenv('CLOUDINARY_API_KEY', '435759228322341'),
     'API_SECRET': os.getenv('CLOUDINARY_API_SECRET', 'H3_ZVEXWGcyuE28IfKWUYsTo5sY'),
 }
-                   # developnment
+                   # for development
 #CLOUDINARY = {
 #    "cloud_name": "doixo5oiw",
 #    "api_key": "435759228322341",
