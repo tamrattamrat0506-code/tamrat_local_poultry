@@ -79,11 +79,11 @@ CORS_ALLOW_ALL_ORIGINS = True
 ROOT_URLCONF = 'project.urls'
 
                 # for production
-# SESSION_COOKIE_DOMAIN = '.railway.app'
-# CSRF_COOKIE_DOMAIN = '.railway.app'
+ SESSION_COOKIE_DOMAIN = '.railway.app'
+ CSRF_COOKIE_DOMAIN = '.railway.app'
                  # for development
- SESSION_COOKIE_DOMAIN = None
- CSRF_COOKIE_DOMAIN    = None
+# SESSION_COOKIE_DOMAIN = None
+# CSRF_COOKIE_DOMAIN    = None
 
 
 TEMPLATES = [
