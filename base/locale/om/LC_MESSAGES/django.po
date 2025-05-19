@@ -133,37 +133,37 @@ msgid ""
 "Join a growing community of Ethiopian poultry farmers, buyers, and experts. "
 "List your products, connect with partners, and start meaningful "
 "conversations today!"
-msgstr "Jiraattota horsiistota lukkuu Itoophiyaa, daldaltoota, fi ogartootaa wajjin walitti makamtuu keessatti makamuuf. Oomisha keessan galmeessaa, hirmaattoota wajjin walqunnamtii godhaa, haasawa barbaachisaa qaban har'a jalqabaa!"
+msgstr "Horsiistota lukkuu Itoophiyaa, daldaltoota, fi ogartootaa wajjin walquunamaa. Oomisha keessan galmeessaa, hirmaattoota wajjin walqunnamtii godhaa, haasawa barbaachisaa ta'e har'a jalqabaa!"
 
 #: .\base\templates\base\index.html:71
 msgid "Why We Built This Platform?"
-msgstr "Maaliif Platforma Kun Ijaarree?"
+msgstr "Maaliif Platformii Kana Ijaarree?"
 
 #: .\base\templates\base\index.html:72
 msgid "Stop Price Shocks, Grow with Confidence"
-msgstr "Dhibee Gatii Dhabamsiisaa, Amansiin Waliin Guddadhaa"
+msgstr "Dhibbaa Gatii Dhabamsiisa, Amansiisaan Nagaddu"
 
 #: .\base\templates\base\index.html:73
 #, python-format
 msgid ""
 "Did you know? 40%% of small poultry farmers lose profits due to "
 "unpredictable price swings. We're changing that."
-msgstr "Beektaa? 40%% horsiistota lukkuu xiqqaa galii isaanii gatii hin beekkamin irraa dhabu. Kun nuu jijjiirama."
+msgstr "Beektaa? 40%% horsiistonni lukkuu xixiqqaan galii isaanii gatii hin beekkamin irraa dhabu. Kana jijjiiruudhaaf hojjana."
 
 #: .\base\templates\base\index.html:74
 msgid "→ Real-time pricing + expert tips = steadier income for YOU."
-msgstr "→ Gatii yeroo dhugaa + gorsa ogartootaa = galii tasgabbaa SIIF."
+msgstr "→ Gatii yeroo dhugaa + gorsa ogartootaa = galii madaalawaa isiniif."
 
 #: .\base\templates\base\index.html:79
 msgid "Connect Directly—No More Middlemen!"
-msgstr "Gara Fuula Duraa—Dabalataan Hin Jiru!"
+msgstr "Dallaalaa Malee Walquunamaa!"
 
 #: .\base\templates\base\index.html:80
 #, python-format
 msgid ""
 "Over 70%% of farmers struggle to find fair buyers. We link you directly to "
 "trusted traders, suppliers, and experts—cutting costs, boosting profits."
-msgstr "70%% ol horsiistota daldaltoota sirrii argachuuf rakkisuu. Si daldaltoota amanamoo, oomishaa, fi ogartootaa wajjin walqunnamsiifna—kostii hir'isuu, galii dabarsuu."
+msgstr "Horsiistotni 70%% ol  daldaltoota sirrii argachuuf rakkatu. Daldaltoota amanamoo, oomishaa fi ogeessota walquunamsiisaa galii keessan dablla."
 
 #: .\base\templates\base\index.html:85
 msgid "Transparent Markets = Stronger Farmers"
@@ -172,5 +172,5 @@ msgstr "Gabaabummaa Gabaa = Horsiistota Cimaa"
 #: .\base\templates\base\index.html:86
 msgid ""
 "Rumors of 'shortages' hurt small farms. Truth: Ethiopia produces 300M+ eggs/"
-"year—enough for all! We expose manipulation and highlight REAL data."
-msgstr "Odeeffannoon 'hanga' horsiistota xiqqaa miidhuu. Dhugaa: Itoophiyaan bifi 300M+ eggs/year—hundaaf gahaa! Sochii jijjiiramaa agarsiifnaa fi daataa DHUGAA guddisna."
+"year enough for all! We expose manipulation and highlight REAL data."
+msgstr "Oduun 'hanqinni gabbaa jira' jedhaa jiru. Dhugaan: Itoophiyaan kiillee 300M+ kiillee/waggaan—hundaaf gahaa! Sochii jijjiiramaa agarsiisaa fi daataa DHUGAA guddisna."

@@ -1,5 +1,5 @@
 # users\views.py
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
@@ -10,6 +10,9 @@ from .models import Profile
 from django.http import JsonResponse
 from conversation.models import Conversation, ConversationMessage 
 
+
+
+from django.contrib.auth import get_user_model
 
 
 @login_required
@@ -81,4 +84,7 @@ def profile(request):
     """View for displaying the user's profile"""
     return render(request, 'users/profile.html', {'user': request.user})
 
-
+def seller_profile(request, user_id):
+    User = get_user_model()
+    seller = get_object_or_404(User, id=user_id)
+    return render(request, 'users/seller_profile.html', {'seller': seller})

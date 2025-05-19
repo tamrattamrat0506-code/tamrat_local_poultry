@@ -44,21 +44,22 @@ LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'dashboard'
 LOGOUT_REDIRECT_URL = 'home'
 
-# CHANNEL_LAYERS = {
-#     "default": {
-#         "BACKEND": "channels_redis.core.RedisChannelLayer",
-#         "CONFIG": {
-#             "hosts": [os.environ.get('REDIS_URL', 'redis://localhost:6379')],
-#         },
-#     },
-# }
+           # production
+#CHANNEL_LAYERS = {
+#    "default": {
+#        "BACKEND": "channels.layers.InMemoryChannelLayer"
+#    }
+#}
 
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels.layers.InMemoryChannelLayer"
-    }
-}
-
+           # Developnment
+ CHANNEL_LAYERS = {
+     "default": {
+         "BACKEND": "channels_redis.core.RedisChannelLayer",
+         "CONFIG": {
+             "hosts": [os.environ.get('REDIS_URL', 'redis://localhost:6379')],
+         },
+     },
+ }
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -75,11 +76,13 @@ MIDDLEWARE = [
 CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'project.urls'
-# SESSION_COOKIE_DOMAIN = '.railway.app'
-# CSRF_COOKIE_DOMAIN = '.railway.app'
 
-SESSION_COOKIE_DOMAIN = None
-CSRF_COOKIE_DOMAIN    = None
+                # production
+ SESSION_COOKIE_DOMAIN = '.railway.app'
+ CSRF_COOKIE_DOMAIN = '.railway.app'
+                 # developnment
+# SESSION_COOKIE_DOMAIN = None
+# CSRF_COOKIE_DOMAIN    = None
 
 
 TEMPLATES = [
@@ -107,11 +110,21 @@ INSTALLED_APPS += [
     'cloudinary',
     'cloudinary_storage',
 ]
+                   # production
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME', 'doixo5oiw'),
     'API_KEY': os.getenv('CLOUDINARY_API_KEY', '435759228322341'),
     'API_SECRET': os.getenv('CLOUDINARY_API_SECRET', 'H3_ZVEXWGcyuE28IfKWUYsTo5sY'),
 }
+                   # developnment
+#CLOUDINARY = {
+#    "cloud_name": "doixo5oiw",
+#    "api_key": "435759228322341",
+#    "api_secret": "H3_ZVEXWGcyuE28IfKWUYsTo5sY",
+#}
+
+
+
 DATA_UPLOAD_MAX_MEMORY_SIZE = 15485760
 FILE_UPLOAD_MAX_MEMORY_SIZE = 15485760
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
@@ -126,23 +139,4 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

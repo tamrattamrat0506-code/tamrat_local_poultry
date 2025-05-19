@@ -23,4 +23,5 @@ urlpatterns = [
     path('api/items/', ItemListAPIView.as_view(), name='api_item_list'),
     path('api/items/<int:pk>/', ItemDetailAPIView.as_view(), name='api_item_detail'),
 
+
 ]

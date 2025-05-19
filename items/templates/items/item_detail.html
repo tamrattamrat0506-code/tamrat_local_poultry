@@ -20,6 +20,8 @@
         </a>
     </div>
     {% endif %}
+    
+<li><a class="dropdown-item" href="{% url 'users:seller_profile' item.created_by.id %}">{% trans "Seller Profile" %}</a></li> 
 
     <div class="main-image-container">
         <img src="{{ item.main_image.url }}" alt="{{ item.name }}" class="main-image">

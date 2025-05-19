@@ -184,3 +184,65 @@ body {
 .contact-seller-btn.hover-shadow {
   box-shadow: 0 4px 12px rgba(0, 123, 255, 0.5);
 }
+
+
+
+.contact-seller-section {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 24px;
+    padding: 16px 0;
+    background: #f5faff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(25, 118, 210, 0.06);
+}
+
+.contact-seller-btn {
+    display: inline-block;
+    background: #1976d2;
+    color: #fff;
+    font-weight: 600;
+    padding: 10px 22px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
+}
+
+.contact-seller-btn:hover {
+    background: #125ea7;
+    box-shadow: 0 4px 16px rgba(25, 118, 210, 0.13);
+    color: #fff;
+}
+
+.dropdown-item {
+    display: inline-block;
+    background: #e3f2fd;
+    color: #1976d2;
+    font-weight: 500;
+    padding: 9px 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    margin-left: 8px;
+    transition: background 0.2s, color 0.2s;
+}
+
+.dropdown-item:hover {
+    background: #bbdefb;
+    color: #0d47a1;
+}
+
+@media (max-width: 600px) {
+    .contact-seller-section {
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px 0;
+    }
+    .contact-seller-btn,
+    .dropdown-item {
+        width: 100%;
+        text-align: center;
+        margin-left: 0;
+    }
+}

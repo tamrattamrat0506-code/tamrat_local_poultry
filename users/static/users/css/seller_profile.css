@@ -1,0 +1,37 @@
+.seller-profile-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 40px;
+}
+.seller-profile-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+    padding: 32px 28px;
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+}
+.seller-profile-picture {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 18px;
+    border: 3px solid #1976d2;
+}
+.seller-username {
+    font-size: 2rem;
+    color: #1976d2;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+.seller-phone,
+.seller-name,
+.seller-bio,
+.seller-location {
+    font-size: 1.08rem;
+    color: #333;
+    margin-bottom: 8px;
+}

@@ -109,3 +109,16 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
   
+
+  document.addEventListener('DOMContentLoaded', function() {
+    function updateDateTime() {
+        const now = new Date();
+        const options = { 
+            year: 'numeric', month: 'long', day: 'numeric',
+            hour: '2-digit', minute: '2-digit', second: '2-digit'
+        };
+        document.querySelector('.date-and-time').textContent = now.toLocaleString(undefined, options);
+    }
+    updateDateTime();
+    setInterval(updateDateTime, 1000);
+});
