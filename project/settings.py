@@ -78,9 +78,9 @@ CORS_ALLOW_ALL_ORIGINS = True
 ROOT_URLCONF = 'project.urls'
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.getenv('DATABASE_URL', 'postgresql://postgres:MaKTRLPAqCKkhQjrCTRKhKUCUNDnCnCS@postgres.railway.internal:5432/railway'),
-        engine='django.db.backends.postgresql',
-        conn_max_age=600
+        default=f"postgres://{os.environ['PGUSER']}:{os.environ['PGPASSWORD']}@{os.environ['PGHOST']}:{os.environ['PGPORT']}/{os.environ['PGDATABASE']}",
+        conn_max_age=600,
+        ssl_require=True,
     )
 }
 SESSION_COOKIE_SECURE = True

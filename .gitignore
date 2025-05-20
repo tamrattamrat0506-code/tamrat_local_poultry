@@ -19,6 +19,13 @@ env/
 local_settings.py
 db.sqlite3
 
+# Dockerfile
+Dockerfile
+docker-compose.yml
+docker-compose.override.yml
+docker-compose.override.*.yml
+
+
 # Static and compiled files
 
 # Node.js
