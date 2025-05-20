@@ -1,1 +1,56 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Django
+*.log
+*.pot
+*.pyc
+local_settings.py
+db.sqlite3
+
+# Static and compiled files
+
+# Node.js
+node_modules/
+*.tsbuildinfo
+
+# VS Code
 .vscode/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Environment and config
+.env
+.env.*
+*.env
+.secret
+.hintrc
+
+# Railway-specific
+.railwayignore
+
+# Git
+*.swp
+*.swo
+*.bak
+*~
+
+# Backup and metadata
+*.orig
+*.tmp
+
+# Notes and docs
+notes.md
