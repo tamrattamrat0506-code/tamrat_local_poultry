@@ -78,12 +78,17 @@ MIDDLEWARE = [
 CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'project.urls'
+import dj_database_url
+import os
+
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.getenv('DATABASE_URL'),
+        default=os.getenv('DATABASE_URL', 'postgresql://postgres:MaKTRLPAqCKkhQjrCTRKhKUCUNDnCnCS@postgres.railway.internal:5432/railway'),
+        engine='django.db.backends.postgresql',
         conn_max_age=600
     )
 }
+
 SESSION_COOKIE_SECURE = True
 SESSION_COOKIE_DOMAIN = '.railway.app'
 CSRF_COOKIE_SECURE = True
