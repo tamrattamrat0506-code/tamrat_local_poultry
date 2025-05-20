@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-^h2wta5iiio$am%fpi*b$2_9^u4*7w_so1d)tzs!6n#lp0m9+='
 DEBUG = True
-ALLOWED_HOSTS = ['EthioPoultry.up.railway.app', '.railway.app']
+ALLOWED_HOSTS = ['ethiopoultry.up.railway.app', '.railway.app']
 LANGUAGES = [
     ('en', _('English')),
     ('am', _('Amharic')),
@@ -17,7 +17,7 @@ LOCALE_PATHS = [
 CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:8000",
     'https://*.railway.app',
-    'https://poultryweb-production.up.railway.app'
+    'https://ethiopoultry.up.railway.app'
 ]
 INSTALLED_APPS = [
     'django.contrib.admin',
