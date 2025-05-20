@@ -1,5 +1,7 @@
-# project\settings.py
 import os
+
+# settings.py
+import dj_database_url
 from pathlib import Path
 from django.utils.translation import gettext_lazy as _
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -77,12 +79,15 @@ MIDDLEWARE = [
 CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'project.urls'
-
-                # for production
+DATABASES = {
+    'default': dj_database_url.config(
+        default='postgresql://postgres:postgres@localhost:5432/postgres',
+        conn_max_age=600
+    )
+}
 SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
-                # for production
 SESSION_COOKIE_DOMAIN = '.railway.app'
+CSRF_COOKIE_SECURE = True
 CSRF_COOKIE_DOMAIN = '.railway.app'
                  # for development
 # SESSION_COOKIE_DOMAIN = None
@@ -105,12 +110,6 @@ TEMPLATES = [
     },
 ]
 WSGI_APPLICATION = 'project.wsgi.application'
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
 INSTALLED_APPS += [
     'cloudinary',
     'cloudinary_storage',
