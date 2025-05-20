@@ -1,5 +1,4 @@
 import os
-
 import dj_database_url
 from pathlib import Path
 from django.utils.translation import gettext_lazy as _
@@ -76,11 +75,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 CORS_ALLOW_ALL_ORIGINS = True
-
 ROOT_URLCONF = 'project.urls'
-import dj_database_url
-import os
-
 DATABASES = {
     'default': dj_database_url.config(
         default=os.getenv('DATABASE_URL', 'postgresql://postgres:MaKTRLPAqCKkhQjrCTRKhKUCUNDnCnCS@postgres.railway.internal:5432/railway'),
@@ -95,8 +90,6 @@ CSRF_COOKIE_DOMAIN = '.railway.app'
                  # for development
 # SESSION_COOKIE_DOMAIN = None
 # CSRF_COOKIE_DOMAIN    = None
-
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -146,3 +139,4 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
