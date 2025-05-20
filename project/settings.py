@@ -76,11 +76,12 @@ MIDDLEWARE = [
 ]
 CORS_ALLOW_ALL_ORIGINS = True
 ROOT_URLCONF = 'project.urls'
+# Database
 DATABASES = {
     'default': dj_database_url.config(
-        default=f"postgres://{os.environ['PGUSER']}:{os.environ['PGPASSWORD']}@{os.environ['PGHOST']}:{os.environ['PGPORT']}/{os.environ['PGDATABASE']}",
+        default='postgresql://postgres:MaKTRLPAqCKkhQjrCTRKhKUCUNDnCnCS@postgres.railway.app:5432/railway',
         conn_max_age=600,
-        ssl_require=True,
+        ssl_require=True
     )
 }
 SESSION_COOKIE_SECURE = True
