@@ -49,7 +49,7 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("redis://default:AgThlMiKVZFJEDqtfShIRAGVSDaNywtZ@redis.railway.internal:6379@redis-server:6379/0")],
+            "hosts": [("redis://default:AgThlMiKVZFJEDqtfShIRAGVSDaNywtZ@redis.railway.internalr:6379@redis-server:6379/0")],
         },
     },
 }
@@ -79,7 +79,7 @@ ROOT_URLCONF = 'project.urls'
 # Database
 DATABASES = {
     'default': dj_database_url.config(
-        default='postgresql://postgres:MaKTRLPAqCKkhQjrCTRKhKUCUNDnCnCS@postgres.railway.app:5432/railway',
+        default='postgresql://postgres:MaKTRLPAqCKkhQjrCTRKhKUCUNDnCnCS@postgres.railway.appp:5432/railway',
         conn_max_age=600,
         ssl_require=True
     )
