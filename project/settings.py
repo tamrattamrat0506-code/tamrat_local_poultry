@@ -88,7 +88,6 @@ DATABASES = {
         conn_max_age=600
     )
 }
-
 SESSION_COOKIE_SECURE = True
 SESSION_COOKIE_DOMAIN = '.railway.app'
 CSRF_COOKIE_SECURE = True
