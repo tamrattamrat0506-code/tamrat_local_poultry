@@ -1,6 +1,5 @@
 import os
 
-# settings.py
 import dj_database_url
 from pathlib import Path
 from django.utils.translation import gettext_lazy as _
@@ -81,7 +80,7 @@ CORS_ALLOW_ALL_ORIGINS = True
 ROOT_URLCONF = 'project.urls'
 DATABASES = {
     'default': dj_database_url.config(
-        default='postgresql://postgres:postgres@localhost:5432/postgres',
+        default=os.getenv('DATABASE_URL'),
         conn_max_age=600
     )
 }
