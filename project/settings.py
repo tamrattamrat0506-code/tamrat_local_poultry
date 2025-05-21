@@ -79,7 +79,7 @@ ROOT_URLCONF = 'project.urls'
 # Database
 DATABASES = {
     'default': dj_database_url.config(
-        default='postgresql://postgres:MaKTRLPAqCKkhQjrCTRKhKUCUNDnCnCS@postgres.railway.appp:5432/railway',
+        default=os.getenv('DATABASE_URL'),
         conn_max_age=600,
         ssl_require=True
     )
