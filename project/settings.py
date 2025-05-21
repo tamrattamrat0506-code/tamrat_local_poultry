@@ -14,6 +14,10 @@ LANGUAGES = [
 LOCALE_PATHS = [
     os.path.join(BASE_DIR, 'locale'),
 ]
+
+REDIS_URL = os.getenv('REDIS_URL', 'redis://localhost:6379')
+DATABASE_URL = os.getenv('DATABASE_URL', 'postgres://localhost:5432')
+
 CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:8000",
     'https://*.railway.app',
@@ -49,7 +53,7 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("redis://default:AgThlMiKVZFJEDqtfShIRAGVSDaNywtZ@redis.railway.internalr:6379@redis-server:6379/0")],
+            "hosts": [REDIS_URL],
         },
     },
 }
@@ -81,7 +85,8 @@ DATABASES = {
     'default': dj_database_url.config(
         default=os.getenv('DATABASE_URL'),
         conn_max_age=600,
-        ssl_require=True
+        ssl_require=True,
+        options={'connect_timeout': 10}
     )
 }
 SESSION_COOKIE_SECURE = True
