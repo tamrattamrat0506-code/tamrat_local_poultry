@@ -1,5 +1,5 @@
+// js\index.js
 document.addEventListener('DOMContentLoaded', function() {
-  // Smooth scrolling for anchor links
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
       e.preventDefault();
@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  // Animate sections when they come into view
   const animateOnScroll = () => {
     const sections = document.querySelectorAll('.why-platform-section, .connect-section, .transparent-markets-section');
     
@@ -24,7 +23,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   };
 
-  // Set initial state for animation
   const sections = document.querySelectorAll('.why-platform-section, .connect-section, .transparent-markets-section');
   sections.forEach(section => {
     section.style.opacity = '0';
@@ -32,11 +30,8 @@ document.addEventListener('DOMContentLoaded', function() {
     section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
   });
 
-  // Run once on load and then on scroll
   animateOnScroll();
   window.addEventListener('scroll', animateOnScroll);
-
-  // Language selector enhancement
   const languageForm = document.getElementById('language-form');
   if (languageForm) {
     const languageBtns = languageForm.querySelectorAll('.language-btn');
@@ -45,8 +40,6 @@ document.addEventListener('DOMContentLoaded', function() {
       btn.addEventListener('click', function() {
         languageBtns.forEach(b => b.classList.remove('active'));
         this.classList.add('active');
-        
-        // Show loading feedback
         const originalText = this.innerHTML;
         this.innerHTML = '<span class="loading-dots">...</span>';
         
@@ -56,8 +49,6 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     });
   }
-
-  // Stats counter animation
   const stats = [
     { element: '.stat-farmers', target: 70, suffix: '%' },
     { element: '.stat-eggs', target: 300, suffix: 'M+' }
@@ -66,9 +57,9 @@ document.addEventListener('DOMContentLoaded', function() {
   stats.forEach(stat => {
     const element = document.querySelector(stat.element);
     if (element) {
-      const duration = 2000; // 2 seconds
+      const duration = 2000;
       const start = 0;
-      const increment = stat.target / (duration / 16); // 60fps
+      const increment = stat.target / (duration / 16);
       let current = start;
       
       const timer = setInterval(() => {
@@ -83,23 +74,14 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
-
-
-
-// index.js
-
 document.addEventListener("DOMContentLoaded", function () {
     const heroSection = document.getElementById("heroSection");
-  
-    // Smooth scroll or fade-in effect
     heroSection.style.opacity = 0;
     heroSection.style.transition = "opacity 1.2s ease-out";
   
     setTimeout(() => {
       heroSection.style.opacity = 1;
     }, 200);
-  
-    // Optional: Highlight selected language on form submission
     const langButtons = document.querySelectorAll("#language-form button");
     langButtons.forEach((btn) => {
       btn.addEventListener("click", () => {

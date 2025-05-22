@@ -1806,3 +1806,43 @@ below registration.html
     })()
 </script>
 {% endblock %}
+
+
+
+
+
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+# project/urls.py
+from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib import admin
+from django.urls import path, include
+from django.contrib.auth import views as auth_views
+from django.conf.urls.i18n import i18n_patterns
+
+urlpatterns = [
+    path('i18n/', include('django.conf.urls.i18n')),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+urlpatterns += i18n_patterns(
+    path('admin/', admin.site.urls),
+    path('', include('base.urls')),
+    path('users/', include('users.urls')),
+    path('items/', include('items.urls')),
+    path('conversation/', include('conversation.urls')),
+    path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('contact/', include('contact.urls')),
+)
