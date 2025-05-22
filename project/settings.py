@@ -22,9 +22,9 @@ DATABASE_URL = os.getenv('DATABASE_URL', 'postgres://localhost:5432')
 
 CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:8000",
-    'https://*.railway.app',
-    'https://ethiopoultry.up.railway.app'
+    "https://poultry.onrender.com",
 ]
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -90,9 +90,9 @@ DATABASES = {
     )
 }
 SESSION_COOKIE_SECURE = True
-SESSION_COOKIE_DOMAIN = '.railway.app'
+# SESSION_COOKIE_DOMAIN = '.railway.app'
 CSRF_COOKIE_SECURE = True
-CSRF_COOKIE_DOMAIN = '.railway.app'
+# CSRF_COOKIE_DOMAIN = '.railway.app'
                  # for development
 # SESSION_COOKIE_DOMAIN = None
 # CSRF_COOKIE_DOMAIN    = None
