@@ -12,7 +12,7 @@
 <main class="main-container">
      <div class="language-selector">
     <div class="language-container">
-        <form action="/i18n/setlang/" method="post" id="language-form">
+        <form action="{% url 'set_language' %}" method="post" id="language-form">
             {% csrf_token %}
             <input name="next" type="hidden" value="{{ request.path }}">
             <div class="language-btn-group" role="group">

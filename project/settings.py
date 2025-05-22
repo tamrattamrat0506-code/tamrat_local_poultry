@@ -13,7 +13,9 @@ LANGUAGES = [
     ('am', _('Amharic')),
     ('om', _('Oromiffa')),
 ]
-LOCALE_PATHS = []
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale'),
+]
 
 REDIS_URL = os.getenv('REDIS_URL', 'redis://localhost:6379')
 DATABASE_URL = os.getenv('DATABASE_URL', 'postgres://localhost:5432')
