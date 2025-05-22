@@ -13,9 +13,7 @@ LANGUAGES = [
     ('am', _('Amharic')),
     ('om', _('Oromiffa')),
 ]
-LOCALE_PATHS = [
-    os.path.join(BASE_DIR, 'locale'),
-]
+LOCALE_PATHS = []
 
 REDIS_URL = os.getenv('REDIS_URL', 'redis://localhost:6379')
 DATABASE_URL = os.getenv('DATABASE_URL', 'postgres://localhost:5432')
@@ -143,7 +141,7 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 15485760
 FILE_UPLOAD_MAX_MEMORY_SIZE = 15485760
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 AUTH_PASSWORD_VALIDATORS = []
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en'
 TIME_ZONE = 'Africa/Addis_Ababa'
 USE_I18N = True
 USE_TZ = True
