@@ -6,7 +6,8 @@ from django.utils.translation import gettext_lazy as _
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-^h2wta5iiio$am%fpi*b$2_9^u4*7w_so1d)tzs!6n#lp0m9+='
 DEBUG = True
-ALLOWED_HOSTS = ['ethiopoultry.up.railway.app', '.railway.app']
+ALLOWED_HOSTS = ['poultry.onrender.com', 'localhost', '127.0.0.1']
+
 LANGUAGES = [
     ('en', _('English')),
     ('am', _('Amharic')),
