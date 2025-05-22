@@ -84,11 +84,19 @@ CORS_ALLOW_ALL_ORIGINS = True
 ROOT_URLCONF = 'project.urls'
 # Database
 DATABASES = {
-    'default': dj_database_url.config(
-        default=os.getenv('DATABASE_URL'),
-        conn_max_age=600,
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'render_760v',
+        'USER': 'render_760v_user',
+        'PASSWORD': 'ZBE5uh5CxpORS3nXU8l4LREqrENL8Ed1',
+        'HOST': 'dpg-d0ndp695pdvs738l7b9g-a.oregon-postgres.render.com',
+        'PORT': '5432',
+        'OPTIONS': {
+            'sslmode': 'require'
+        },
+    }
 }
+
 SESSION_COOKIE_SECURE = True
 # SESSION_COOKIE_DOMAIN = '.railway.app'
 CSRF_COOKIE_SECURE = True
