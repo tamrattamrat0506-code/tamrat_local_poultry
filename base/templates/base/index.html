@@ -11,28 +11,28 @@
 
 <main class="main-container">
      <div class="language-selector">
-    <div class="language-container">
-        <form action="{% url 'set_language' %}" method="post" id="language-form">
-            {% csrf_token %}
-            <input name="next" type="hidden" value="{{ request.path }}">
-            <div class="language-btn-group" role="group">
-                <button type="submit" name="language" value="en" 
-                        class="language-btn en {% if LANGUAGE_CODE == 'en' %}active{% endif %}">
-                    English
-                </button>
-                <button type="submit" name="language" value="am" 
-                        class="language-btn am {% if LANGUAGE_CODE == 'am' %}active{% endif %}">
-                    አማርኛ
-                </button>
-                <button type="submit" name="language" value="om" 
-                        class="language-btn om {% if LANGUAGE_CODE == 'om' %}active{% endif %}">
-                    Oromiffa
-                </button>
-            </div>
-        </form>
-        <div class="date-and-time"></div>
+        <div class="language-container">
+            <form action="{% url 'set_language' %}" method="post" id="language-form">
+                {% csrf_token %}
+                <input name="next" type="hidden" value="{{ request.path }}">
+                <div class="language-btn-group" role="group">
+                    <button type="submit" name="language" value="en" 
+                            class="language-btn en {% if LANGUAGE_CODE == 'en' %}active{% endif %}">
+                        English
+                    </button>
+                    <button type="submit" name="language" value="am" 
+                            class="language-btn am {% if LANGUAGE_CODE == 'am' %}active{% endif %}">
+                        አማርኛ
+                    </button>
+                    <button type="submit" name="language" value="om" 
+                            class="language-btn om {% if LANGUAGE_CODE == 'om' %}active{% endif %}">
+                        Oromiffa
+                    </button>
+                </div>
+            </form> 
+        </div>
     </div>
-</div>
+    <div class="date-and-time"></div>
     <section id="heroSection" class="main-hero-section">{% trans "Empowering Ethiopia's Poultry Farmers with Fairness & Growth" %}
         <h1></h1>
         <p class="main-lead">{% trans "Connecting Ethiopian poultry farmers with buyers nationwide" %}</p>
