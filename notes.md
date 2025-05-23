@@ -1846,3 +1846,11 @@ urlpatterns += i18n_patterns(
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('contact/', include('contact.urls')),
 )
+
+
+
+
+which one should I have to use for render project ?
+gunicorn project.wsgi:application --bind 0.0.0.0:$PORT --workers 4 --timeout 120
+or
+daphne -b 0.0.0.0 -p $PORT project.asgi:application

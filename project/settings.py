@@ -1,56 +1,81 @@
-# project/settings.py
 import os
 import dj_database_url
 from pathlib import Path
 from django.utils.translation import gettext_lazy as _
-BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = 'django-insecure-^h2wta5iiio$am%fpi*b$2_9^u4*7w_so1d)tzs!6n#lp0m9+='
-DEBUG = True
-ALLOWED_HOSTS = ['poultry.onrender.com', 'localhost', '127.0.0.1']
 
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Security - use environment variables in production
+SECRET_KEY = os.getenv('SECRET_KEY', 'your-development-secret-key')
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'poultry.onrender.com,localhost,127.0.0.1').split(',')
+
+# Internationalization
 LANGUAGES = [
     ('en', _('English')),
     ('am', _('Amharic')),
     ('om', _('Oromiffa')),
 ]
-LOCALE_PATHS = [
-    os.path.join(BASE_DIR, 'locale'),
-]
+LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale')]
 
+# Database and Redis configuration
+DATABASE_URL = os.getenv('DATABASE_URL', 'postgres://postgres:postgres@localhost:5432/postgres')
 REDIS_URL = os.getenv('REDIS_URL', 'redis://localhost:6379')
-DATABASE_URL = os.getenv('DATABASE_URL', 'postgres://localhost:5432')
 
-CSRF_TRUSTED_ORIGINS = [
-    "http://127.0.0.1:8000",
-    "https://poultry.onrender.com",
-]
+# Security settings
+CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS', 'http://localhost:8000,https://poultry.onrender.com').split(',')
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
+# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
-    'django.contrib.sessions', 
+    'django.contrib.sessions',
     'django.contrib.messages',
-    'channels',
-    'daphne',
     'django.contrib.staticfiles',
     
+    # Third-party apps
+    'channels',
+    'daphne',
+    'rest_framework',
+    'corsheaders',
+    'cloudinary',
+    'cloudinary_storage',
+    
+    # Local apps
     'base',
     'items',
     'conversation',
     'users',
-    'rest_framework',
     'contact',
-    'corsheaders',
 ]
-ASGI_APPLICATION = 'project.asgi.application'
-AUTH_USER_MODEL = 'users.CustomUser'
-AUTHENTICATION_BACKENDS = ['users.backends.UsernamePhoneBackend']
-LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = 'dashboard'
-LOGOUT_REDIRECT_URL = 'home'
 
-           # for production
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+ROOT_URLCONF = 'project.urls'
+ASGI_APPLICATION = 'project.asgi.application'
+WSGI_APPLICATION = 'project.wsgi.application'
+
+# Database
+DATABASES = {
+    'default': dj_database_url.config(default=DATABASE_URL, conn_max_age=600)
+}
+
+# Channels configuration
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
@@ -60,105 +85,32 @@ CHANNEL_LAYERS = {
     },
 }
 
-           # for development
-#CHANNEL_LAYERS = {
-#    "default": {
-#        "BACKEND": "channels.layers.InMemoryChannelLayer"
-#    }
-#}
+# Authentication
+AUTH_USER_MODEL = 'users.CustomUser'
+AUTHENTICATION_BACKENDS = ['users.backends.UsernamePhoneBackend']
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'dashboard'
+LOGOUT_REDIRECT_URL = 'home'
 
+# Static files
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]
-CORS_ALLOW_ALL_ORIGINS = True
-ROOT_URLCONF = 'project.urls'
-# Database
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'render_760v',
-        'USER': 'render_760v_user',
-        'PASSWORD': 'ZBE5uh5CxpORS3nXU8l4LREqrENL8Ed1',
-        'HOST': 'dpg-d0ndp695pdvs738l7b9g-a.oregon-postgres.render.com',
-        'PORT': '5432',
-        'OPTIONS': {
-            'sslmode': 'require'
-        },
-    }
-}
-
-SESSION_COOKIE_SECURE = True
-SESSION_COOKIE_DOMAIN = '.onrender.com'
-CSRF_COOKIE_SECURE = True
-CSRF_COOKIE_DOMAIN = '.onrender.com'
-LANGUAGE_COOKIE_NAME = 'django_language'
-LANGUAGE_COOKIE_AGE = 1209600 
-LANGUAGE_COOKIE_PATH = '/'
-LANGUAGE_COOKIE_SAMESITE = 'Lax'
-LANGUAGE_COOKIE_SECURE = True 
-
-
-                 # for development
-# SESSION_COOKIE_DOMAIN = None
-# CSRF_COOKIE_DOMAIN    = None
-
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-                'django.template.context_processors.i18n',
-            ],
-        },
-    },
-]
-WSGI_APPLICATION = 'project.wsgi.application'
-INSTALLED_APPS += [
-    'cloudinary',
-    'cloudinary_storage',
-]
-                   # for production
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME', 'doixo5oiw'),
-    'API_KEY': os.getenv('CLOUDINARY_API_KEY', '435759228322341'),
-    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET', 'H3_ZVEXWGcyuE28IfKWUYsTo5sY'),
-}
-                   # for development
-#CLOUDINARY = {
-#    "cloud_name": "doixo5oiw",
-#    "api_key": "435759228322341",
-#    "api_secret": "H3_ZVEXWGcyuE28IfKWUYsTo5sY",
-#}
-
-
-
-DATA_UPLOAD_MAX_MEMORY_SIZE = 15485760
-FILE_UPLOAD_MAX_MEMORY_SIZE = 15485760
+# Media files (using Cloudinary)
+MEDIA_URL = '/media/'
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-AUTH_PASSWORD_VALIDATORS = []
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
+    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
+}
+
+# Internationalization
 LANGUAGE_CODE = 'en'
 TIME_ZONE = 'Africa/Addis_Ababa'
 USE_I18N = True
 USE_TZ = True
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+# Security
+CORS_ALLOW_ALL_ORIGINS = True  # Consider restricting this in production
