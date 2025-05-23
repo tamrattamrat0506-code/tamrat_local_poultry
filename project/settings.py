@@ -98,12 +98,20 @@ DATABASES = {
 }
 
 SESSION_COOKIE_SECURE = True
-# SESSION_COOKIE_DOMAIN = '.railway.app'
+SESSION_COOKIE_DOMAIN = '.onrender.com'
 CSRF_COOKIE_SECURE = True
-# CSRF_COOKIE_DOMAIN = '.railway.app'
+CSRF_COOKIE_DOMAIN = '.onrender.com'
+LANGUAGE_COOKIE_NAME = 'django_language'
+LANGUAGE_COOKIE_AGE = 1209600 
+LANGUAGE_COOKIE_PATH = '/'
+LANGUAGE_COOKIE_SAMESITE = 'Lax'
+LANGUAGE_COOKIE_SECURE = True 
+
+
                  # for development
 # SESSION_COOKIE_DOMAIN = None
 # CSRF_COOKIE_DOMAIN    = None
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
