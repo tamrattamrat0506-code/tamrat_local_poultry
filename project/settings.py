@@ -10,7 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'your-development-secret-key' 
 DEBUG = True  
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['poultry.onrender.com', 'localhost', '127.0.0.1']
 
 LANGUAGES = [
     ('en', _('English')),
@@ -28,7 +28,13 @@ REDIS_URL = 'redis://localhost:6379'
 CSRF_TRUSTED_ORIGINS = ['http://localhost:8000', 'http://127.0.0.1:8000']
 SESSION_COOKIE_SECURE = False 
 CSRF_COOKIE_SECURE = False  
-SECURE_PROXY_SSL_HEADER = None  
+SECURE_PROXY_SSL_HEADER = None 
+
+
+# Security settings for production
+#SESSION_COOKIE_SECURE = True
+#CSRF_COOKIE_SECURE = True
+#SECURE_SSL_REDIRECT = True
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -92,7 +98,7 @@ LOGOUT_REDIRECT_URL = 'home'
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfile')
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'staticfiles')]  
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_URL = '/media/'
@@ -132,3 +138,13 @@ cloudinary.config(
     api_secret="H3_ZVEXWGcyuE28IfKWUYsTo5sY",
     secure=True
 )
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('POSTGRES_DB'),
+        'USER': os.getenv('POSTGRES_USER'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+        'HOST': os.getenv('POSTGRES_HOST'),
+        'PORT': os.getenv('POSTGRES_PORT', '5432'),
+    }
+}

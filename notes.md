@@ -1869,3 +1869,70 @@ daphne -b 0.0.0.0 -p $PORT project.asgi:application
  I am using #ffa31a, #808080, #292929, #1b1b1b and  #ffffff colors for my E-commerce website design. Can You help me make a formal web page. help me with making CSS and JS
 
 
+
+
+-----------------------------------
+--------------------------------------
+-------------------------------------
+-------------------------------------
+---------------------------------------------------------------------------------------------------------
+---------------------------------
+----------------------------
+------------------------------------
+
+
+
+
+Select the repository with your poultry website
+
+Configure the service:
+
+Name: poultry-website (or your preferred name)
+
+Region: Choose closest to your users
+
+Branch: main/master
+
+Runtime: Python 3
+
+Build Command: ./build.sh
+
+Start Command: gunicorn project.wsgi:application
+
+Add environment variables:
+
+SECRET_KEY: Generate a new one
+
+DISABLE_COLLECTSTATIC: 0
+
+Your Cloudinary credentials
+
+Click "Create Web Service"
+
+8. Set Up the Database
+In Render, go to "Databases"
+
+Create a new PostgreSQL database
+
+Note the connection string and update your DATABASE_URL in environment variables
+
+9. Configure Static Files
+Since you're using Whitenoise, your static files should be served automatically after the build process runs collectstatic.
+
+10. Final Checks
+Check the build logs for any errors
+
+Once deployed, test all functionality
+
+Set up a custom domain if needed
+
+Important Notes
+Security: Remove hardcoded secrets from your settings.py (like Cloudinary credentials) and use environment variables instead.
+
+Redis: For production, you'll need a Redis instance. Render offers Redis as an add-on.
+
+Media Files: For production, you should use Cloudinary for media storage since Render doesn't provide persistent storage.
+
+Scaling: The free tier has limitations. Consider upgrading if you expect significant traffic.
+
+Would you like me to elaborate on any specific part of this deployment process?
