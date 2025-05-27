@@ -1,51 +1,48 @@
+# project/settings.py
 import os
-import dj_database_url
 from pathlib import Path
 from django.utils.translation import gettext_lazy as _
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Security - use environment variables in production
-SECRET_KEY = os.getenv('SECRET_KEY', 'your-development-secret-key')
-DEBUG = os.getenv('DEBUG', 'False') == 'True'
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'poultry.onrender.com,localhost,127.0.0.1').split(',')
+SECRET_KEY = 'your-development-secret-key' 
+DEBUG = True  
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
-# Internationalization
 LANGUAGES = [
     ('en', _('English')),
     ('am', _('Amharic')),
     ('om', _('Oromiffa')),
 ]
 LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale')]
+LANGUAGE_COOKIE_NAME = 'django_language'
+LANGUAGE_COOKIE_HTTPONLY = False
+LANGUAGE_COOKIE_SAMESITE = 'Lax'
 
-# Database and Redis configuration
-DATABASE_URL = os.getenv('DATABASE_URL', 'postgres://postgres:postgres@localhost:5432/postgres')
-REDIS_URL = os.getenv('REDIS_URL', 'redis://localhost:6379')
+DATABASE_URL = 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')
+REDIS_URL = 'redis://localhost:6379'
 
-# Security settings
-CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS', 'http://localhost:8000,https://poultry.onrender.com').split(',')
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+CSRF_TRUSTED_ORIGINS = ['http://localhost:8000', 'http://127.0.0.1:8000']
+SESSION_COOKIE_SECURE = False 
+CSRF_COOKIE_SECURE = False  
+SECURE_PROXY_SSL_HEADER = None  
 
-# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
-    
-    # Third-party apps
-    'channels',
     'daphne',
+    'django.contrib.staticfiles',
+    'channels',
     'rest_framework',
     'corsheaders',
     'cloudinary',
     'cloudinary_storage',
-    
-    # Local apps
     'base',
     'items',
     'conversation',
@@ -69,13 +66,15 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'project.urls'
 ASGI_APPLICATION = 'project.asgi.application'
 WSGI_APPLICATION = 'project.wsgi.application'
+DAPHNE_TIMEOUT = 50
 
-# Database
 DATABASES = {
-    'default': dj_database_url.config(default=DATABASE_URL, conn_max_age=600)
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
 
-# Channels configuration
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
@@ -85,32 +84,51 @@ CHANNEL_LAYERS = {
     },
 }
 
-# Authentication
 AUTH_USER_MODEL = 'users.CustomUser'
 AUTHENTICATION_BACKENDS = ['users.backends.UsernamePhoneBackend']
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'dashboard'
 LOGOUT_REDIRECT_URL = 'home'
 
-# Static files
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfile')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# Media files (using Cloudinary)
 MEDIA_URL = '/media/'
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
-    'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
-    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
-}
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 
-# Internationalization
 LANGUAGE_CODE = 'en'
 TIME_ZONE = 'Africa/Addis_Ababa'
 USE_I18N = True
 USE_TZ = True
 
-# Security
-CORS_ALLOW_ALL_ORIGINS = True  # Consider restricting this in production
+CORS_ALLOW_ALL_ORIGINS = True 
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+WHITENOISE_AUTOREFRESH = True
+
+cloudinary.config(
+    cloud_name="doixo5oiw",
+    api_key="435759228322341",
+    api_secret="H3_ZVEXWGcyuE28IfKWUYsTo5sY",
+    secure=True
+)

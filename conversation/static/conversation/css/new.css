@@ -193,3 +193,8 @@ body {
 .new-conversation-form button:hover {
   background: #45a049;
 }
+
+.conversation-messages {
+    height: fit-content;
+    background-color: #4CAF50;
+}

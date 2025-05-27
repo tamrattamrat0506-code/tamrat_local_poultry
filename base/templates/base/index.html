@@ -1,7 +1,8 @@
 <!-- base\index.html -->
 {% extends 'base/base.html' %}
-{% load static %}
+
 {% load i18n %}
+{% load static %}
 
 {% block css %}
 <link rel="stylesheet" href="{% static 'base/css/index.css' %}">
@@ -10,40 +11,37 @@
 {% block content %}
 
 <main class="main-container">
-     <div class="language-selector">
-        <div class="language-container">
-            <form action="{% url 'set_language' %}" method="post" id="language-form">
-                {% csrf_token %}
-                <input name="next" type="hidden" value="{{ request.path }}">
-                <div class="language-btn-group" role="group">
-                    <button type="submit" name="language" value="en" 
-                            class="language-btn en {% if LANGUAGE_CODE == 'en' %}active{% endif %}">
-                        English
-                    </button>
-                    <button type="submit" name="language" value="am" 
-                            class="language-btn am {% if LANGUAGE_CODE == 'am' %}active{% endif %}">
-                        አማርኛ
-                    </button>
-                    <button type="submit" name="language" value="om" 
-                            class="language-btn om {% if LANGUAGE_CODE == 'om' %}active{% endif %}">
-                        Oromiffa
-                    </button>
-                </div>
-            </form> 
-        </div>
+    <div class="language-selector">
+    <div class="language-container">
+        {% load i18n %}
+
+<form action="{% url 'set_language' %}" method="post" style="display: inline;">
+    {% csrf_token %}
+    <input name="next" type="hidden" value="{{ request.get_full_path }}">
+    
+    <select name="language" onchange="this.form.submit()" style="padding: 5px;">
+        {% get_current_language as LANGUAGE_CODE %}
+        {% get_available_languages as LANGUAGES %}
+        
+        {% for code, name in LANGUAGES %}
+            <option value="{{ code }}" {% if code == LANGUAGE_CODE %}selected{% endif %}>
+                {{ name }}
+            </option>
+        {% endfor %}
+    </select>
+</form>
     </div>
+</div>
     <div class="date-and-time"></div>
     <section id="heroSection" class="main-hero-section">{% trans "Empowering Ethiopia's Poultry Farmers with Fairness & Growth" %}
         <h1></h1>
         <p class="main-lead">{% trans "Connecting Ethiopian poultry farmers with buyers nationwide" %}</p>
         <a href="{% url 'items:item_list' %}" class="main-btn">{% trans "Browse Marketplace" %}</a>
     </section>
-
-    <!-- Plan Section -->
-    <section class="plan-section">
+    
+    <section class="plan-section" style="background: url('https://media.istockphoto.com/id/148127611/photo/chicken-isolated-on-white.jpg?s=1024x1024&w=is&k=20&c=9av3zNE3Jtv3FOspmeX_2YWLdXRklmzr3SwOFGhGXwI=') no-repeat center center/cover; background-attachment: fixed;">
         <h2>{% trans "Our Impact So Far" %}</h2>
-        <div class="plan-stats">
-            <!-- Total Users -->
+        <div class="plan-stats" style="background: url('https://media.istockphoto.com/id/2150866881/photo/happy-free-range-chickens-enjoying-nature-in-the-lush-grass-in-the-evening-sun.jpg?s=1024x1024&w=is&k=20&c=GPu5-d41vQS5uJCiTWwHcEphbHIhbuiCmtJ7pwpTFLc=') no-repeat center center/cover; background-attachment: fixed;">
             <div class="plan-stat">
                 <span class="plan-number">{{ users_count }}+</span>
                 <span class="plan-label">{% trans "Total Users" %}</span>
@@ -65,22 +63,16 @@
             {% trans "Join a growing community of Ethiopian poultry farmers, buyers, and experts. List your products, connect with partners, and start meaningful conversations today!" %}
         </p>
     </section>
-
-    <!-- Why We Built This Platform -->
     <section class="why-platform-section">
         <h2>{% trans "Why We Built This Platform?" %}</h2>
         <p>{% trans "Stop Price Shocks, Grow with Confidence" %}</p>
         <p>{% trans "Did you know? 40% of small poultry farmers lose profits due to unpredictable price swings. We’re changing that." %}</p>
         <p class="highlight">{% trans "→ Real-time pricing + expert tips = steadier income for YOU." %}</p>
     </section>
-
-    <!-- Connect Directly -->
     <section class="connect-section">
         <h2>{% trans "Connect Directly—No More Middlemen!" %}</h2>
         <p>{% trans "Over 70% of farmers struggle to find fair buyers. We link you directly to trusted traders, suppliers, and experts—cutting costs, boosting profits." %}</p>
     </section>
-
-    <!-- Transparent Markets -->
     <section class="transparent-markets-section">
         <h2>{% trans "Transparent Markets = Stronger Farmers" %}</h2>
         <p>{% trans "Rumors of 'shortages' hurt small farms. Truth: Ethiopia produces 300M+ eggs/year—enough for all! We expose manipulation and highlight REAL data." %}</p>

@@ -1854,3 +1854,18 @@ which one should I have to use for render project ?
 gunicorn project.wsgi:application --bind 0.0.0.0:$PORT --workers 4 --timeout 120
 or
 daphne -b 0.0.0.0 -p $PORT project.asgi:application
+
+
+
+
+
+
+
+
+
+
+#ffa31a, #808080, #292929, #1b1b1b and  #ffffff	
+
+ I am using #ffa31a, #808080, #292929, #1b1b1b and  #ffffff colors for my E-commerce website design. Can You help me make a formal web page. help me with making CSS and JS
+
+

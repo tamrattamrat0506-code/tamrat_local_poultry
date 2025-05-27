@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-  // Smooth scroll for anchor links
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
       e.preventDefault();
@@ -10,7 +9,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  // Section animation on scroll
   const sections = document.querySelectorAll('.why-platform-section, .connect-section, .transparent-markets-section');
   sections.forEach(section => {
     section.style.opacity = '0';
@@ -30,25 +28,75 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   animateOnScroll();
   window.addEventListener('scroll', animateOnScroll);
-
-  // Language selector loading effect
   const languageForm = document.getElementById('language-form');
   if (languageForm) {
-    const languageBtns = languageForm.querySelectorAll('.language-btn');
-    languageBtns.forEach(btn => {
-      btn.addEventListener('click', function() {
-        languageBtns.forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
-        const originalText = this.innerHTML;
-        this.innerHTML = '<span class="loading-dots">...</span>';
-        setTimeout(() => {
-          languageForm.submit();
-        }, 300);
+    let isSubmitting = false;
+
+    languageForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      if (isSubmitting) return;
+      
+      isSubmitting = true;
+      const formData = new FormData(this);
+      const buttons = this.querySelectorAll('.language-btn');
+      const selectedBtn = e.submitter;
+      buttons.forEach(btn => {
+        btn.disabled = true;
+        btn.classList.remove('active');
       });
+      selectedBtn.classList.add('loading');
+
+      try {
+        const response = await fetch(this.action, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'X-CSRFToken': formData.get('csrfmiddlewaretoken'),
+            'X-Requested-With': 'XMLHttpRequest'
+          },
+          redirect: 'manual'
+        });
+
+        if (response.status === 302) {
+          const redirectUrl = response.headers.get('Location') || window.location.href;
+          window.location.href = redirectUrl;
+        } else if (response.ok) {
+          const data = await response.json();
+          if (data.success) {
+            window.location.reload();
+          } else {
+            throw new Error(data.message || 'Language switch failed');
+          }
+        } else {
+          throw new Error(`Server responded with status: ${response.status}`);
+        }
+      } catch (error) {
+        console.error('Language switch error:', error);
+        showLanguageError('Please refresh the page and try again');
+      } finally {
+        isSubmitting = false;
+        buttons.forEach(btn => btn.disabled = false);
+        selectedBtn.classList.remove('loading');
+      }
     });
+
+    function showLanguageError(message) {
+      const existingError = languageForm.querySelector('.error-message');
+      if (existingError) existingError.remove();
+      
+      const errorElement = document.createElement('div');
+      errorElement.className = 'error-message';
+      errorElement.textContent = message;
+      languageForm.appendChild(errorElement);
+      
+      setTimeout(() => {
+        if (languageForm.contains(errorElement)) {
+          languageForm.removeChild(errorElement);
+        }
+      }, 5000);
+    }
   }
 
-  // Animated stats (if used)
   const stats = [
     { element: '.stat-farmers', target: 70, suffix: '%' },
     { element: '.stat-eggs', target: 300, suffix: 'M+' }
@@ -71,7 +119,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  // Hero section fade-in
   const heroSection = document.getElementById("heroSection");
   if (heroSection) {
     heroSection.style.opacity = 0;
@@ -81,7 +128,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 200);
   }
 
-  // Date and time live update
   function updateDateTime() {
     const now = new Date();
     const options = { 
@@ -96,3 +142,5 @@ document.addEventListener('DOMContentLoaded', function() {
   updateDateTime();
   setInterval(updateDateTime, 1000);
 });
+
+

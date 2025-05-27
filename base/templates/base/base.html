@@ -1,4 +1,3 @@
-<!--base\base.html-->
 {% load static %}
 {% load i18n %}
 <!DOCTYPE html>
@@ -6,115 +5,172 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{% trans 'Ethiopian poultry marketplace - Buy and sell poultry products in Ethiopia' %}">
     <title>{% trans "EthioPoultry - Ethiopian Poultry Marketplace" %}</title>
     <link rel="icon" href="{% static 'base/images/image2.jpg' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
- 
     <link rel="stylesheet" href="{% static 'base/css/base.css' %}">
-    
     {% block css %}{% endblock %}
 </head>
 <body>
-    <!-- Skip to content link for keyboard users -->
     <a href="#main-content" class="skip-link">{% trans "Skip to main content" %}</a>
-    
-    <header class="ethio-header">
+
+    <header class="site-header">
         <div class="container">
-            <a class="navbar-brand" href="/" aria-label="{% trans 'Home' %}">
-                <span class="logo-text">{% trans "POULTRY" %}</span>
-            </a>
-            
-            <nav aria-label="{% trans 'Main navigation' %}">
+            <div class="header-brand">
+                <a class="navbar-brand" href="/" aria-label="{% trans 'Home' %}">
+                    <span class="logo-text">{% trans "EthioPoultry" %}</span>
+                </a>
+                
+            </div>
+
+            <nav class="main-nav" aria-label="{% trans 'Main navigation' %}">
                 <ul class="nav-menu" id="navMenu">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">{% trans "Home" %}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'items:item_list' %}">{% trans "Marketplace" %}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'items:item_create' %}">{% trans "Add Item" %}</a>
-                    </li>
-                    <li class="nav-item">
+                    <li><a class="nav-link" href="/">{% trans "Home" %}</a></li>
+                    <li><a class="nav-link" href="{% url 'items:item_list' %}">{% trans "Marketplace" %}</a></li>
+                    <li><a class="nav-link" href="{% url 'items:item_create' %}">{% trans "Sell Products" %}</a></li>
+                    <li>
                         <a class="nav-link" href="{% url 'conversation:inbox' %}" aria-describedby="navbarUnreadDesc">
-                            {% trans "Conversations" %}
+                            {% trans "Messages" %}
                             <span id="navbarUnread" class="unread-badge" aria-hidden="true">0</span>
-                            <span id="navbarUnreadDesc" class="sr-only">{% trans "Unread messages:" %} 0</span>
+                        <!-- <span id="navbarUnreadDesc" class="sr-only">{% trans "Unread messages:" %} 0</span> -->
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'contact:contact_us' %}">{% trans "Contact Us" %}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">{% trans "About" %}</a>
-                    </li>
+                    <li><a class="nav-link" href="{% url 'contact:contact_us' %}">{% trans "Contact" %}</a></li>
+                    <li><a class="nav-link" href="/about/">{% trans "About Us" %}</a></li>
+
+                    <!-- new -->
+
+                    <div class="language-container">
+        {% load i18n %}
+
+<form action="{% url 'set_language' %}" method="post" style="display: inline;">
+    {% csrf_token %}
+    <input name="next" type="hidden" value="{{ request.get_full_path }}">
+    
+    <select name="language" onchange="this.form.submit()" style="padding: 5px;">
+        {% get_current_language as LANGUAGE_CODE %}
+        {% get_available_languages as LANGUAGES %}
+        
+        {% for code, name in LANGUAGES %}
+            <option value="{{ code }}" {% if code == LANGUAGE_CODE %}selected{% endif %}>
+                {{ name }}
+            </option>
+        {% endfor %}
+    </select>
+</form>
+    </div>
+
+                    <li><div class="date-and-time"></div></li>
                 </ul>
             </nav>
-            
+
             <div class="nav-actions" id="navActions">
+                
+
                 {% if user.is_authenticated %}
-                <a href="{% url 'items:item_create' %}" class="btn btn-outline">
-                    <i class="fas fa-plus" aria-hidden="true"></i> <span>{% trans "Sell" %}</span>
-                </a>
-                <div class="dropdown">
-                    <button class="btn btn-light" aria-haspopup="true" aria-expanded="false" aria-label="{% trans 'User menu' %}">
-                        {% if user.profile and user.profile.user_name %}
-                            <i class="fas fa-user" aria-hidden="true"></i> <span>{{ user.profile.user_name }}</span>
-                        {% else %}
-                            <i class="fas fa-user" aria-hidden="true"></i> <span>{{ user.phone_number }}</span>
-                        {% endif %}
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item" href="{% url 'users:profile' %}">{% trans "My Profile" %}</a></li>
-                        <li class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="{% url 'users:profile-update' %}">{% trans "Edit Profile" %}</a></li>
-                        <li><a class="dropdown-item" href="{% url 'users:logout' %}">{% trans "Logout" %}</a></li>
-                    </ul>
-                </div>
+                    <a href="{% url 'items:item_create' %}" class="my-sell-btn">
+                        <i class="fas fa-plus" aria-hidden="true"></i> <span>{% trans "Sell" %}</span>
+                    </a>
+                    <div class="user-dropdown">
+                        <button class="my-btn-user" aria-haspopup="true" aria-expanded="false" aria-label="{% trans 'User menu' %}">
+                            <i class="fas fa-user-circle" aria-hidden="true"></i>
+                            <span class="username">{{ user.profile.user_name|default:user.phone_number }}</span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{% url 'users:profile' %}"><i class="fas fa-user"></i> {% trans "My Profile" %}</a></li>
+                            <li><a class="dropdown-item" href="{% url 'users:profile-update' %}"><i class="fas fa-cog"></i> {% trans "Settings" %}</a></li>
+                            <li class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{% url 'users:logout' %}"><i class="fas fa-sign-out-alt"></i> {% trans "Logout" %}</a></li>
+                        </ul>
+                    </div>
                 {% else %}
-                <a href="{% url 'users:register' %}" class="btn">{% trans "Register" %}</a>
-                <a href="{% url 'users:login' %}" class="btn">{% trans "Login" %}</a>
+                    <div class="auth-buttons">
+                        <a href="{% url 'users:login' %}" class="btn btn-outline">{% trans "Login" %}</a>
+                        <a href="{% url 'users:register' %}" class="btn btn-primary">{% trans "Register" %}</a>
+                    </div>
                 {% endif %}
+
                 <button class="nav-toggle" id="navToggle" aria-label="{% trans 'Toggle navigation' %}" aria-expanded="false" aria-controls="navMenu">
-                    <span class="nav-toggle-icon open" aria-hidden="true"><i class="fas fa-bars"></i></span>
+                    <span class="nav-toggle-icon" aria-hidden="true"><i class="fas fa-bars"></i></span>
                 </button>
+
             </div>
         </div>
     </header>
 
     <main id="main-content" class="main-content">
-        {% block content %}
-        {% endblock %}
+        {% if messages %}
+        <div class="messages-container">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        {% block content %}{% endblock %}
     </main>
 
-    <footer class="core-sticky-footer">
+    <footer class="site-footer">
         <div class="footer-container">
-            <div class="social-icons core-socialIcons">
-                <a href="https://t.me/nomoreboundaryorlimitation" aria-label="Telegram"><i class="fab fa-telegram" aria-hidden="true"></i></a> 
-                <a href="#" aria-label="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
-                <a href="#" aria-label="Twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a>
-                <a href="#" aria-label="Facebook"><i class="fab fa-facebook" aria-hidden="true"></i></a>
-                <a href="https://www.youtube.com/channel/UC87ikLHxeF9SJH25JeVrceA" aria-label="YouTube"><i class="fab fa-youtube" aria-hidden="true"></i></a>
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3 class="footer-heading">{% trans "Quick Links" %}</h3>
+                    <ul class="footer-links">
+                        <li><a href="/">{% trans "Home" %}</a></li>
+                        <li><a href="{% url 'items:item_list' %}">{% trans "Marketplace" %}</a></li>
+                        <li><a href="{% url 'items:item_create' %}">{% trans "Sell Products" %}</a></li>
+                        <li><a href="/about/">{% trans "About Us" %}</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 class="footer-heading">{% trans "Help & Support" %}</h3>
+                    <ul class="footer-links">
+                        <li><a href="{% url 'contact:contact_us' %}">{% trans "Contact Us" %}</a></li>
+                        <li><a href="/faq/">{% trans "FAQs" %}</a></li>
+                        <li><a href="/privacy/">{% trans "Privacy Policy" %}</a></li>
+                        <li><a href="/terms/">{% trans "Terms of Service" %}</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 class="footer-heading">{% trans "Connect With Us" %}</h3>
+                    <div class="social-icons">
+                        <a href="https://t.me/nomoreboundaryorlimitation" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.youtube.com/channel/UC87ikLHxeF9SJH25JeVrceA" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                    <div class="newsletter">
+                        <p>{% trans "Subscribe to our newsletter" %}</p>
+                        <form class="newsletter-form">
+                            <input type="email" placeholder="{% trans 'Your email address' %}" required>
+                            <button type="submit" class="btn btn-primary">{% trans "Subscribe" %}</button>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div class="core-footerBottom">
-                <p>
-                    &copy; <span id="current-year">{{ now|date:"Y" }}</span> | 
-                    <a href="/" class="footer-link">{% trans "Contact Us" %}</a> | 
-                    {% trans "Designed by" %} <span class="designer">Fraol</span> Ethio_Poultry
+            
+            <div class="footer-bottom">
+                <p class="copyright">
+                    &copy; <span id="current-year">{{ now|date:"Y" }}</span> EthioPoultry. 
+                    {% trans "All rights reserved." %}
+                    {% trans "Designed by" %} <span class="designer">Fraol</span>
                 </p>
             </div>
         </div>
     </footer>
-   
-    <!-- Load scripts at the end of body -->
+
     <script src="{% static 'base/js/base.js' %}" defer></script>
-    
     <script>
         window.USER_ID = "{{ request.user.id|default:'0' }}";
         window.CSRF_TOKEN = "{{ csrf_token }}";
         window.STATIC_URL = "{% static '' %}";
     </script>
-    
     {% block js %}{% endblock %}
 </body>
 </html>
