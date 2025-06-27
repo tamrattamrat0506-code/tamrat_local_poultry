@@ -27,6 +27,11 @@
 
         <button type="submit" class="btn">{% trans "Login" %}</button>
     </form>
+
+    <div class="register-link">
+        {% trans "Don't have an account?" %} <a href="{% url 'users:register' %}">{% trans "Register here" %}</a>
+    </div>
+
 </div>
 {% endblock %}
 

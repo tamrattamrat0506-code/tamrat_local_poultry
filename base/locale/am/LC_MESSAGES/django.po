@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: EthioPoultry 1.0\n"
-"Report-Msgid-Bugs-To: support@ethiopoultry.com\n"
-"POT-Creation-Date: 2025-05-18 23:38+0300\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-06-22 03:43+0300\n"
 "PO-Revision-Date: 2024-05-19 15:00+0300\n"
 "Last-Translator: Fraol <fraol@ethiopoultry.com>\n"
 "Language-Team: Amharic <am@ethiopoultry.com>\n"
@@ -16,161 +16,253 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: .\base\templates\base\base.html:9
+#: .\templates\base\about_us.html:12 .\templates\base\base.html:39
+#: .\templates\base\base.html:103
+msgid "About Us"
+msgstr "ስለ እኛ"
+
+#: .\templates\base\about_us.html:13
+msgid ""
+"We are a company dedicated to providing the best services to our customers."
+msgstr "እኛ �ደንበኞቻችን ከፍተኛ አገልግሎት ለመስጠት የተሰራጨ ኩባንያ ነን።"
+
+#: .\templates\base\base.html:8
+msgid ""
+"Ethiopian poultry marketplace - Buy and sell poultry products in Ethiopia"
+msgstr "የኢትዮጵያ የዶሮ ምርት ገበያ - የዶሮ ምርቶችን በኢትዮጵያ ይግዙ እና ይሽዱ"
+
+#: .\templates\base\base.html:9
 msgid "EthioPoultry - Ethiopian Poultry Marketplace"
 msgstr "ኢትዮፖልትሪ - የኢትዮጵያ የዶሮ ምርት ገበያ"
 
-#: .\base\templates\base\base.html:19
+#: .\templates\base\base.html:16
 msgid "Skip to main content"
 msgstr "ወደ ዋናው ይዘት ይሂዱ"
 
-#: .\base\templates\base\base.html:23 .\base\templates\base\base.html:30
+#: .\templates\base\base.html:21 .\templates\base\base.html:28
+#: .\templates\base\base.html:100
 msgid "Home"
 msgstr "መነሻ"
 
-#: .\base\templates\base\base.html:24
-msgid "POULTRY"
-msgstr "የዶሮ �ቀቅ"
+#: .\templates\base\base.html:22
+msgid "EthioPoultry"
+msgstr "ኢትዮፖልትሪ"
 
-#: .\base\templates\base\base.html:27
+#: .\templates\base\base.html:26
 msgid "Main navigation"
 msgstr "ዋና አሰሳ"
 
-#: .\base\templates\base\base.html:33
+#: .\templates\base\base.html:29 .\templates\base\base.html:101
 msgid "Marketplace"
 msgstr "ገበያ"
 
-#: .\base\templates\base\base.html:36
-msgid "Add Item"
-msgstr "ንብረት ያክሉ"
+#: .\templates\base\base.html:30 .\templates\base\base.html:102
+msgid "Sell Products"
+msgstr "ምርቶች ይሽዱ"
 
-#: .\base\templates\base\base.html:40
-msgid "Conversations"
-msgstr "ውይይቶች"
+#: .\templates\base\base.html:33
+msgid "Messages"
+msgstr "መልዕክቶች"
 
-#: .\base\templates\base\base.html:42
-msgid "Unread messages:"
-msgstr "ያልተነበቡ መልዕክቶች፦"
-
-#: .\base\templates\base\base.html:46 .\base\templates\base\base.html:102
+#: .\templates\base\base.html:38 .\templates\base\base.html:110
 msgid "Contact Us"
 msgstr "ያግኙን"
 
-#: .\base\templates\base\base.html:49
-msgid "About"
-msgstr "ስለ እኛ"
+#: .\templates\base\base.html:44
+msgid "Select language"
+msgstr "ቋንቋ ይምረጡ"
 
-#: .\base\templates\base\base.html:57
-msgid "Sell"
-msgstr "ሽያጭ"
-
-#: .\base\templates\base\base.html:60
+#: .\templates\base\base.html:63
 msgid "User menu"
 msgstr "የተጠቃሚ ምናሌ"
 
-#: .\base\templates\base\base.html:68
+#: .\templates\base\base.html:65
+msgid "Profile picture"
+msgstr "የመገለጫ ስዕል"
+
+#: .\templates\base\base.html:72
 msgid "My Profile"
 msgstr "የኔ መገለጫ"
 
-#: .\base\templates\base\base.html:70
-msgid "Edit Profile"
-msgstr "መገለጫ አርትዕ"
+#: .\templates\base\base.html:73
+msgid "Settings"
+msgstr "ቅንብሮች"
 
-#: .\base\templates\base\base.html:71
+#: .\templates\base\base.html:75
 msgid "Logout"
 msgstr "ውጣ"
 
-#: .\base\templates\base\base.html:75
-msgid "Register"
-msgstr "ይመዝገቡ"
-
-#: .\base\templates\base\base.html:76
+#: .\templates\base\base.html:80
 msgid "Login"
 msgstr "ይግቡ"
 
-#: .\base\templates\base\base.html:78
+#: .\templates\base\base.html:81
+msgid "Register"
+msgstr "ይመዝገቡ"
+
+#: .\templates\base\base.html:85
 msgid "Toggle navigation"
 msgstr "አሰሳ ቀያይር"
 
-#: .\base\templates\base\base.html:103
+#: .\templates\base\base.html:98
+msgid "Quick Links"
+msgstr "ፈጣን አገናኞች"
+
+#: .\templates\base\base.html:108
+msgid "Help & Support"
+msgstr "እርዳታ እና ድጋፍ"
+
+#: .\templates\base\base.html:111
+msgid "FAQs"
+msgstr "ተደጋጋሚ ጥያቄዎች"
+
+#: .\templates\base\base.html:112
+msgid "Privacy Policy"
+msgstr "የግላዊነት ፖሊሲ"
+
+#: .\templates\base\base.html:113
+msgid "Terms of Service"
+msgstr "የአገልግሎት ውሎች"
+
+#: .\templates\base\base.html:118
+msgid "Connect With Us"
+msgstr "ከእኛ ጋር ይገናኙ"
+
+#: .\templates\base\base.html:127
+msgid "Feedback"
+msgstr "ግብረመልስ"
+
+#: .\templates\base\base.html:132
+msgid "Phone Number"
+msgstr "ስልክ ቁጥር"
+
+#: .\templates\base\base.html:136
+msgid "Your Message"
+msgstr "መልዕክትዎ"
+
+#: .\templates\base\base.html:138
+msgid "Send"
+msgstr "ላክ"
+
+#: .\templates\base\base.html:147
+msgid "All rights reserved."
+msgstr "ሁሉም መብቶች የተጠበቁ ናቸው።"
+
+#: .\templates\base\base.html:148
 msgid "Designed by"
 msgstr "በዲዛይን የተሰራ"
 
-#: .\base\templates\base\index.html:37
+#: .\templates\base\index.html:33
 msgid "Empowering Ethiopia's Poultry Farmers with Fairness & Growth"
 msgstr "የኢትዮጵያን የዶሮ እርባታ አርሶ አደሮች በአግባቡና በእድገት ማበረታታት"
 
-#: .\base\templates\base\index.html:38
+#: .\templates\base\index.html:35
 msgid "Connecting Ethiopian poultry farmers with buyers nationwide"
 msgstr "የኢትዮጵያ የዶሮ እርሻ አርሶ አደሮችን ከገዢዎች ጋር በሀገር አቀፍ ሁኔታ እንዲገናኙ እናገናኛለን"
 
-#: .\base\templates\base\index.html:39
+#: .\templates\base\index.html:36
 msgid "Browse Marketplace"
 msgstr "ገበያን ይመልከቱ"
 
-#: .\base\templates\base\index.html:44
+#: .\templates\base\index.html:43
+msgid "Companies We Work With"
+msgstr "የምንሰራባቸው ኩባንያዎች"
+
+#: .\templates\base\index.html:62
 msgid "Our Impact So Far"
 msgstr "እስካሁን ያለን ተጽዕኖ"
 
-#: .\base\templates\base\index.html:49
+#: .\templates\base\index.html:67
 msgid "Total Users"
 msgstr "ጠቅላላ ተጠቃሚዎች"
 
-#: .\base\templates\base\index.html:53
+#: .\templates\base\index.html:72
 msgid "Active Users"
 msgstr "ንቁ ተጠቃሚዎች"
 
-#: .\base\templates\base\index.html:57
+#: .\templates\base\index.html:77
 msgid "Items for Sale"
 msgstr "ለመሸጥ የቀረቡ እቃዎች"
 
-#: .\base\templates\base\index.html:61
+#: .\templates\base\index.html:83
 msgid "Conversations Started"
 msgstr "የተጀመሩ ውይይቶች"
 
-#: .\base\templates\base\index.html:65
+#: .\templates\base\index.html:88
 msgid ""
 "Join a growing community of Ethiopian poultry farmers, buyers, and experts. "
 "List your products, connect with partners, and start meaningful "
 "conversations today!"
-msgstr "የኢትዮጵያን የዶሮ እርባታ አርሶ አደሮች፣ ገዢዎች እና ባለሙያዎች ያሉበት እየደረሰ ያለ ማህበረሰብ �ን ይቀላቀሉ። �ምርቶችዎን ይዝገቡ፣ ከአጋሮች ጋር ተገናኝተው ትርጉም ያለው ውይይት ይጀምሩ!"
+msgstr ""
+"የኢትዮጵያን የዶሮ እርባታ አርሶ አደሮች፣ ገዢዎች እና ባለሙያዎች ያሉበት እየደረሰ ያለ ማህበረሰብ ይቀላቀሉ። "
+"ምርቶችዎን ይዝገቡ፣ ከአጋሮች ጋር ተገናኝተው ትርጉም ያለው ውይይት ይጀምሩ!"
 
-#: .\base\templates\base\index.html:71
+#: .\templates\base\index.html:92
 msgid "Why We Built This Platform?"
-msgstr "ይህን መድረክ �ስላል እንደገነባነው?"
+msgstr "ይህን መድረክ ለምን እንደገነባነው?"
 
-#: .\base\templates\base\index.html:72
+#: .\templates\base\index.html:93
 msgid "Stop Price Shocks, Grow with Confidence"
-msgstr "የዋጋ መዛባትን አቁሙ፣ በራስ መተማመን �ድረስ"
+msgstr "የዋጋ መዛባትን አቁሙ፣ በራስ መተማመን ይድረስ"
 
-#: .\base\templates\base\index.html:73
-#, python-format
+#: .\templates\base\index.html:94
 msgid ""
 "Did you know? 40%% of small poultry farmers lose profits due to "
 "unpredictable price swings. We're changing that."
-msgstr "ያውቃሉ? 40%% የሚሆኑ አነስተኛ የዶሮ እርባታ አርሶ አደሮች በማያሻማ የዋጋ ለውጦች ምክንያት ትርፋቸውን ያጣሉ። እኛ ይህን እየቀየርን ነው።"
+msgstr ""
+"ያውቃሉ? 40%% የሚሆኑ አነስተኛ የዶሮ እርባታ አርሶ አደሮች �ማያሻማ የዋጋ ለውጦች ምክንያት ትርፋቸውን ያጣሉ። እኛ "
+"ይህን እየቀየርን ነው።"
 
-#: .\base\templates\base\index.html:74
+#: .\templates\base\index.html:95
 msgid "→ Real-time pricing + expert tips = steadier income for YOU."
 msgstr "→ በቅጽበት የዋጋ መረጃ + የባለሙያ ምክሮች = የበለጠ የተረጋጋ ገቢ ለእርስዎ።"
 
-#: .\base\templates\base\index.html:79
+#: .\templates\base\index.html:98
 msgid "Connect Directly—No More Middlemen!"
 msgstr "በቀጥታ ይገናኙ - መካከለኛዎች አያስፈልጉም!"
 
-#: .\base\templates\base\index.html:80
-#, python-format
+#: .\templates\base\index.html:99
 msgid ""
 "Over 70%% of farmers struggle to find fair buyers. We link you directly to "
 "trusted traders, suppliers, and experts—cutting costs, boosting profits."
-msgstr "ከ70%% በላይ የሚሆኑ አርሶ አደሮች ፍትሃዊ ገዢዎችን ለማግኘት ይቸገራሉ። እኛ እርስዎን በቀጥታ ከታመኑ ነጋዴዎች፣ አቅራቢዎች እና ባለሙያዎች ጋር እናገናኝዎታለን - �ስጫዎችን በመቀነስ ትርፍ እናሳድጋለን።"
+msgstr ""
+"ከ70%% በላይ የሚሆኑ አርሶ አደሮች ፍትሃዊ ገዢዎችን ለማግኘት ይቸገራሉ። እኛ እርስዎን በቀጥታ ከታመኑ ነጋዴዎች፣ "
+"አቅራቢዎች እና ባለሙያዎች ጋር እናገናኝዎታለን - ወጪዎችን በመቀነስ ትርፍ እናሳድጋለን።"
 
-#: .\base\templates\base\index.html:85
+#: .\templates\base\index.html:102
 msgid "Transparent Markets = Stronger Farmers"
 msgstr "ግልጽ የሆኑ ገበያዎች = የበለጠ ጠንካራ አርሶ አደሮች"
 
-#: .\base\templates\base\index.html:86
+#: .\templates\base\index.html:103
 msgid ""
 "Rumors of 'shortages' hurt small farms. Truth: Ethiopia produces 300M+ eggs/"
 "year—enough for all! We expose manipulation and highlight REAL data."
-msgstr "'ጉድለት' የሚሉ ጠብመንገዶች አነስተኛ እርባታዎችን ይጎዳሉ። እውነታ፡ ኢትዮጵያ በየዓመቱ ከ300 ሚሊዮን በላይ እንቁላል ትመርታለች - ለሁሉም በቂ! እኛ ማጭበርበርን እንገልፃለን እና እውነተኛ ዳታን እናብራራለን።"
+msgstr ""
+"'ጉድለት' የሚሉ ጠብመንገዶች አነስተኛ እርባታዎችን ይጎዳሉ። እውነታ፡ ኢትዮጵያ በየዓመቱ ከ300 ሚሊዮን በላይ እንቁላል "
+"ትመርታለች - ለሁሉም በቂ! እኛ ማጭበርበርን እንገልፃለን እና እውነተኛ ዳታን እናብራራለን።"
+
+#: .\templates\base\messages.html:12
+msgid "Messages Received"
+msgstr "የተቀበሉ መልዕክቶች"
+
+#: .\templates\base\messages.html:29
+msgid "No messages yet."
+msgstr "እስካሁን ምንም መልዕክት የለም።"
+
+#~ msgid "POULTRY"
+#~ msgstr "የዶሮ እርባታ"
+
+#~ msgid "Add Item"
+#~ msgstr "እቃ ያክሉ"
+
+#~ msgid "Conversations"
+#~ msgstr "ውይይቶች"
+
+#~ msgid "Unread messages:"
+#~ msgstr "ያልተነበቡ መልዕክቶች፦"
+
+#~ msgid "Sell"
+#~ msgstr "ሽያጭ"
+
+#~ msgid "Edit Profile"
+#~ msgstr "መገለጫ አርትዕ"

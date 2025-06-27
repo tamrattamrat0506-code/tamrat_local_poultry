@@ -1,7 +1,9 @@
-# conversation\routing.py
-from django.urls import path
+# conversation/routing.py
+from django.urls import re_path  
 from . import consumers
 
 websocket_urlpatterns = [
-    path('ws/conversation/<uuid:conversation_id>/', consumers.ConversationConsumer.as_asgi()),
+    re_path(r'^ws/conversation/(?P<conversation_id>[0-9a-f-]+)/$', consumers.ConversationConsumer.as_asgi()),
+    
+    re_path(r'^ws/user/(?P<user_id>\d+)/notifications/$', consumers.UserNotificationsConsumer.as_asgi()),
 ]

@@ -144,3 +144,55 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
+
+
+
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const companyLogos = document.querySelectorAll('.company-logo');
+    
+    // Add hover effects and click handlers
+    companyLogos.forEach(logo => {
+        // Preload images
+        const img = logo.querySelector('img');
+        if (img) {
+            const imgSrc = img.getAttribute('src');
+            if (imgSrc) {
+                const preloadImg = new Image();
+                preloadImg.src = imgSrc;
+            }
+        }
+        
+        // Add click animation
+        logo.addEventListener('click', function(e) {
+            // Add a temporary class for click animation
+            this.classList.add('logo-clicked');
+            
+            // Remove the class after animation completes
+            setTimeout(() => {
+                this.classList.remove('logo-clicked');
+            }, 300);
+        });
+    });
+    
+    // Optional: Add intersection observer for scroll animations
+    if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('logo-visible');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+        
+        companyLogos.forEach(logo => {
+            observer.observe(logo);
+        });
+    }
+}); 

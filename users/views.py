@@ -15,6 +15,8 @@ from conversation.models import Conversation, ConversationMessage
 from django.contrib.auth import get_user_model
 
 
+from .models import CustomUser
+
 @login_required
 def unread_count_api(request):
     """API endpoint to get unread message count"""
@@ -88,3 +90,8 @@ def seller_profile(request, user_id):
     User = get_user_model()
     seller = get_object_or_404(User, id=user_id)
     return render(request, 'users/seller_profile.html', {'seller': seller})
+
+@login_required
+def user_list(request):
+    users = CustomUser.objects.all().select_related('profile')
+    return render(request, 'users/users.html', {'users': users})

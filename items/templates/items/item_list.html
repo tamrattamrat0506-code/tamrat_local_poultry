@@ -24,8 +24,22 @@
             <div class="item-card_item_list">
                 <a href="{% url 'items:item_detail' pk=item.pk %}">
                     <img src="{{ item.main_image.url }}" class="item-image_item_list" alt="{{ item.name }}" loading="lazy">
-                    <div class="price-badge_item_list">{% trans "ETB" %} {{ item.price }}</div>
+                    <div class="price-badge_item_list">
+                        {% trans "ETB" %} {{ item.price }}</div>
                 </a>
+                
+                <div class="interaction-buttons_item_list">
+                    <button class="like-btn_item_list" onclick="likeItem({{ item.id }})">
+                        <i class="fas fa-thumbs-up"></i>
+                        <span class="like-count_item_list">{{ item.like_count }}</span>
+                    </button>
+
+                    <button class="share-btn_item_list" onclick="shareItem({{ item.id }})">
+                        <i class="fas fa-share-alt"></i>
+                        <span class="share-count_item_list">{{ item.share_count }}</span>
+                    </button>
+                </div>
+
                 <div class="card-content_item_list">
                     <h3 class="item-title_item_list">{{ item.name }}</h3>
                     <p class="item-description_item_list">{{ item.description|truncatechars:100 }}</p>

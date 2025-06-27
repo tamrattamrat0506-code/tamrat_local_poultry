@@ -14,6 +14,7 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),
     path('profile/update/', views.profile_update, name='profile-update'),
     path('api/unread-count/', views.unread_count_api, name='unread_count_api'),
-    
     path('seller_profile/<int:user_id>/', views.seller_profile, name='seller_profile'),
+    path('users/', views.user_list, name='user_list'),
+
 ]

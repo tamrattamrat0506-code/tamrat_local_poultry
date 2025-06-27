@@ -2,7 +2,7 @@
 {% load i18n %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head> 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="{% trans 'Ethiopian poultry marketplace - Buy and sell poultry products in Ethiopia' %}">
@@ -18,63 +18,58 @@
     <header class="site-header">
         <div class="container">
             <div class="header-brand">
-                <a class="navbar-brand" href="/" aria-label="{% trans 'Home' %}">
+                <a class="navbar-brand" href="{% url 'base:index' %}" aria-label="{% trans 'Home' %}">
                     <span class="logo-text">{% trans "EthioPoultry" %}</span>
                 </a>
-                
             </div>
 
+            <!-- main-nav -->
             <nav class="main-nav" aria-label="{% trans 'Main navigation' %}">
                 <ul class="nav-menu" id="navMenu">
-                    <li><a class="nav-link" href="/">{% trans "Home" %}</a></li>
-                    <li><a class="nav-link" href="{% url 'items:item_list' %}">{% trans "Marketplace" %}</a></li>
-                    <li><a class="nav-link" href="{% url 'items:item_create' %}">{% trans "Sell Products" %}</a></li>
                     <li>
-                        <a class="nav-link" href="{% url 'conversation:inbox' %}" aria-describedby="navbarUnreadDesc">
+                        <a class="nav-link" href="{% url 'base:index' %}"><i class="fas fa-home icon"></i>{% trans "Home" %}</a></li>
+                    <li>
+                        <a class="nav-link" href="{% url 'items:item_list' %}"><i class="fas fa-store icon"></i>{% trans "Marketplace" %}</a></li>
+                    <li><a class="nav-link" href="{% url 'items:item_create' %}"><i class="fas fa-tag icon"></i> {% trans "Sell Products" %}</a></li>
+                    <li>
+                        <a class="nav-link" href="{% url 'conversation:inbox' %}" aria-describedby="navbarUnreadDesc"><i class="fas fa-cog icon"></i>
                             {% trans "Messages" %}
                             <span id="navbarUnread" class="unread-badge" aria-hidden="true">0</span>
-                        <!-- <span id="navbarUnreadDesc" class="sr-only">{% trans "Unread messages:" %} 0</span> -->
                         </a>
                     </li>
-                    <li><a class="nav-link" href="{% url 'contact:contact_us' %}">{% trans "Contact" %}</a></li>
-                    <li><a class="nav-link" href="/about/">{% trans "About Us" %}</a></li>
-
-                    <!-- new -->
-
-                    <div class="language-container">
-        {% load i18n %}
-
-<form action="{% url 'set_language' %}" method="post" style="display: inline;">
-    {% csrf_token %}
-    <input name="next" type="hidden" value="{{ request.get_full_path }}">
-    
-    <select name="language" onchange="this.form.submit()" style="padding: 5px;">
-        {% get_current_language as LANGUAGE_CODE %}
-        {% get_available_languages as LANGUAGES %}
-        
-        {% for code, name in LANGUAGES %}
-            <option value="{{ code }}" {% if code == LANGUAGE_CODE %}selected{% endif %}>
-                {{ name }}
-            </option>
-        {% endfor %}
-    </select>
-</form>
-    </div>
-
+                    <li><a href ="{% url 'companies:index' %}" class="nav-link" > <i class="fas fa-envelope icon"></i>{% trans "companies" %} </a></li>
+                    <li><a class="nav-link" href="{% url 'contact:contact_us' %}"><i class="fas fa-envelope icon"></i>{% trans "Contact Us" %}</a></li>
+                    <li><a class="nav-link" href="{% url 'base:about_us' %}">
+                    <i class="fas fa-info-circle icon"></i>{% trans "About Us" %}</a></li>
+                    <li class="language-container">
+                        <form action="{% url 'set_language' %}" method="post">
+                            {% csrf_token %}
+                            <input name="next" type="hidden" value="{{ request.get_full_path }}">
+                            <select name="language" onchange="this.form.submit()" aria-label="{% trans 'Select language' %}">
+                                {% get_current_language as LANGUAGE_CODE %}
+                                {% get_available_languages as LANGUAGES %}
+                                {% for code, name in LANGUAGES %}
+                                    <option value="{{ code }}" {% if code == LANGUAGE_CODE %}selected{% endif %}>
+                                        {{ name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </form>
+                    </li>
                     <li><div class="date-and-time"></div></li>
                 </ul>
             </nav>
 
             <div class="nav-actions" id="navActions">
-                
-
                 {% if user.is_authenticated %}
-                    <a href="{% url 'items:item_create' %}" class="my-sell-btn">
-                        <i class="fas fa-plus" aria-hidden="true"></i> <span>{% trans "Sell" %}</span>
-                    </a>
+                    
                     <div class="user-dropdown">
                         <button class="my-btn-user" aria-haspopup="true" aria-expanded="false" aria-label="{% trans 'User menu' %}">
+                            {% if user.profile.profile_picture %}
+                            <img src="{{ user.profile.profile_picture.url }}" alt="{% trans 'Profile picture' %}" class="base_current-avatar">
+                            {% else %}
                             <i class="fas fa-user-circle" aria-hidden="true"></i>
+                            {% endif %}
                             <span class="username">{{ user.profile.user_name|default:user.phone_number }}</span>
                         </button>
                         <ul class="dropdown-menu">
@@ -94,62 +89,95 @@
                 <button class="nav-toggle" id="navToggle" aria-label="{% trans 'Toggle navigation' %}" aria-expanded="false" aria-controls="navMenu">
                     <span class="nav-toggle-icon" aria-hidden="true"><i class="fas fa-bars"></i></span>
                 </button>
-
             </div>
         </div>
     </header>
-
-    <main id="main-content" class="main-content">
-        {% if messages %}
-        <div class="messages-container">
-            {% for message in messages %}
-            <div class="alert alert-{{ message.tags }}">
-                {{ message }}
-            </div>
-            {% endfor %}
-        </div>
-        {% endif %}
         
         {% block content %}{% endblock %}
-    </main>
 
     <footer class="site-footer">
         <div class="footer-container">
             <div class="footer-grid">
+
                 <div class="footer-section">
-                    <h3 class="footer-heading">{% trans "Quick Links" %}</h3>
-                    <ul class="footer-links">
-                        <li><a href="/">{% trans "Home" %}</a></li>
-                        <li><a href="{% url 'items:item_list' %}">{% trans "Marketplace" %}</a></li>
-                        <li><a href="{% url 'items:item_create' %}">{% trans "Sell Products" %}</a></li>
-                        <li><a href="/about/">{% trans "About Us" %}</a></li>
-                    </ul>
-                </div>
-                
+    <h3 class="footer-heading">{% trans "Quick Links" %}</h3>
+    <ul class="footer-links">
+        <li>
+            <a href="{% url 'base:index' %}">
+                <i class="fas fa-home icon"></i>
+                <span>{% trans "Home" %}</span>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'items:item_list' %}">
+                <i class="fas fa-store icon"></i>
+                <span>{% trans "Marketplace" %}</span>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'items:item_create' %}">
+                <i class="fas fa-tag icon"></i>
+                <span>{% trans "Sell Products" %}</span>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'base:about_us' %}">
+                <i class="fas fa-info-circle icon"></i>
+                <span>{% trans "About Us" %}</span>
+            </a>
+        </li>
+    </ul>
+</div>
+
                 <div class="footer-section">
-                    <h3 class="footer-heading">{% trans "Help & Support" %}</h3>
-                    <ul class="footer-links">
-                        <li><a href="{% url 'contact:contact_us' %}">{% trans "Contact Us" %}</a></li>
-                        <li><a href="/faq/">{% trans "FAQs" %}</a></li>
-                        <li><a href="/privacy/">{% trans "Privacy Policy" %}</a></li>
-                        <li><a href="/terms/">{% trans "Terms of Service" %}</a></li>
-                    </ul>
-                </div>
+    <h3 class="footer-heading">{% trans "Help & Support" %}</h3>
+    <ul class="footer-links">
+        <li>
+            <a href="{% url 'contact:contact_us' %}">
+                <i class="fas fa-envelope icon"></i>
+                <span>{% trans "Contact Us" %}</span>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'base:terms' %}">
+                <i class="fas fa-file-contract icon"></i>
+                <span>{% trans "Terms and Privacy" %}</span>
+            </a>
+        </li>
+    </ul>
+</div>
                 
+
                 <div class="footer-section">
                     <h3 class="footer-heading">{% trans "Connect With Us" %}</h3>
                     <div class="social-icons">
-                        <a href="https://t.me/nomoreboundaryorlimitation" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
-                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                        <a href="https://www.youtube.com/channel/UC87ikLHxeF9SJH25JeVrceA" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                        <a href="https://t.me/Fraol_lema" aria-label="Telegram Channel" class="social-icon">
+                            <i class="fab fa-telegram"></i>
+                            <span>Channel</span>
+                        </a>
+                        <a href="https://t.me/Fraol_lema" aria-label="Telegram Group" class="social-icon">
+                            <i class="fab fa-telegram"></i>
+                            <span>Group</span>
+                        </a>
+                        <a href="https://t.me/nomoreboundaryorlimitation" aria-label="Personal Telegram" class="social-icon">
+                            <i class="fab fa-telegram"></i>
+                            <span>Personal</span>
+                        </a>
                     </div>
-                    <div class="newsletter">
-                        <p>{% trans "Subscribe to our newsletter" %}</p>
-                        <form class="newsletter-form">
-                            <input type="email" placeholder="{% trans 'Your email address' %}" required>
-                            <button type="submit" class="btn btn-primary">{% trans "Subscribe" %}</button>
+
+                    <div class="message-container">
+                         <h3>{% trans "Feedback" %}</h3>
+                        <form class="message-form" method="POST" action="{% url 'base:index' %}">
+                            {% csrf_token %}
+                            <div class="compact-form-group">
+                                <input type="text" name="phone" id="id_phone" class="compact-form-control" placeholder="+1234567890" required>
+                                <label for="id_phone">{% trans "Phone Number" %}</label>
+                            </div>
+                            <div class="compact-form-group">
+                                <textarea name="message" id="id_message" class="compact-form-control" required></textarea>
+                                <label for="id_message">{% trans "Your Message" %}</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary">{% trans "Send" %}</button>
                         </form>
                     </div>
                 </div>
@@ -164,12 +192,9 @@
             </div>
         </div>
     </footer>
-
     <script src="{% static 'base/js/base.js' %}" defer></script>
     <script>
-        window.USER_ID = "{{ request.user.id|default:'0' }}";
-        window.CSRF_TOKEN = "{{ csrf_token }}";
-        window.STATIC_URL = "{% static '' %}";
+        const UNREAD_COUNT_API_URL = "{% url 'conversation:unread_count_api' %}";
     </script>
     {% block js %}{% endblock %}
 </body>

@@ -3,52 +3,98 @@
 {% load i18n %}
 
 {% block css %}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css">
 <link rel="stylesheet" href="{% static 'items/css/item_detail.css' %}">
 {% endblock %}
 
-
 {% block content %}
-
 <div class="item-detail-container">
+    <!-- Seller info section -->
+    <div class="seller-info">
+        <a href="{% url 'users:seller_profile' item.created_by.id %}" class="seller-link">
+            {% if item.created_by.profile.profile_picture %}
+                <img src="{{ item.created_by.profile.profile_picture.url }}" 
+                     alt="Seller Profile" class="seller-avatar">
+            {% else %}
+                <div class="seller-avatar default-avatar">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+            {% endif %}
+            <div class="seller-details">
+                <span class="seller-name">{{ item.created_by.profile.user_name|default:item.created_by.phone_number }}</span>
+                <span class="seller-label">{% trans "Seller" %}</span>
+            </div>
+        </a>
+        
+        {% if request.user.is_authenticated and request.user != item.created_by %}
+        <div class="contact-seller-section">
+            <a href="{% url 'conversation:new' item.id %}" class="contact-seller-btn">
+                <i class="fas fa-envelope"></i> {% trans "Contact Seller" %}
+            </a>
+        </div>
+        {% endif %}
+    </div>
+
     <h1 class="item-title">{{ item.name }}</h1>
     
-    {% if request.user.is_authenticated and request.user != item.created_by %}
-    <div class="contact-seller-section">
-        <a href="{% url 'conversation:new' item.id %}" class="contact-seller-btn">
-            {% trans "Contact Seller" %}
-        </a>
+    <div class="main-image-container">
+        <img src="{{ item.main_image.url }}" alt="{{ item.name }}" class="main-image" data-lightbox="main-image">
+        
+        <!-- Like and share buttons -->
+    <div class="interaction-buttons">
+        <button onclick="likeItem({{ item.id }})" class="interaction-btn like-btn">
+            <i class="fas fa-thumbs-up"></i> 
+            <span class="interaction-count" id="like-count">{{ item.like_count }}</span>
+        </button>
+        <button onclick="shareItem({{ item.id }})" class="interaction-btn share-btn">
+            <i class="fas fa-share-alt"></i> 
+            <span class="interaction-count" id="share-count">{{ item.share_count }}</span>
+        </button>
+    </div>
+    
+        <div class="price-badge">ETB {{ item.price }}</div>
+    </div>
+    
+    <div class="item-meta">
+        <span class="item-date"><i class="far fa-clock"></i> {{ item.created_at|date:"M d, Y" }}</span>
+        <span class="item-location"><i class="fas fa-map-marker-alt"></i> {{ item.location }}</span>
+    </div>
+    
+    <div class="item-description">
+        <h3>{% trans "Description" %}</h3>
+        {{ item.description|linebreaks }}
+    </div>
+    
+    <!-- Gallery section -->
+    {% if item.sub_images.all %}
+    <div class="gallery-section">
+        <h2 class="gallery-title"><i class="far fa-images"></i> {% trans "Gallery" %}</h2>
+        <div class="gallery-grid">
+            {% for image in item.sub_images.all %}
+            <a href="{{ image.image.url }}" data-lightbox="gallery" data-title="{{ item.name }}">
+                <img src="{{ image.image.url }}" alt="Sub Image {{ forloop.counter }}" class="gallery-thumbnail">
+            </a>
+            {% endfor %}
+        </div>
     </div>
     {% endif %}
     
-<li><a class="dropdown-item" href="{% url 'users:seller_profile' item.created_by.id %}">{% trans "Seller Profile" %}</a></li> 
-
-    <div class="main-image-container">
-        <img src="{{ item.main_image.url }}" alt="{{ item.name }}" class="main-image">
-    </div>
-    <p class="item-price">{% trans "Price: ETB" %} {{ item.price }}</p>
-    <div class="item-description">
-        {{ item.description }}
-    </div>
-    
-    <div class="gallery-section">
-    <h2 class="gallery-title">{% trans "Gallery" %}</h2>
-    <div class="gallery-grid">
-        {% for image in item.sub_images.all %}
-        <a href="{{ image.image.url }}" data-lightbox="gallery" data-title="{{ item.name }}">
-            <img src="{{ image.image.url }}" alt="Sub Image {{ forloop.counter }}" class="gallery-thumbnail">
+    <!-- Edit and delete buttons for owner/admin {% if request.user.is_authenticated / created_by and request.user.is_superuser %}-->
+    {% if request.user.is_authenticated and request.user.is_superuser %}
+    <div class="edit-delete-buttons">
+        <a href="{% url 'items:item_edit' item.id %}" class="edit-btn">
+            <i class="fas fa-edit"></i> {% trans "Edit" %}
         </a>
-        {% empty %}
-        <p>{% trans "No additional images available." %}</p>
-        {% endfor %}
+        <form action="{% url 'items:item_delete' item.id %}" method="post" class="delete-form">
+            {% csrf_token %}
+            <button type="submit" class="delete-btn">
+                <i class="fas fa-trash"></i> {% trans "Delete" %}
+            </button>
+        </form>
     </div>
+    {% endif %}
 </div>
-</div>
-    
 {% endblock %}
 
 {% block js %}
 <script src="{% static 'items/js/item_detail.js' %}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
 {% endblock %}
-

@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: EthioPoultry 1.0\n"
-"Report-Msgid-Bugs-To: support@ethiopoultry.com\n"
-"POT-Creation-Date: 2025-05-18 23:36+0300\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-06-22 03:43+0300\n"
 "PO-Revision-Date: 2024-05-19 15:30+0300\n"
 "Last-Translator: Fraol <fraol@ethiopoultry.com>\n"
 "Language-Team: Oromo <om@ethiopoultry.com>\n"
@@ -16,161 +16,255 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: .\base\templates\base\base.html:9
+#: .\templates\base\about_us.html:12 .\templates\base\base.html:39
+#: .\templates\base\base.html:103
+msgid "About Us"
+msgstr "Waa'ee keenya"
+
+#: .\templates\base\about_us.html:13
+msgid ""
+"We are a company dedicated to providing the best services to our customers."
+msgstr "Kompaanii tajaajila gaarii kan gaafatamaa keenyaaf kennuudha."
+
+#: .\templates\base\base.html:8
+msgid ""
+"Ethiopian poultry marketplace - Buy and sell poultry products in Ethiopia"
+msgstr "Gabaa horsiisa lukkuu Itoophiyaa - Oomisha horsiisa lukkuu bitaa fi gurguru"
+
+#: .\templates\base\base.html:9
 msgid "EthioPoultry - Ethiopian Poultry Marketplace"
 msgstr "EthioPoultry - Gabaa Horsiisa Lukkuu Itoophiyaa"
 
-#: .\base\templates\base\base.html:19
+#: .\templates\base\base.html:16
 msgid "Skip to main content"
 msgstr "Gara ogummaa guddaa seenuu"
 
-#: .\base\templates\base\base.html:23 .\base\templates\base\base.html:30
+#: .\templates\base\base.html:21 .\templates\base\base.html:28
+#: .\templates\base\base.html:100
 msgid "Home"
 msgstr "Mana"
 
-#: .\base\templates\base\base.html:24
-msgid "POULTRY"
-msgstr "HORSIISA LUKKUU"
+#: .\templates\base\base.html:22
+msgid "EthioPoultry"
+msgstr "EthioPoultry"
 
-#: .\base\templates\base\base.html:27
+#: .\templates\base\base.html:26
 msgid "Main navigation"
 msgstr "Garaagarummaa guddaa"
 
-#: .\base\templates\base\base.html:33
+#: .\templates\base\base.html:29 .\templates\base\base.html:101
 msgid "Marketplace"
 msgstr "Gabaa"
 
-#: .\base\templates\base\base.html:36
-msgid "Add Item"
-msgstr "Meeshaa dabaluu"
+#: .\templates\base\base.html:30 .\templates\base\base.html:102
+msgid "Sell Products"
+msgstr "Oomisha Gurguruu"
 
-#: .\base\templates\base\base.html:40
-msgid "Conversations"
-msgstr "Haasawaa"
+#: .\templates\base\base.html:33
+msgid "Messages"
+msgstr "Ergaa"
 
-#: .\base\templates\base\base.html:42
-msgid "Unread messages:"
-msgstr "Ergaa hin dubbifne:"
-
-#: .\base\templates\base\base.html:46 .\base\templates\base\base.html:102
+#: .\templates\base\base.html:38 .\templates\base\base.html:110
 msgid "Contact Us"
 msgstr "Nu qunnamaa"
 
-#: .\base\templates\base\base.html:49
-msgid "About"
-msgstr "Waa'ee keenya"
+#: .\templates\base\base.html:44
+msgid "Select language"
+msgstr "Afaan filadhu"
 
-#: .\base\templates\base\base.html:57
-msgid "Sell"
-msgstr "Gurguruu"
-
-#: .\base\templates\base\base.html:60
+#: .\templates\base\base.html:63
 msgid "User menu"
 msgstr "Menyuu fayyadamaa"
 
-#: .\base\templates\base\base.html:68
+#: .\templates\base\base.html:65
+msgid "Profile picture"
+msgstr "Suuraa piroofaayilaa"
+
+#: .\templates\base\base.html:72
 msgid "My Profile"
 msgstr "Piroofaayila koo"
 
-#: .\base\templates\base\base.html:70
-msgid "Edit Profile"
-msgstr "Piroofaayila gulaalu"
+#: .\templates\base\base.html:73
+msgid "Settings"
+msgstr "Saagiidha"
 
-#: .\base\templates\base\base.html:71
+#: .\templates\base\base.html:75
 msgid "Logout"
 msgstr "Baʼuu"
 
-#: .\base\templates\base\base.html:75
-msgid "Register"
-msgstr "Galmaaʼuu"
-
-#: .\base\templates\base\base.html:76
+#: .\templates\base\base.html:80
 msgid "Login"
 msgstr "Seenuu"
 
-#: .\base\templates\base\base.html:78
+#: .\templates\base\base.html:81
+msgid "Register"
+msgstr "Galmaaʼuu"
+
+#: .\templates\base\base.html:85
 msgid "Toggle navigation"
 msgstr "Garaagarummaa jijjiiraa"
 
-#: .\base\templates\base\base.html:103
+#: .\templates\base\base.html:98
+msgid "Quick Links"
+msgstr "Lakkoofsa dhiyeessaa"
+
+#: .\templates\base\base.html:108
+msgid "Help & Support"
+msgstr "Gargaarsa & Deeggarsa"
+
+#: .\templates\base\base.html:111
+msgid "FAQs"
+msgstr "Gaaffilee Faakkii"
+
+#: .\templates\base\base.html:112
+msgid "Privacy Policy"
+msgstr "Seera Iccitii"
+
+#: .\templates\base\base.html:113
+msgid "Terms of Service"
+msgstr "Seerluga Tajaajilaa"
+
+#: .\templates\base\base.html:118
+msgid "Connect With Us"
+msgstr "Nu Waliin Walquunnamaa"
+
+#: .\templates\base\base.html:127
+msgid "Feedback"
+msgstr "Yaada Deebii"
+
+#: .\templates\base\base.html:132
+msgid "Phone Number"
+msgstr "Lakkoofsa Bilbila"
+
+#: .\templates\base\base.html:136
+msgid "Your Message"
+msgstr "Ergaa kee"
+
+#: .\templates\base\base.html:138
+msgid "Send"
+msgstr "Ergaa"
+
+#: .\templates\base\base.html:147
+msgid "All rights reserved."
+msgstr "Mirga hundi kan ofii."
+
+#: .\templates\base\base.html:148
 msgid "Designed by"
 msgstr "Akkaataa ittiin ijaarame"
 
-#: .\base\templates\base\index.html:37
+#: .\templates\base\index.html:33
 msgid "Empowering Ethiopia's Poultry Farmers with Fairness & Growth"
 msgstr "Horsiistota Lukkuu Itoophiyaa Cimsuu fi Guddina Waliin"
 
-#: .\base\templates\base\index.html:38
+#: .\templates\base\index.html:35
 msgid "Connecting Ethiopian poultry farmers with buyers nationwide"
 msgstr "Horsiistota lukkuu Itoophiyaa daldaltoota biyya guutuu waliin walqunnamsiisuu"
 
-#: .\base\templates\base\index.html:39
+#: .\templates\base\index.html:36
 msgid "Browse Marketplace"
 msgstr "Gabaa daawwadhu"
 
-#: .\base\templates\base\index.html:44
+#: .\templates\base\index.html:43
+msgid "Companies We Work With"
+msgstr "Kompaanota Waliin Hojjanna"
+
+#: .\templates\base\index.html:62
 msgid "Our Impact So Far"
 msgstr "Dhiibbaa Keenya Ammaatti"
 
-#: .\base\templates\base\index.html:49
+#: .\templates\base\index.html:67
 msgid "Total Users"
 msgstr "Fayyadamtoota Waliigalaa"
 
-#: .\base\templates\base\index.html:53
+#: .\templates\base\index.html:72
 msgid "Active Users"
 msgstr "Fayyadamtoota Hojii Irraa Jiru"
 
-#: .\base\templates\base\index.html:57
+#: .\templates\base\index.html:77
 msgid "Items for Sale"
 msgstr "Wantoota Gurgurtaa"
 
-#: .\base\templates\base\index.html:61
+#: .\templates\base\index.html:83
 msgid "Conversations Started"
 msgstr "Haasawaawan Jalqabame"
 
-#: .\base\templates\base\index.html:65
+#: .\templates\base\index.html:88
 msgid ""
 "Join a growing community of Ethiopian poultry farmers, buyers, and experts. "
 "List your products, connect with partners, and start meaningful "
 "conversations today!"
-msgstr "Horsiistota lukkuu Itoophiyaa, daldaltoota, fi ogartootaa wajjin walquunamaa. Oomisha keessan galmeessaa, hirmaattoota wajjin walqunnamtii godhaa, haasawa barbaachisaa ta'e har'a jalqabaa!"
+msgstr ""
+"Horsiistota lukkuu Itoophiyaa, daldaltoota, fi ogeesota wajjin walquunamaa. "
+"Oomisha keessan galmeessaa, hirmaattoota wajjin walqunnamtii godhaa, haasawa "
+"barbaachisaa ta'e har'a jalqabaa!"
 
-#: .\base\templates\base\index.html:71
+#: .\templates\base\index.html:92
 msgid "Why We Built This Platform?"
 msgstr "Maaliif Platformii Kana Ijaarree?"
 
-#: .\base\templates\base\index.html:72
+#: .\templates\base\index.html:93
 msgid "Stop Price Shocks, Grow with Confidence"
-msgstr "Dhibbaa Gatii Dhabamsiisa, Amansiisaan Nagaddu"
+msgstr "Dhibbaa Gatii Dhabamsiisuun, Amansiisaan Nagadaa"
 
-#: .\base\templates\base\index.html:73
-#, python-format
+#: .\templates\base\index.html:94
 msgid ""
 "Did you know? 40%% of small poultry farmers lose profits due to "
 "unpredictable price swings. We're changing that."
-msgstr "Beektaa? 40%% horsiistonni lukkuu xixiqqaan galii isaanii gatii hin beekkamin irraa dhabu. Kana jijjiiruudhaaf hojjana."
+msgstr ""
+"Beektaa? 40%% horsiistonni lukkuu xixiqqaan galii isaanii gatii hin "
+"beekkamin irraa dhabu. Kana jijjiiruudhaaf hojjana."
 
-#: .\base\templates\base\index.html:74
+#: .\templates\base\index.html:95
 msgid "→ Real-time pricing + expert tips = steadier income for YOU."
 msgstr "→ Gatii yeroo dhugaa + gorsa ogartootaa = galii madaalawaa isiniif."
 
-#: .\base\templates\base\index.html:79
+#: .\templates\base\index.html:98
 msgid "Connect Directly—No More Middlemen!"
 msgstr "Dallaalaa Malee Walquunamaa!"
 
-#: .\base\templates\base\index.html:80
-#, python-format
+#: .\templates\base\index.html:99
 msgid ""
 "Over 70%% of farmers struggle to find fair buyers. We link you directly to "
 "trusted traders, suppliers, and experts—cutting costs, boosting profits."
-msgstr "Horsiistotni 70%% ol  daldaltoota sirrii argachuuf rakkatu. Daldaltoota amanamoo, oomishaa fi ogeessota walquunamsiisaa galii keessan dablla."
+msgstr ""
+"Horsiistotni 70%% ol daldaltoota sirrii argachuuf rakkatu. Daldaltoota "
+"amanamoo, oomishaa fi ogeessota walquunamsiisaa galii keessan dablla."
 
-#: .\base\templates\base\index.html:85
+#: .\templates\base\index.html:102
 msgid "Transparent Markets = Stronger Farmers"
 msgstr "Gabaabummaa Gabaa = Horsiistota Cimaa"
 
-#: .\base\templates\base\index.html:86
+#: .\templates\base\index.html:103
 msgid ""
 "Rumors of 'shortages' hurt small farms. Truth: Ethiopia produces 300M+ eggs/"
-"year enough for all! We expose manipulation and highlight REAL data."
-msgstr "Oduun 'hanqinni gabbaa jira' jedhaa jiru. Dhugaan: Itoophiyaan kiillee 300M+ kiillee/waggaan—hundaaf gahaa! Sochii jijjiiramaa agarsiisaa fi daataa DHUGAA guddisna."
+"year—enough for all! We expose manipulation and highlight REAL data."
+msgstr ""
+"Oduun 'hanqinni gabbaa jira' jedhaa jiru. Dhugaan: Itoophiyaan kiillee 300M+ "
+"kiillee/waggaan—hundaaf gahaa! Sochii jijjiiramaa agarsiisaa fi daataa "
+"DHUGAA guddisna."
+
+#: .\templates\base\messages.html:12
+msgid "Messages Received"
+msgstr "Ergaa Dhufan"
+
+#: .\templates\base\messages.html:29
+msgid "No messages yet."
+msgstr "Ergaa hin jiru ammaatti."
+
+#~ msgid "POULTRY"
+#~ msgstr "HORSIISA LUKKUU"
+
+#~ msgid "Add Item"
+#~ msgstr "Meeshaa dabaluu"
+
+#~ msgid "Conversations"
+#~ msgstr "Haasawaa"
+
+#~ msgid "Unread messages:"
+#~ msgstr "Ergaa hin dubbifne:"
+
+#~ msgid "Sell"
+#~ msgstr "Gurguruu"
+
+#~ msgid "Edit Profile"
+#~ msgstr "Piroofaayila gulaalu"

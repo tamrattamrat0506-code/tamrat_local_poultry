@@ -9,6 +9,8 @@ class Item(models.Model):
     created_at = models.DateTimeField(auto_now_add=True) 
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='items', on_delete=models.CASCADE)
     main_image = CloudinaryField('image')
+    like_count = models.PositiveIntegerField(default=0)
+    share_count = models.PositiveIntegerField(default=0)
     
     def __str__(self):
         return self.name
@@ -16,3 +18,4 @@ class Item(models.Model):
 class SubImage(models.Model):
     item = models.ForeignKey(Item, related_name='sub_images', on_delete=models.CASCADE)
     image = CloudinaryField('image')
+    

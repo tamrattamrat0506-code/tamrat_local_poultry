@@ -5,6 +5,12 @@ from django.core.validators import RegexValidator
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+
+
+from django.contrib.auth import get_user_model
+from cloudinary.models import CloudinaryField
+
+
 class CustomUserManager(BaseUserManager):
     def create_user(self, username, phone_number, **extra_fields):
         if not username:
@@ -62,9 +68,11 @@ class Profile(models.Model):
         on_delete=models.CASCADE,
         related_name='profile'
     )
-    profile_picture = models.ImageField(
-        upload_to='profile_pics/',
-        default='profile_pics/default.jpg'
+    profile_picture = CloudinaryField(
+        'image',
+        folder='profile_pics/',
+        default='kvtec0mqxawgxmhsaamd',
+        blank=True
     )
     user_name = models.CharField(max_length=100, blank=True)
     bio = models.TextField(max_length=500, blank=True)
@@ -79,5 +87,3 @@ def create_user_profile(sender, instance, created, **kwargs):
         Profile.objects.create(user=instance)
 
 
-
-# seller_profile

@@ -1,11 +1,10 @@
-<!-- base\index.html -->
 {% extends 'base/base.html' %}
 
 {% load i18n %}
 {% load static %}
 
 {% block css %}
-<link rel="stylesheet" href="{% static 'base/css/index.css' %}">
+<link rel="stylesheet" href="{% static 'base/css/index.css' %}"> 
 {% endblock %}
 
 {% block content %}
@@ -14,7 +13,6 @@
     <div class="language-selector">
     <div class="language-container">
         {% load i18n %}
-
 <form action="{% url 'set_language' %}" method="post" style="display: inline;">
     {% csrf_token %}
     <input name="next" type="hidden" value="{{ request.get_full_path }}">
@@ -32,51 +30,84 @@
 </form>
     </div>
 </div>
-    <div class="date-and-time"></div>
+
+   <!-- hero section -->
     <section id="heroSection" class="main-hero-section">{% trans "Empowering Ethiopia's Poultry Farmers with Fairness & Growth" %}
         <h1></h1>
         <p class="main-lead">{% trans "Connecting Ethiopian poultry farmers with buyers nationwide" %}</p>
         <a href="{% url 'items:item_list' %}" class="main-btn">{% trans "Browse Marketplace" %}</a>
     </section>
-    
+
+    <!-- companies we work with -->
+    <section class="companies-we-work-with">
+        <div class="background-slideshow">
+            <div class="companies-content">
+    <h2 class="companies-title">{% trans "Companies We Work With" %}</h2>
+    <div class="companies-logos">
+        <a href="{% url 'companies:nvi' %}" class="company-logo nvi">
+            <img src="https://www.nvi.com.et/wp-content/uploads/2022/01/FinalH.png" alt="nvi-logo">
+        </a>
+        <a href="{% url 'companies:alema' %}" class="company-logo alema">
+            <img src="https://alemafarms.com/images/logo.png" alt="alema-logo">
+        </a>
+        <a href="{% url 'companies:ethiochicken' %}" class="company-logo ethiochicken">
+            <img src="//images.squarespace-cdn.com/content/v1/6532265431cb2861a8deb911/cf3a9b68-84fd-465f-a7d8-4394c6183f04/EC_Logo_PNG-01.png?format=1500w" alt="ethiochicken-logo">
+        </a>
+    </div>
+</div>
+        </div>
+</section>
+
+    <!-- plan section -->
     <section class="plan-section" style="background: url('https://media.istockphoto.com/id/148127611/photo/chicken-isolated-on-white.jpg?s=1024x1024&w=is&k=20&c=9av3zNE3Jtv3FOspmeX_2YWLdXRklmzr3SwOFGhGXwI=') no-repeat center center/cover; background-attachment: fixed;">
         <h2>{% trans "Our Impact So Far" %}</h2>
-        <div class="plan-stats" style="background: url('https://media.istockphoto.com/id/2150866881/photo/happy-free-range-chickens-enjoying-nature-in-the-lush-grass-in-the-evening-sun.jpg?s=1024x1024&w=is&k=20&c=GPu5-d41vQS5uJCiTWwHcEphbHIhbuiCmtJ7pwpTFLc=') no-repeat center center/cover; background-attachment: fixed;">
+        <div class="plan-stats"> 
             <div class="plan-stat">
+                <a class="counter-link" href="{% url 'users:user_list' %}">
                 <span class="plan-number">{{ users_count }}+</span>
                 <span class="plan-label">{% trans "Total Users" %}</span>
+                </a>
             </div>
             <div class="plan-stat">
-                <span class="plan-number">{{ active_users_count }}+</span>
-                <span class="plan-label">{% trans "Active Users" %}</span>
-            </div>
-            <div class="plan-stat">
-                <span class="plan-number">100+</span>
+                <a class="counter-link" href="{% url 'items:item_list' %}">
+                <span class="plan-number">{{ items_count }}+</span>
                 <span class="plan-label">{% trans "Items for Sale" %}</span>
+                </a>
             </div>
             <div class="plan-stat">
-                <span class="plan-number">100+</span>
+                <a class="counter-link" href="{% url 'conversation:inbox' %}" aria-describedby="navbarUnreadDesc">
+                <span class="plan-number">{{ conversations_count }}+</span>
                 <span class="plan-label">{% trans "Conversations Started" %}</span>
+                </a>
             </div>
         </div>
         <p class="plan-description">
             {% trans "Join a growing community of Ethiopian poultry farmers, buyers, and experts. List your products, connect with partners, and start meaningful conversations today!" %}
         </p>
     </section>
+
+     <!-- Why we build this platform -->
     <section class="why-platform-section">
         <h2>{% trans "Why We Built This Platform?" %}</h2>
         <p>{% trans "Stop Price Shocks, Grow with Confidence" %}</p>
         <p>{% trans "Did you know? 40% of small poultry farmers lose profits due to unpredictable price swings. We’re changing that." %}</p>
         <p class="highlight">{% trans "→ Real-time pricing + expert tips = steadier income for YOU." %}</p>
-    </section>
-    <section class="connect-section">
+
         <h2>{% trans "Connect Directly—No More Middlemen!" %}</h2>
         <p>{% trans "Over 70% of farmers struggle to find fair buyers. We link you directly to trusted traders, suppliers, and experts—cutting costs, boosting profits." %}</p>
-    </section>
-    <section class="transparent-markets-section">
+
         <h2>{% trans "Transparent Markets = Stronger Farmers" %}</h2>
         <p>{% trans "Rumors of 'shortages' hurt small farms. Truth: Ethiopia produces 300M+ eggs/year—enough for all! We expose manipulation and highlight REAL data." %}</p>
+        
+    {% if request.user.is_superuser %}
+
+        <h2>{% trans "For Admins Only" %}</h2>
+        <p>{% trans "This section is only for superusers" %}</p>
+        <a class="admin-action" href="{% url 'base:admin_links' %}">{% trans "Admin Action" %}</a>
+    
+    {% endif %}
     </section>
+
 </main>
 {% endblock %}
 

@@ -4,6 +4,7 @@ from .models import Conversation, ConversationMessage
 from django.contrib.auth import get_user_model
 from django.core.cache import cache
 from django.utils import timezone
+from asgiref.sync import sync_to_async
 from django.core.exceptions import ObjectDoesNotExist
 
 User = get_user_model()
@@ -14,41 +15,34 @@ class ConversationConsumer(AsyncWebsocketConsumer):
         self.room_group_name = f'chat_{self.conversation_id}'
         
         try:
-            conversation = await Conversation.objects.select_related('item').aget(pk=self.conversation_id)
+            # Convert all synchronous ORM calls to async
+            conversation = await sync_to_async(Conversation.objects.select_related('item').get)(pk=self.conversation_id)
             user = self.scope["user"]
             
-            if user not in conversation.members.all():
-                await self.close(code=4001) 
+            # Async membership check
+            is_member = await sync_to_async(conversation.members.filter(id=user.id).exists)()
+            if not is_member:
+                await self.close(code=4001)
                 return
                 
-        except ObjectDoesNotExist:
-            await self.close(code=4002) 
-            return
-        except Exception as e:
-            print(f"Unexpected connect error: {e}")
-            await self.close(code=4000) 
-            return
-
-        try:
             await self.channel_layer.group_add(
                 self.room_group_name,
                 self.channel_name
             )
             await self.accept()
+            
+        except ObjectDoesNotExist:
+            await self.close(code=4002)
         except Exception as e:
-            print(f"WebSocket accept error: {e}")
-            await self.close(code=4003)  
+            print(f"Connection error: {e}")
+            await self.close(code=4000)
 
     async def disconnect(self, close_code):
-        try:
-            if hasattr(self, 'room_group_name'):
-                await self.channel_layer.group_discard(
-                    self.room_group_name,
-                    self.channel_name
-                )
-            print(f"Disconnected with code: {close_code}")
-        except Exception as e:
-            print(f"Disconnect error: {e}")
+        if hasattr(self, 'room_group_name'):
+            await self.channel_layer.group_discard(
+                self.room_group_name,
+                self.channel_name
+            )
 
     async def receive(self, text_data):
         try:
@@ -56,30 +50,32 @@ class ConversationConsumer(AsyncWebsocketConsumer):
             message_content = data.get('message', '').strip()
             sender_username = data.get('sender')
             
-            if not message_content:
-                raise ValueError("Message content cannot be empty")
-            if not sender_username:
-                raise ValueError("Sender username is required")
+            if not message_content or not sender_username:
+                raise ValueError("Missing required fields")
 
-            conversation = await Conversation.objects.select_related('item').aget(pk=self.conversation_id)
-            sender = await User.objects.aget(username=sender_username)
+            # Async ORM operations
+            conversation = await sync_to_async(Conversation.objects.select_related('item').get)(pk=self.conversation_id)
+            sender = await sync_to_async(User.objects.get)(username=sender_username)
             
-            conversation.modified_at = timezone.now()
-            await conversation.asave()
-
-            message = await ConversationMessage.objects.acreate(
+            # Update conversation
+            await sync_to_async(setattr)(conversation, 'modified_at', timezone.now())
+            await sync_to_async(conversation.save)()
+            
+            # Create message
+            message = await sync_to_async(ConversationMessage.objects.create)(
                 conversation=conversation,
                 content=message_content,
                 created_by=sender
             )
 
-            members = await conversation.members.all().aiterator()
-            async for member in members:
+            # Process members and unread counts
+            members = await sync_to_async(list)(conversation.members.all())
+            for member in members:
                 if member.id != sender.id:
                     cache_key = f"unread_{member.id}_{conversation.id}"
                     try:
-                        cache.incr(cache_key)
-                        current_count = cache.get(cache_key, 0)
+                        await sync_to_async(cache.incr)(cache_key)
+                        current_count = await sync_to_async(cache.get)(cache_key, 0)
                         
                         await self.channel_layer.group_send(
                             f"user_{member.id}",
@@ -90,8 +86,9 @@ class ConversationConsumer(AsyncWebsocketConsumer):
                             }
                         )
                     except Exception as e:
-                        print(f"Error updating unread count: {e}")
+                        print(f"Unread count error: {e}")
 
+            # Broadcast message to conversation group
             await self.channel_layer.group_send(
                 self.room_group_name,
                 {
@@ -104,47 +101,31 @@ class ConversationConsumer(AsyncWebsocketConsumer):
             )
 
         except json.JSONDecodeError:
-            await self.send(text_data=json.dumps({
-                'type': 'error',
-                'message': 'Invalid JSON format'
-            }))
-        except ObjectDoesNotExist as e:
-            await self.send(text_data=json.dumps({
-                'type': 'error',
-                'message': str(e)
-            }))
+            await self.send_error('Invalid JSON format')
         except Exception as e:
-            print(f"Error in receive: {e}")
-            await self.send(text_data=json.dumps({
-                'type': 'error',
-                'message': 'An error occurred'
-            }))
+            await self.send_error(str(e))
+
+    async def send_error(self, message):
+        await self.send(text_data=json.dumps({
+            'type': 'error',
+            'message': message
+        }))
 
     async def chat_message(self, event):
-        try:
-            await self.send(text_data=json.dumps({
-                'type': 'chat',
-                'message': event['message'],
-                'sender': event['sender'],
-                'timestamp': event['timestamp'],
-                'message_id': event.get('message_id', '')
-            }))
-        except Exception as e:
-            print(f"Error sending chat message: {e}")
+        await self.send(text_data=json.dumps({
+            'type': 'chat',
+            'message': event['message'],
+            'sender': event['sender'],
+            'timestamp': event['timestamp'],
+            'message_id': event['message_id']
+        }))
 
     async def unread_update(self, event):
-        try:
-            await self.send(text_data=json.dumps({
-                "type": "unread_update",
-                "conversation_id": event["conversation_id"],
-                "count": event["count"]
-            }))
-        except Exception as e:
-            print(f"Error sending unread update: {e}")
-
-
-
-
+        await self.send(text_data=json.dumps({
+            "type": "unread_update",
+            "conversation_id": event["conversation_id"],
+            "count": event["count"]
+        }))
 
 class UserNotificationsConsumer(AsyncWebsocketConsumer):
     async def connect(self):
@@ -168,7 +149,7 @@ class UserNotificationsConsumer(AsyncWebsocketConsumer):
         if data.get('type') == 'mark_read':
             conversation_id = data['conversation_id']
             cache_key = f'unread_{self.user_id}_{conversation_id}'
-            cache.set(cache_key, 0)
+            await sync_to_async(cache.set)(cache_key, 0)
 
     async def unread_update(self, event):
         await self.send(text_data=json.dumps({
@@ -176,3 +157,8 @@ class UserNotificationsConsumer(AsyncWebsocketConsumer):
             "conversation_id": event["conversation_id"],
             "count": event["count"]
         }))
+
+
+
+
+        
