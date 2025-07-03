@@ -9,9 +9,11 @@ body {
 
 /* Registration Container */
 .registration-container {
+    align-self: center;
     max-width: 500px;
     margin: 50px auto;
-    background: #fff;
+    
+    background: linear-gradient(130deg, #a0a0a0,#cdffec, #abf8e5, #8ef5ca, #62ffbe, #40fcad, #a0a0a0);
     padding: 20px 30px;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -66,8 +68,9 @@ body {
 }
 
 /* Button Styles */
-.btn-primary {
-    background-color: #007bff;
+.registerbtn {
+    align-self: center;
+    background: linear-gradient(130deg, #007bff,#007bff, #0056b3 , #004494, #003366, #002244, #007bff);
     color: #fff;
     padding: 10px 15px;
     border: none;
@@ -75,10 +78,14 @@ body {
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    width: fit-content;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.459);
 }
 
-.btn-primary:hover {
+.registerbtn:hover {
     background-color: #0056b3;
+    padding: 10px 20px;
+    box-shadow: 0 9px 10px rgba(0, 0, 0, 0.664);
 }
 
 /* Login Link */

@@ -1,17 +1,14 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Conversation item click handling
     document.querySelectorAll('.conversation-item').forEach(item => {
         item.addEventListener('click', function() {
             window.location.href = this.querySelector('a').href;
         });
     });
 
-    // Initialize WebSocket if user is authenticated
     {% if user.is_authenticated %}
     initializeWebSocket({{ user.id }});
     {% endif %}
 
-    // Optional: Mark all as read when page loads
     markConversationsAsRead();
 });
 

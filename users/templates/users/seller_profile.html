@@ -14,8 +14,8 @@
              alt="{{ seller.username }}'s profile picture">
         <h2 class="seller-username">{{ seller.username }}</h2>
         <p class="seller-phone"><strong>Phone:</strong> {{ seller.phone_number }}</p>
-        {% if seller.profile.user_name %}
-            <p class="seller-name"><strong>Name:</strong> {{ seller.profile.user_name }}</p>
+        {% if seller.profile.username %}
+            <p class="seller-name"><strong>Name:</strong> {{ seller.profile.username }}</p>
         {% endif %}
         {% if seller.profile.bio %}
             <p class="seller-bio"><strong>Bio:</strong> {{ seller.profile.bio }}</p>

@@ -31,4 +31,11 @@ urlpatterns = [
     # like and share
     path('<int:pk>/like/', views.like_item, name='item_like'),
     path('<int:pk>/share/', views.share_item, name='item_share'),
+
+    # add to cart
+    path('<int:pk>/add_to_cart/', views.add_to_cart, name='add_to_cart'),
+    path('cart/', views.view_cart, name='view_cart'),
+    path('cart/remove/<int:pk>/', views.remove_from_cart, name='remove_from_cart'),
+    path('cart/update/<int:pk>/', views.update_cart_item, name='update_cart_item'),
+
 ]

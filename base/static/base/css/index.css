@@ -7,7 +7,8 @@
 /* -------------------------
    0. CSS RESET & GLOBALS
    ------------------------- */
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+
+   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
 :root {
   --primary-accent: #ffa31a;
@@ -169,6 +170,7 @@ a:focus {
 
 /* Companies */
 .companies-we-work-with {
+  text-align: center;
   padding-block: clamp(3rem, 6vw, 5rem);
   background: var(--gray-100);
 }
@@ -287,6 +289,7 @@ a:focus {
   margin-inline: auto clamp(1rem, 4vw, 2rem);
   padding: clamp(2rem, 5vw, 3rem);
   box-shadow: var(--shadow-s);
+  text-align: center;
 }
 .why-platform-section h2 {
   font-size: var(--fs-600);

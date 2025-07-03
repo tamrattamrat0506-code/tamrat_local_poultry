@@ -1,4 +1,3 @@
-# users\admin.py
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .models import CustomUser, Profile
@@ -17,8 +16,8 @@ class CustomUserAdmin(UserAdmin):
     )
 
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ('get_username', 'get_phone_number', 'user_name', 'bio_short', 'location')
-    search_fields = ('user_name', 'user__username', 'user__phone_number')
+    list_display = ('get_username', 'get_phone_number', 'bio_short', 'location')
+    search_fields = ('user__username', 'user__phone_number')  # Removed user_name
     list_filter = ('location',)
     
     def get_username(self, obj):

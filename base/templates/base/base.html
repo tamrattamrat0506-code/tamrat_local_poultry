@@ -2,16 +2,21 @@
 {% load i18n %}
 <!DOCTYPE html>
 <html lang="en">
-<head> 
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="{% trans 'Ethiopian poultry marketplace - Buy and sell poultry products in Ethiopia' %}">
     <title>{% trans "EthioPoultry - Ethiopian Poultry Marketplace" %}</title>
     <link rel="icon" href="{% static 'base/images/image2.jpg' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" >
     <link rel="stylesheet" href="{% static 'base/css/base.css' %}">
+
+    {% block title %}
+    {% endblock %}
+    
     {% block css %}{% endblock %}
 </head>
+
 <body>
     <a href="#main-content" class="skip-link">{% trans "Skip to main content" %}</a>
 
@@ -26,21 +31,39 @@
             <!-- main-nav -->
             <nav class="main-nav" aria-label="{% trans 'Main navigation' %}">
                 <ul class="nav-menu" id="navMenu">
+    
                     <li>
                         <a class="nav-link" href="{% url 'base:index' %}"><i class="fas fa-home icon"></i>{% trans "Home" %}</a></li>
                     <li>
                         <a class="nav-link" href="{% url 'items:item_list' %}"><i class="fas fa-store icon"></i>{% trans "Marketplace" %}</a></li>
                     <li><a class="nav-link" href="{% url 'items:item_create' %}"><i class="fas fa-tag icon"></i> {% trans "Sell Products" %}</a></li>
                     <li>
-                        <a class="nav-link" href="{% url 'conversation:inbox' %}" aria-describedby="navbarUnreadDesc"><i class="fas fa-cog icon"></i>
-                            {% trans "Messages" %}
+                        <a class="nav-link" href="{% url 'conversation:inbox' %}" aria-describedby="navbarUnreadDesc"><i class="fas fa-comments icon"></i>
+                            {% trans "My Chats" %}
                             <span id="navbarUnread" class="unread-badge" aria-hidden="true">0</span>
                         </a>
                     </li>
-                    <li><a href ="{% url 'companies:index' %}" class="nav-link" > <i class="fas fa-envelope icon"></i>{% trans "companies" %} </a></li>
+                    <li>
+                        <a class="nav-link" href="{% url 'items:view_cart' %}">
+                            <i class="fas fa-shopping-cart icon"></i>{% trans "MY Carts" %} <span class="badge unread-badge" id="cart-count">
+                                {% if user.is_authenticated %}
+                                    {{ user.cart.items.count }}
+                                {% else %}
+                                    0
+                                {% endif %}
+                            </span> </a>
+                    </li>
+                    <li><a href ="{% url 'companies:index' %}" class="nav-link" > <i class="fas fa-building icon"></i>{% trans "Companies" %} </a></li>
                     <li><a class="nav-link" href="{% url 'contact:contact_us' %}"><i class="fas fa-envelope icon"></i>{% trans "Contact Us" %}</a></li>
                     <li><a class="nav-link" href="{% url 'base:about_us' %}">
                     <i class="fas fa-info-circle icon"></i>{% trans "About Us" %}</a></li>
+                    <li>
+                      <a class="nav-link" href="{% url 'base:terms' %}">
+                                 <i class="fas fa-file-contract icon"></i>
+                         <span>{% trans "Terms and Privacy" %}</span>
+                      </a>
+                    </li>
+                    
                     <li class="language-container">
                         <form action="{% url 'set_language' %}" method="post">
                             {% csrf_token %}
@@ -70,19 +93,19 @@
                             {% else %}
                             <i class="fas fa-user-circle" aria-hidden="true"></i>
                             {% endif %}
-                            <span class="username">{{ user.profile.user_name|default:user.phone_number }}</span>
+                            <span class="username">{{ user.username|default:user.phone_number }}</span>
                         </button>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="{% url 'users:profile' %}"><i class="fas fa-user"></i> {% trans "My Profile" %}</a></li>
-                            <li><a class="dropdown-item" href="{% url 'users:profile-update' %}"><i class="fas fa-cog"></i> {% trans "Settings" %}</a></li>
+                            <li><a class="dropdown-item" href="{% url 'users:profile_update' %}"><i class="fas fa-cog"></i> {% trans "Settings" %}</a></li>
                             <li class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="{% url 'users:logout' %}"><i class="fas fa-sign-out-alt"></i> {% trans "Logout" %}</a></li>
                         </ul>
                     </div>
                 {% else %}
                     <div class="auth-buttons">
-                        <a href="{% url 'users:login' %}" class="btn btn-outline">{% trans "Login" %}</a>
-                        <a href="{% url 'users:register' %}" class="btn btn-primary">{% trans "Register" %}</a>
+                        <a href="{% url 'users:login' %}" class="btn-outline">{% trans "Login" %}</a>
+                        <a href="{% url 'users:register' %}" class="btn-primary">{% trans "Register" %}</a>
                     </div>
                 {% endif %}
 
@@ -111,7 +134,7 @@
         <li>
             <a href="{% url 'items:item_list' %}">
                 <i class="fas fa-store icon"></i>
-                <span>{% trans "Marketplace" %}</span>
+                <span>{% trans "Market Place" %}</span>
             </a>
         </li>
         <li>

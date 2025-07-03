@@ -78,7 +78,6 @@ body {
     align-items: center;
     height: 100%;
 }
-
 .header-brand {
     display: flex;
     align-items: center;
@@ -185,13 +184,13 @@ body {
 .ripple-effect {
     position: absolute;
     border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.83);
+    background-color: rgba(233, 17, 17, 0.911);
     transform: scale(0);
     animation: ripple 0.6s linear;
     pointer-events: none;
     width: 100%;
     height: 100%;
-    top: 0;
+    top: 92px;
     left: 0;
 }
 
@@ -398,42 +397,38 @@ body {
 .nav-actions {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 10px;
     z-index: 1001;
 }
-
-.btn {
-    padding: 8px 16px;
-    border-radius: var(--border-radius);
-    font-weight: 500;
-    transition: var(--transition);
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    cursor: pointer;
+ 
+.btn-primary {
+    border: 1px solid var(--primary-color);
+    color: white;
+    background: linear-gradient(to right, #4867f1, rgb(9, 67, 228), #3aa7f0, rgb(9, 228, 144));
+    padding: 2px 4px;
+    font-size: 0.9rem;
+    border-radius: 5px;
     text-decoration: none;
 }
 
-.btn-primary {
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-}
-
 .btn-primary:hover {
-    background-color: var(--primary-dark);
+    background: linear-gradient(to right, #354baf, rgb(8, 49, 161), #256996, rgb(6, 156, 99));
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(74, 107, 255, 0.2);
+    box-shadow: 0 4px 12px rgb(0, 47, 255);
 }
 
 .btn-outline {
     border: 1px solid var(--primary-color);
-    color: var(--primary-color);
-    background: transparent;
+    color: rgb(75, 75, 75);
+    background: linear-gradient(to right, #fff8f8, rgb(231, 231, 231));
+    padding: 2px 4px;
+    font-size: 0.9rem;
+    border-radius: 5px;
+    text-decoration: none;
 }
 
 .btn-outline:hover {
-    background-color: var(--primary-color);
+    background: linear-gradient(to right, #3d3d3d, rgb(107, 107, 107));
     color: white;
 }
 
@@ -450,14 +445,14 @@ body {
     gap: 8px;
     background: transparent;
     cursor: pointer;
-    padding: 5px 10px;
+    padding: 1px 5px;
     border-radius: 18px;
     border: 1px solid black;
     transition: var(--transition);
 }
 
 .my-btn-user:hover {
-    background-color: rgba(0, 0, 0, 0.671);
+    background-color: black;
     color: white;
 }
 
@@ -782,6 +777,9 @@ ul {
     .nav-menu {
         width: 280px;
     }
+    .navbar-brand {
+    font-size: 1.3rem;
+    }
 }
 
 @media (max-width: 768px) {
@@ -809,7 +807,7 @@ ul {
 
 @media (max-width: 576px) {
     .navbar-brand {
-        font-size: 1.2rem;
+        font-size: 1rem;
     }
     
     .nav-menu {
@@ -827,7 +825,7 @@ ul {
     }
     
     .btn {
-        padding: 6px 10px;
+        padding: 3px 5px;
         font-size: 0.8rem;
     }
     
@@ -869,7 +867,11 @@ ul {
 }
 }
 
-
+@media (max-width: 300px) {
+    .navbar-brand {
+    font-size: 0.89rem;
+    }
+}
 
 
 

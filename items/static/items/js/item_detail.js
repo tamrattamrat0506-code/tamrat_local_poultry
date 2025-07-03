@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize lightbox
+    // Initialize lightbox if available
     if (typeof lightbox !== 'undefined') {
         lightbox.option({
             'resizeDuration': 200,
@@ -14,193 +14,217 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
+            const targetId = this.getAttribute('href');
+            const target = document.querySelector(targetId);
+            
             if (target) {
                 target.scrollIntoView({
-                    behavior: 'smooth'
+                    behavior: 'smooth',
+                    block: 'start'
                 });
             }
         });
     });
 
-    // Contact button hover effect
-    const contactBtn = document.querySelector('.contact-seller-btn');
-    if (contactBtn) {
-        contactBtn.addEventListener('mouseenter', () => {
-            contactBtn.style.transform = 'translateY(-2px)';
+    // Initialize interaction buttons
+    const initInteractionButtons = () => {
+        // Like button handler
+        document.querySelectorAll('[data-action="like"]').forEach(button => {
+            button.addEventListener('click', handleLike);
         });
-        contactBtn.addEventListener('mouseleave', () => {
-            contactBtn.style.transform = '';
-        });
-    }
 
-    // Main image click to open in lightbox
-    const mainImage = document.querySelector('.main-image');
-    if (mainImage) {
-        mainImage.addEventListener('click', function() {
-            if (typeof lightbox !== 'undefined') {
-                lightbox.start(this);
-            }
+        // Share button handler
+        document.querySelectorAll('[data-action="share"]').forEach(button => {
+            button.addEventListener('click', handleShare);
         });
-    }
 
-    // Animate elements on page load
-    const animateElements = () => {
-        const elements = [
-            '.seller-info',
-            '.item-title',
-            '.main-image-container',
-            '.item-meta',
-            '.item-description',
-            '.gallery-section',
-            '.edit-delete-buttons'
-        ].map(selector => document.querySelector(selector)).filter(el => el);
-        
-        elements.forEach((el, index) => {
-            setTimeout(() => {
-                el.style.opacity = '1';
-                el.style.transform = 'translateY(0)';
-            }, index * 150);
-        });
+        // Add to cart handler
+        const addToCartBtn = document.getElementById('add-to-cart-btn');
+        if (addToCartBtn) {
+            addToCartBtn.addEventListener('click', handleAddToCart);
+        }
     };
 
-    // Set initial state for animation
-    const animatedElements = [
-        '.seller-info',
-        '.item-title',
-        '.main-image-container',
-        '.item-meta',
-        '.item-description',
-        '.gallery-section',
-        '.edit-delete-buttons'
-    ].map(selector => document.querySelector(selector)).filter(el => el);
-    
-    animatedElements.forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(20px)';
-        el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-    });
-    
-    // Trigger animations after page load
-    window.addEventListener('load', animateElements);
-});
+    // Handle like action
+    const handleLike = async (event) => {
+        const button = event.currentTarget;
+        const itemId = button.dataset.itemId;
+        const icon = button.querySelector('i');
+        const countElement = button.querySelector('.interaction-count');
 
-function likeItem(itemId) {
-    const likeBtn = document.querySelector(`.like-btn[onclick="likeItem(${itemId})"]`);
-    const likeIcon = likeBtn.querySelector('i');
-    const likeCount = likeBtn.querySelector('.interaction-count');
-    
-    // Add animation classes
-    likeIcon.classList.add('like-animate');
-    likeCount.classList.add('count-pulse');
-    
-    fetch(`/items/${itemId}/like/`, {
-        method: 'POST',
-        headers: {
-            'X-CSRFToken': getCookie('csrftoken'),
-            'Content-Type': 'application/json'
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        likeCount.textContent = data.likes_count;
+        // Visual feedback
+        button.classList.add('active');
         
-        // Remove animation classes after animation completes
-        setTimeout(() => {
-            likeIcon.classList.remove('like-animate');
-            likeCount.classList.remove('count-pulse');
-        }, 500);
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        likeIcon.classList.remove('like-animate');
-        likeCount.classList.remove('count-pulse');
-    });
-}
-
-function shareItem(itemId) {
-    const shareBtn = document.querySelector(`.share-btn[onclick="shareItem(${itemId})"]`);
-    const shareIcon = shareBtn.querySelector('i');
-    const shareCount = shareBtn.querySelector('.interaction-count');
-    
-    // Add animation classes
-    shareIcon.classList.add('share-animate');
-    shareCount.classList.add('count-pulse');
-    
-    // First try Web Share API if available
-    if (navigator.share) {
-        const itemTitle = document.querySelector('.item-title').textContent;
-        const itemUrl = window.location.href;
-        
-        navigator.share({
-            title: itemTitle,
-            text: 'Check out this item on Poultry Marketplace',
-            url: itemUrl
-        }).then(() => {
-            // Only send share count if share was successful
-            return fetch(`/items/${itemId}/share/`, {
+        try {
+            const response = await fetch(`/items/${itemId}/like/`, {
                 method: 'POST',
                 headers: {
                     'X-CSRFToken': getCookie('csrftoken'),
                     'Content-Type': 'application/json'
                 }
             });
-        }).then(response => response.json())
-        .then(data => {
-            shareCount.textContent = data.shares_count;
-        })
-        .catch(err => {
-            console.log('Error sharing:', err);
-        })
-        .finally(() => {
-            // Remove animation classes
-            setTimeout(() => {
-                shareIcon.classList.remove('share-animate');
-                shareCount.classList.remove('count-pulse');
-            }, 600);
-        });
-    } else {
-        // Fallback to just counting the share
-        fetch(`/items/${itemId}/share/`, {
-            method: 'POST',
-            headers: {
-                'X-CSRFToken': getCookie('csrftoken'),
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            shareCount.textContent = data.shares_count;
-            // Show a message since Web Share API isn't available
-            alert('Item link copied to clipboard: ' + window.location.href);
-            // Copy URL to clipboard as fallback
-            navigator.clipboard.writeText(window.location.href);
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        })
-        .finally(() => {
-            // Remove animation classes
-            setTimeout(() => {
-                shareIcon.classList.remove('share-animate');
-                shareCount.classList.remove('count-pulse');
-            }, 600);
-        });
-    }
-}
 
-// Helper to get CSRF token
-function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
+            if (response.ok) {
+                const data = await response.json();
+                countElement.textContent = data.likes_count;
+                showToast('Item liked successfully!');
             }
+        } catch (error) {
+            console.error('Error:', error);
+        } finally {
+            setTimeout(() => {
+                button.classList.remove('active');
+            }, 500);
         }
-    }
-    return cookieValue;
-}
+    };
+
+    // Handle share action
+    const handleShare = async (event) => {
+        const button = event.currentTarget;
+        const itemId = button.dataset.itemId;
+        const icon = button.querySelector('i');
+        const countElement = button.querySelector('.interaction-count');
+        const itemTitle = document.querySelector('.product-title').textContent;
+        const itemUrl = window.location.href;
+
+        // Visual feedback
+        button.classList.add('active');
+
+        try {
+            if (navigator.share) {
+                await navigator.share({
+                    title: itemTitle,
+                    text: 'Check out this item',
+                    url: itemUrl
+                });
+                showToast('Item shared successfully!');
+            } else {
+                // Fallback for browsers without Web Share API
+                await navigator.clipboard.writeText(itemUrl);
+                showToast('Link copied to clipboard!');
+            }
+
+            // Record the share
+            const response = await fetch(`/items/${itemId}/share/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken'),
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                countElement.textContent = data.shares_count;
+            }
+        } catch (error) {
+            console.error('Error sharing:', error);
+        } finally {
+            setTimeout(() => {
+                button.classList.remove('active');
+            }, 500);
+        }
+    };
+
+    // Handle add to cart
+    const handleAddToCart = async (event) => {
+        const button = event.currentTarget;
+        const url = button.dataset.addUrl;
+
+        button.disabled = true;
+        button.classList.add('active');
+
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken'),
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'same-origin'
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                const cartCountElement = document.getElementById('cart-count');
+                
+                if (cartCountElement) {
+                    cartCountElement.textContent = data.cart_count;
+                }
+                
+                showToast('Item added to cart!');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            showToast('Failed to add item to cart', 'error');
+        } finally {
+            setTimeout(() => {
+                button.disabled = false;
+                button.classList.remove('active');
+            }, 500);
+        }
+    };
+
+    // Show toast notification for add to cart
+    const showToast = (message, type = 'success') => {
+        const toast = document.createElement('div');
+        toast.className = `toast-notification ${type}`;
+        toast.textContent = message;
+        toast.setAttribute('aria-live', 'polite');
+        
+        document.body.appendChild(toast);
+        
+        setTimeout(() => {
+            toast.classList.add('show');
+        }, 10);
+        
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => {
+                toast.remove();
+            }, 300);
+        }, 3000);
+    };
+
+    // Get CSRF token
+    const getCookie = (name) => {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    };
+
+    // Initialize all functionality
+    initInteractionButtons();
+
+    // Add toast styles dynamically
+    const style = document.createElement('style');
+    style.textContent = `
+        .toast-notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 12px 24px;
+            border-radius: 4px;
+            background-color: #333;
+            color: white;
+            transform: translateY(100%);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .toast-notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .toast-notification.success {
+            background: linear-gradient(to right, rgb(39, 64, 174) , rgb(39, 142, 174),rgb(39, 64, 174));
+        }
+        
+        .toast-notification.error {
+            background-color: #e74c3c;
+        }
+    `;
+    document.head.appendChild(style);
+});

@@ -9,9 +9,11 @@ body {
 
 /* Login Container */
 .login-container {
+    align-self: center;
     max-width: 400px;
     margin: 50px auto;
-    background: #fff;
+    
+    background: linear-gradient(130deg, #ffffff, #e9e9e9, #dbdbdb, #b4b4b4, #d1d1d1, #a0a0a0);
     padding: 20px 30px;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);

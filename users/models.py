@@ -5,11 +5,8 @@ from django.core.validators import RegexValidator
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-
-
 from django.contrib.auth import get_user_model
 from cloudinary.models import CloudinaryField
-
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, username, phone_number, **extra_fields):
@@ -38,7 +35,6 @@ class CustomUserManager(BaseUserManager):
 
         return self.create_user(username, phone_number, **extra_fields)
 
-
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=30, unique=True)
     phone_number = models.CharField(
@@ -61,7 +57,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return f"{self.username} ({self.phone_number})"
-
+ 
 class Profile(models.Model):
     user = models.OneToOneField(
         CustomUser,
@@ -74,7 +70,7 @@ class Profile(models.Model):
         default='kvtec0mqxawgxmhsaamd',
         blank=True
     )
-    user_name = models.CharField(max_length=100, blank=True)
+    
     bio = models.TextField(max_length=500, blank=True)
     location = models.CharField(max_length=100, blank=True)
 
@@ -85,5 +81,3 @@ class Profile(models.Model):
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
-
-
