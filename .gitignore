@@ -61,3 +61,13 @@ Thumbs.db
 
 # Notes and docs
 notes.md
+
+# all files
+Procfile
+requirements.txt
+manage.py
+users
+base
+companies
+contact
+media
