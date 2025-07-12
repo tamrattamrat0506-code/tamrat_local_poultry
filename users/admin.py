@@ -17,7 +17,7 @@ class CustomUserAdmin(UserAdmin):
 
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ('get_username', 'get_phone_number', 'bio_short', 'location')
-    search_fields = ('user__username', 'user__phone_number')  # Removed user_name
+    search_fields = ('user__username', 'user__phone_number') 
     list_filter = ('location',)
     
     def get_username(self, obj):
