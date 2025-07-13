@@ -1,5 +1,3 @@
-{% extends 'base/base.html' %}
-
 {% load i18n %}
 {% load static %}
 
@@ -7,109 +5,439 @@
 <link rel="stylesheet" href="{% static 'base/css/index.css' %}"> 
 {% endblock %}
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+
 {% block content %}
 
-<main class="main-container">
-    <div class="language-selector">
-    <div class="language-container">
-        {% load i18n %}
-<form action="{% url 'set_language' %}" method="post" style="display: inline;">
-    {% csrf_token %}
-    <input name="next" type="hidden" value="{{ request.get_full_path }}">
-    <select name="language" onchange="this.form.submit()" style="padding: 5px;">
-        {% get_current_language as LANGUAGE_CODE %}
-        {% get_available_languages as LANGUAGES %}
-        
-        {% for code, name in LANGUAGES %}
-            <option value="{{ code }}" {% if code == LANGUAGE_CODE %}selected{% endif %}>
-                {{ name }}
-            </option>
-        {% endfor %}
-    </select>
-</form>
-    </div>
-</div>
 
-   <!-- hero section -->
-    <section id="heroSection" class="main-hero-section">{% trans "Empowering Ethiopia's Poultry Farmers with Fairness & Growth" %}
-        <h1></h1>
-        <p class="main-lead">{% trans "Connecting Ethiopian poultry farmers with buyers nationwide" %}</p>
-        <a href="{% url 'items:item_list' %}" class="main-btn">{% trans "Browse Marketplace" %}</a>
-    </section>
-
-    <!-- companies we work with -->
-    <section class="companies-we-work-with">
-        <div class="background-slideshow">
-            <div class="companies-content">
-    <h2 class="companies-title">{% trans "Companies We Work With" %}</h2>
-    <div class="companies-logos">
-        <a href="{% url 'companies:nvi' %}" class="company-logo nvi">
-            <img src="https://www.nvi.com.et/wp-content/uploads/2022/01/FinalH.png" alt="nvi-logo">
-        </a>
-        <a href="{% url 'companies:alema' %}" class="company-logo alema">
-            <img src="https://alemafarms.com/images/logo.png" alt="alema-logo">
-        </a>
-        <a href="{% url 'companies:ethiochicken' %}" class="company-logo ethiochicken">
-            <img src="//images.squarespace-cdn.com/content/v1/6532265431cb2861a8deb911/cf3a9b68-84fd-465f-a7d8-4394c6183f04/EC_Logo_PNG-01.png?format=1500w" alt="ethiochicken-logo">
-        </a>
-    </div>
-</div>
-        </div>
-</section>
-
-    <!-- plan section -->
-    <section class="plan-section" style="background: url('https://media.istockphoto.com/id/148127611/photo/chicken-isolated-on-white.jpg?s=1024x1024&w=is&k=20&c=9av3zNE3Jtv3FOspmeX_2YWLdXRklmzr3SwOFGhGXwI=') no-repeat center center/cover; background-attachment: fixed;">
-        <h2>{% trans "Our Impact So Far" %}</h2>
-        <div class="plan-stats"> 
-            <div class="plan-stat">
-                <a class="counter-link" href="{% url 'users:user_list' %}">
-                <span class="plan-number">{{ users_count }}+</span>
-                <span class="plan-label">{% trans "Total Users" %}</span>
-                </a>
-            </div>
-            <div class="plan-stat">
-                <a class="counter-link" href="{% url 'items:item_list' %}">
-                <span class="plan-number">{{ items_count }}+</span>
-                <span class="plan-label">{% trans "Items for Sale" %}</span>
-                </a>
-            </div>
-            <div class="plan-stat">
-                <a class="counter-link" href="{% url 'conversation:inbox' %}" aria-describedby="navbarUnreadDesc">
-                <span class="plan-number">{{ conversations_count }}+</span>
-                <span class="plan-label">{% trans "Conversations Started" %}</span>
-                </a>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-bar-content">
+                <div class="welcome-message">Welcome to MarketHub!</div>
+                <div class="top-links">
+                    <a href="#"><i class="fas fa-headset"></i> Help Center</a>
+                    <a href="#"><i class="fas fa-truck"></i> Track Order</a>
+                    <a href="#"><i class="fas fa-user"></i> My Account</a>
+                </div>
             </div>
         </div>
-        <p class="plan-description">
-            {% trans "Join a growing community of Ethiopian poultry farmers, buyers, and experts. List your products, connect with partners, and start meaningful conversations today!" %}
-        </p>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="#">
+                        <span class="logo-icon"><i class="fas fa-store"></i></span>
+                        <span class="logo-text">Market<span>Hub</span></span>
+                    </a>
+                </div>
+
+                <div class="search-bar">
+                    <form action="#">
+                        <div class="search-input">
+                            <input type="text" placeholder="Search for products...">
+                            <button type="submit"><i class="fas fa-search"></i></button>
+                        </div>
+                        <div class="category-select">
+                            <select>
+                                <option value="all">All Categories</option>
+                                <option value="cars">Cars</option>
+                                <option value="houses">Houses</option>
+                                <option value="electronics">Electronics</option>
+                                <option value="clothing">Clothing</option>
+                                <option value="books">Books</option>
+                                <option value="toys">Kids Toys</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="header-actions">
+                    <a href="#" class="action-btn wishlist-btn">
+                        <i class="far fa-heart"></i>
+                        <span class="count">0</span>
+                    </a>
+                    <a href="#" class="action-btn cart-btn">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="count">0</span>
+                    </a>
+                    <a href="#" class="login-btn">Login / Register</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="container">
+            <ul class="nav-list">
+                <li class="nav-item"><a href="#" class="nav-link active"><i class="fas fa-home"></i> Home</a></li>
+                <li class="nav-item mega-menu">
+                    <a href="#" class="nav-link"><i class="fas fa-car"></i> Cars</a>
+                    <div class="mega-menu-content">
+                        <div class="mega-menu-column">
+                            <h4>By Type</h4>
+                            <ul>
+                                <li><a href="#">Sedans</a></li>
+                                <li><a href="#">SUVs</a></li>
+                                <li><a href="#">Trucks</a></li>
+                                <li><a href="#">Electric Vehicles</a></li>
+                            </ul>
+                        </div>
+                        <div class="mega-menu-column">
+                            <h4>By Price</h4>
+                            <ul>
+                                <li><a href="#">Under $10,000</a></li>
+                                <li><a href="#">$10,000 - $20,000</a></li>
+                                <li><a href="#">$20,000 - $50,000</a></li>
+                                <li><a href="#">Over $50,000</a></li>
+                            </ul>
+                        </div>
+                        <div class="mega-menu-column">
+                            <h4>Featured</h4>
+                            <ul>
+                                <li><a href="#">New Arrivals</a></li>
+                                <li><a href="#">Certified Pre-Owned</a></li>
+                                <li><a href="#">Best Deals</a></li>
+                            </ul>
+                        </div>
+                        <div class="mega-menu-column promo">
+                            <div class="promo-banner">
+                                <h4>Summer Sale!</h4>
+                                <p>Up to 30% off select models</p>
+                                <a href="#" class="promo-btn">Shop Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item mega-menu">
+                    <a href="#" class="nav-link"><i class="fas fa-home"></i> Houses</a>
+                    <div class="mega-menu-content">
+                        <!-- Similar structure as Cars mega menu -->
+                    </div>
+                </li>
+                <li class="nav-item mega-menu">
+                    <a href="#" class="nav-link"><i class="fas fa-laptop"></i> Electronics</a>
+                    <div class="mega-menu-content">
+                        <!-- Similar structure as Cars mega menu -->
+                    </div>
+                </li>
+                <li class="nav-item mega-menu">
+                    <a href="#" class="nav-link"><i class="fas fa-tshirt"></i> Clothing</a>
+                    <div class="mega-menu-content">
+                        <!-- Similar structure as Cars mega menu -->
+                    </div>
+                </li>
+                <li class="nav-item mega-menu">
+                    <a href="#" class="nav-link"><i class="fas fa-book"></i> Books</a>
+                    <div class="mega-menu-content">
+                        <!-- Similar structure as Cars mega menu -->
+                    </div>
+                </li>
+                <li class="nav-item mega-menu">
+                    <a href="#" class="nav-link"><i class="fas fa-gamepad"></i> Kids Toys</a>
+                    <div class="mega-menu-content">
+                        <!-- Similar structure as Cars mega menu -->
+                    </div>
+                </li>
+                <li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-percent"></i> Deals</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Slider -->
+    <section class="hero-slider">
+        <div class="slider-container">
+            <div class="slide active" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1486401899868-0e435ed85128?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');">
+                <div class="container">
+                    <div class="slide-content">
+                        <h1>Find Your Dream Home Today</h1>
+                        <p>Thousands of properties waiting for you</p>
+                        <a href="#" class="btn btn-primary">Browse Listings</a>
+                    </div>
+                </div>
+            </div>
+            <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1494972308805-463bc619d34e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1473&q=80');">
+                <div class="container">
+                    <div class="slide-content">
+                        <h1>Latest Car Models</h1>
+                        <p>New arrivals with amazing deals</p>
+                        <a href="#" class="btn btn-primary">View Inventory</a>
+                    </div>
+                </div>
+            </div>
+            <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1517336714731-489689fd1ca8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1526&q=80');">
+                <div class="container">
+                    <div class="slide-content">
+                        <h1>Summer Tech Sale</h1>
+                        <p>Up to 40% off on electronics</p>
+                        <a href="#" class="btn btn-primary">Shop Now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="slider-controls">
+                <button class="prev-slide"><i class="fas fa-chevron-left"></i></button>
+                <button class="next-slide"><i class="fas fa-chevron-right"></i></button>
+            </div>
+            <div class="slider-dots">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        </div>
     </section>
 
-     <!-- Why we build this platform -->
-    <section class="why-platform-section">
-        <h2>{% trans "Why We Built This Platform?" %}</h2>
-        <p>{% trans "Stop Price Shocks, Grow with Confidence" %}</p>
-        <p>{% trans "Did you know? 40% of small poultry farmers lose profits due to unpredictable price swings. We’re changing that." %}</p>
-        <p class="highlight">{% trans "→ Real-time pricing + expert tips = steadier income for YOU." %}</p>
-
-        <h2>{% trans "Connect Directly—No More Middlemen!" %}</h2>
-        <p>{% trans "Over 70% of farmers struggle to find fair buyers. We link you directly to trusted traders, suppliers, and experts—cutting costs, boosting profits." %}</p>
-
-        <h2>{% trans "Transparent Markets = Stronger Farmers" %}</h2>
-        <p>{% trans "Rumors of 'shortages' hurt small farms. Truth: Ethiopia produces 300M+ eggs/year—enough for all! We expose manipulation and highlight REAL data." %}</p>
-        
-    {% if request.user.is_superuser %}
-
-        <h2>{% trans "For Admins Only" %}</h2>
-        <p>{% trans "This section is only for superusers" %}</p>
-        <a class="admin-action" href="{% url 'base:admin_links' %}">{% trans "Admin Action" %}</a>
-    
-    {% endif %}
+    <!-- Category Grid -->
+    <section class="category-grid">
+        <div class="container">
+            <h2 class="section-title">Shop by Category</h2>
+            <div class="grid-container">
+                <a href="#" class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <h3>Cars</h3>
+                    <p>5,000+ listings</p>
+                </a>
+                <a href="#" class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <h3>Houses</h3>
+                    <p>2,500+ properties</p>
+                </a>
+                <a href="#" class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-laptop"></i>
+                    </div>
+                    <h3>Electronics</h3>
+                    <p>10,000+ products</p>
+                </a>
+                <a href="#" class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-tshirt"></i>
+                    </div>
+                    <h3>Clothing</h3>
+                    <p>15,000+ items</p>
+                </a>
+                <a href="#" class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <h3>Books</h3>
+                    <p>8,000+ titles</p>
+                </a>
+                <a href="#" class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <h3>Kids Toys</h3>
+                    <p>3,000+ products</p>
+                </a>
+            </div>
+        </div>
     </section>
 
-</main>
+    <!-- Featured Products -->
+    <section class="featured-products">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Featured Products</h2>
+                <div class="section-tabs">
+                    <button class="tab-btn active" data-category="all">All</button>
+                    <button class="tab-btn" data-category="cars">Cars</button>
+                    <button class="tab-btn" data-category="houses">Houses</button>
+                    <button class="tab-btn" data-category="electronics">Electronics</button>
+                    <button class="tab-btn" data-category="clothing">Clothing</button>
+                    <button class="tab-btn" data-category="books">Books</button>
+                    <button class="tab-btn" data-category="toys">Toys</button>
+                </div>
+            </div>
+            <div class="products-container">
+                <!-- Product cards will be loaded here via JavaScript -->
+            </div>
+            <div class="view-all">
+                <a href="#" class="btn btn-outline">View All Products</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Promo Banner -->
+    <section class="promo-banner">
+        <div class="container">
+            <div class="banner-content">
+                <h2>Summer Mega Sale!</h2>
+                <p>Up to 50% off on selected items. Limited time offer.</p>
+                <a href="#" class="btn btn-white">Shop Now</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title">What Our Customers Say</h2>
+            <div class="testimonials-container">
+                <div class="testimonial-card">
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">"Found my dream car at an amazing price. The process was so smooth and the seller was very professional."</p>
+                    <div class="customer-info">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Customer" class="customer-img">
+                        <div>
+                            <h4>Michael Johnson</h4>
+                            <p>Purchased: 2022 Tesla Model 3</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <p class="testimonial-text">"The house we bought through MarketHub was exactly as described. The virtual tour feature was incredibly helpful."</p>
+                    <div class="customer-info">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Customer" class="customer-img">
+                        <div>
+                            <h4>Sarah Williams</h4>
+                            <p>Purchased: 3-Bedroom House</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">"Great selection of electronics at competitive prices. Fast shipping and excellent customer service."</p>
+                    <div class="customer-info">
+                        <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Customer" class="customer-img">
+                        <div>
+                            <h4>David Kim</h4>
+                            <p>Purchased: MacBook Pro</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter">
+        <div class="container">
+            <div class="newsletter-content">
+                <div class="newsletter-text">
+                    <h3>Subscribe to Our Newsletter</h3>
+                    <p>Get the latest updates on new products and upcoming sales</p>
+                </div>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Your email address">
+                    <button type="submit" class="btn btn-primary">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <a href="#">
+                            <span class="logo-icon"><i class="fas fa-store"></i></span>
+                            <span class="logo-text">Market<span>Hub</span></span>
+                        </a>
+                    </div>
+                    <p class="footer-about">MarketHub is your one-stop online marketplace for cars, houses, electronics, clothing, books, and kids toys. We connect buyers and sellers across the globe.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4 class="footer-title">Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Products</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4 class="footer-title">Categories</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Cars</a></li>
+                        <li><a href="#">Houses</a></li>
+                        <li><a href="#">Electronics</a></li>
+                        <li><a href="#">Clothing</a></li>
+                        <li><a href="#">Books</a></li>
+                        <li><a href="#">Kids Toys</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4 class="footer-title">Customer Service</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">My Account</a></li>
+                        <li><a href="#">Order Tracking</a></li>
+                        <li><a href="#">Wishlist</a></li>
+                        <li><a href="#">Customer Service</a></li>
+                        <li><a href="#">Returns & Exchanges</a></li>
+                        <li><a href="#">FAQs</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4 class="footer-title">Contact Info</h4>
+                    <ul class="footer-contact">
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Market Street, New York, NY 10001</li>
+                        <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+                        <li><i class="fas fa-envelope"></i> info@markethub.com</li>
+                        <li><i class="fas fa-clock"></i> Mon-Fri: 9AM - 6PM</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="copyright">
+                    &copy; 2023 MarketHub. All Rights Reserved.
+                </div>
+                <div class="footer-payment">
+                    <img src="https://via.placeholder.com/40x25" alt="Visa">
+                    <img src="https://via.placeholder.com/40x25" alt="Mastercard">
+                    <img src="https://via.placeholder.com/40x25" alt="PayPal">
+                    <img src="https://via.placeholder.com/40x25" alt="Apple Pay">
+                    <img src="https://via.placeholder.com/40x25" alt="Google Pay">
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
 {% endblock %}
 
 {% block js %}
 <script src="{% static 'base/js/index.js' %}"></script>
 {% endblock %}
+
+
