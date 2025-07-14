@@ -19,7 +19,7 @@ urlpatterns += i18n_patterns(
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('contact/', include('contact.urls' , namespace='contact')),
-    
+
     path('companies/', include('companies.urls')),
 )
 

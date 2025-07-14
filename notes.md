@@ -1,13 +1,16 @@
-C:\Users\Na\Desktop\cod\A_github_railway\railway>set DATABASE_URL=postgresql://postgres:yDwzbzUxvKCQCcQbdEJKfazaeKrWnUMx@nozomi.proxy.rlwy.net:19870/railway
 
-C:\Users\Na\Desktop\cod\A_github_railway\railway>python manage.py createsuperuser
-Phone number: 0982321151
-Username: xiqa
-Password:
-Password (again):
-Superuser created successfully.
 
-set DATABASE_URL=postgresql://postgres:yDwzbzUxvKCQCcQbdEJKfazaeKrWnUMx@postgres.railway.internal:5432/railway
+
+
+Internal Database URL = postgresql://postgres_xf9a_user:AWs5EvfJmzQCtblnzyGFTiBIeYEQQ0LW@dpg-d1fhd4hr0fns73cf3n90-a/postgres_xf9a
+
+
+PSQL Command 
+ render psql dpg-d1fhd4hr0fns73cf3n90-a
+
+
+
+
 
 
 git init
@@ -1948,15 +1951,3 @@ Media Files: For production, you should use Cloudinary for media storage since R
 Scaling: The free tier has limitations. Consider upgrading if you expect significant traffic.
 
 Would you like me to elaborate on any specific part of this deployment process?
-
-
-
-
-
-
-
-
-
-
-
-I love to deploy my project to render. Is there any other option which has live chat and notification , postgresql , redis and etc...
