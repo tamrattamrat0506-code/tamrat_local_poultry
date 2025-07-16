@@ -12,7 +12,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Security - development settings
 SECRET_KEY = 'your-development-secret-key'  # For development only - change in production
 DEBUG = True  # Enabled for development
-ALLOWED_HOSTS = ['*' 'localhost', '127.0.0.1']  # Local development hosts
+ALLOWED_HOSTS = ['*' 'localhost', '127.0.0.1','render-x1cx.onrender.com']
 
 # Internationalization
 LANGUAGES = [
@@ -33,7 +33,7 @@ DATABASE_URL = 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')  # Using SQLi
 REDIS_URL = 'redis://localhost:6379'
 
 # Security settings - relaxed for development
-CSRF_TRUSTED_ORIGINS = ['http://localhost:8000', 'http://127.0.0.1:8000']
+CSRF_TRUSTED_ORIGINS = ['http://localhost:8000', 'http://127.0.0.1:8000', 'http://render-x1cx.onrender.com']
 SESSION_COOKIE_SECURE = False  # Disabled for development
 CSRF_COOKIE_SECURE = False  # Disabled for development
 SECURE_PROXY_SSL_HEADER = None  # Disabled for development
