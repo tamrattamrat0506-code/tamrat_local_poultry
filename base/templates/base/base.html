@@ -1,3 +1,4 @@
+<!-- base/base.html -->
 {% load static %}
 {% load i18n %}
 <!DOCTYPE html>
@@ -10,208 +11,202 @@
     <link rel="icon" href="{% static 'base/images/image2.jpg' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" >
     <link rel="stylesheet" href="{% static 'base/css/base.css' %}">
-
-    {% block title %}
-    {% endblock %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
     
     {% block css %}{% endblock %}
 </head>
 
 <body>
-    <a href="#main-content" class="skip-link">{% trans "Skip to main content" %}</a>
-
-    <header class="site-header">
+    <!-- Top Bar -->
+    <div class="top-bar">
         <div class="container">
-            <div class="header-brand">
-                <a class="navbar-brand" href="{% url 'base:index' %}" aria-label="{% trans 'Home' %}">
-                    <span class="logo-text">{% trans "EthioPoultry" %}</span>
-                </a>
+            <div class="top-bar-content">
+                <div class="welcome-message">Welcome to Fraol Lemma!</div>
+                <div class="top-links">
+                    <a href="{% url 'contact:contact_us' %}"><i class="fas fa-headset"></i> Help Center</a>
+                    <a href="#"><i class="fas fa-truck"></i> Track Order</a>
+                    <a href="#"><i class="fas fa-user"></i> My Account</a>
+                </div>
             </div>
+        </div>
+    </div>
+     <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="/">
+                        <span class="logo-icon"><i class="fas fa-store"></i></span>
+                        <span class="logo-text">Market<span>Hub</span></span>
+                    </a>
+                </div>
 
-            <!-- main-nav -->
-            <nav class="main-nav" aria-label="{% trans 'Main navigation' %}">
-                <ul class="nav-menu" id="navMenu">
-    
-                    <li>
-                        <a class="nav-link" href="{% url 'base:index' %}"><i class="fas fa-home icon"></i>{% trans "Home" %}</a></li>
-                    <li>
-                        <a class="nav-link" href="{% url 'items:item_list' %}"><i class="fas fa-store icon"></i>{% trans "Marketplace" %}</a></li>
-                    <li><a class="nav-link" href="{% url 'items:item_create' %}"><i class="fas fa-tag icon"></i> {% trans "Sell Products" %}</a></li>
-                    <li>
-                        <a class="nav-link" href="{% url 'conversation:inbox' %}" aria-describedby="navbarUnreadDesc"><i class="fas fa-comments icon"></i>
-                            {% trans "My Chats" %}
-                            <span id="navbarUnread" class="unread-badge" aria-hidden="true">0</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="nav-link" href="{% url 'items:view_cart' %}">
-                            <i class="fas fa-shopping-cart icon"></i>{% trans "MY Carts" %} <span class="badge unread-badge" id="cart-count">
-                                {% if user.is_authenticated %}
+                <div class="search-bar">
+                    <form action="#">
+                        <div class="search-input">
+                            <input type="text" placeholder="Search for products...">
+                            <button type="submit"><i class="fas fa-search"></i></button>
+                        </div>
+                        <div class="category-select">
+                            <select>
+                                <option value="all">All Categories</option>
+                                <option value="cars">Cars</option>
+                                <option value="houses">Houses</option>
+                                <option value="electronics">Electronics</option>
+                                <option value="clothing">Clothing</option>
+                                <option value="books">Books</option>
+                                <option value="toys">Kids Toys</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="header-actions">
+
+                    <!-- if the user in authenticated -->
+                     {% if user.is_authenticated %}
+
+                    <a href="{% url 'conversation:inbox' %}"  class="action-btn wishlist-btn">
+                        <i class="far fa-envelope"></i>
+                        <span class="count">0</span>
+                    </a>
+
+                    <a href="{% url 'poultryitems:view_cart' %}" class="action-btn cart-btn">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="count badge unread-badge" id="cart-count">
+                            {% if user.is_authenticated %}
                                     {{ user.cart.items.count }}
                                 {% else %}
                                     0
                                 {% endif %}
-                            </span> </a>
-                    </li>
-                    <li><a href ="{% url 'companies:index' %}" class="nav-link" > <i class="fas fa-building icon"></i>{% trans "Companies" %} </a></li>
-                    <li><a class="nav-link" href="{% url 'contact:contact_us' %}"><i class="fas fa-envelope icon"></i>{% trans "Contact Us" %}</a></li>
-                    <li><a class="nav-link" href="{% url 'base:about_us' %}">
-                    <i class="fas fa-info-circle icon"></i>{% trans "About Us" %}</a></li>
-                    <li>
-                      <a class="nav-link" href="{% url 'base:terms' %}">
-                                 <i class="fas fa-file-contract icon"></i>
-                         <span>{% trans "Terms and Privacy" %}</span>
-                      </a>
-                    </li>
+                        </span>
+                    </a>
                     
-                    <li class="language-container">
-                        <form action="{% url 'set_language' %}" method="post">
-                            {% csrf_token %}
-                            <input name="next" type="hidden" value="{{ request.get_full_path }}">
-                            <select name="language" onchange="this.form.submit()" aria-label="{% trans 'Select language' %}">
-                                {% get_current_language as LANGUAGE_CODE %}
-                                {% get_available_languages as LANGUAGES %}
-                                {% for code, name in LANGUAGES %}
-                                    <option value="{{ code }}" {% if code == LANGUAGE_CODE %}selected{% endif %}>
-                                        {{ name }}
-                                    </option>
-                                {% endfor %}
-                            </select>
-                        </form>
-                    </li>
-                    <li><div class="date-and-time"></div></li>
-                </ul>
-            </nav>
-
-            <div class="nav-actions" id="navActions">
-                {% if user.is_authenticated %}
-                    
-                    <div class="user-dropdown">
-                        <button class="my-btn-user" aria-haspopup="true" aria-expanded="false" aria-label="{% trans 'User menu' %}">
-                            {% if user.profile.profile_picture %}
+                    <a href="{% url 'users:profile' %}" class="user-btn">
+                        {% if user.profile.profile_picture %}
                             <img src="{{ user.profile.profile_picture.url }}" alt="{% trans 'Profile picture' %}" class="base_current-avatar">
                             {% else %}
                             <i class="fas fa-user-circle" aria-hidden="true"></i>
                             {% endif %}
                             <span class="username">{{ user.username|default:user.phone_number }}</span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{% url 'users:profile' %}"><i class="fas fa-user"></i> {% trans "My Profile" %}</a></li>
-                            <li><a class="dropdown-item" href="{% url 'users:profile_update' %}"><i class="fas fa-cog"></i> {% trans "Settings" %}</a></li>
-                            <li class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="{% url 'users:logout' %}"><i class="fas fa-sign-out-alt"></i> {% trans "Logout" %}</a></li>
-                        </ul>
-                    </div>
-                {% else %}
-                    <div class="auth-buttons">
-                        <a href="{% url 'users:login' %}" class="btn-outline">{% trans "Login" %}</a>
-                        <a href="{% url 'users:register' %}" class="btn-primary">{% trans "Register" %}</a>
-                    </div>
+                    </a>
+
+                    {% else %}
+                    <a href="{% url 'users:register' %}"  class="login-btn">Login / Register</a>
+
+                    <button class="nav-toggle" id="navToggle" aria-label="{% trans 'Toggle navigation' %}" aria-expanded="false" aria-controls="navMenu">
+                    <span class="nav-toggle-icon"><i class="fas fa-bars"></i></span>
+                </button>
                 {% endif %}
 
-                <button class="nav-toggle" id="navToggle" aria-label="{% trans 'Toggle navigation' %}" aria-expanded="false" aria-controls="navMenu">
-                    <span class="nav-toggle-icon" aria-hidden="true"><i class="fas fa-bars"></i></span>
-                </button>
+
+                </div>
             </div>
         </div>
     </header>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="container">
+            <ul class="nav-list">
+                <li class="nav-item"><a href="/" class="nav-link active"><i class="fas fa-home"></i> Home</a></li>
+                <li class="nav-item mega-menu">
+                    <a href="{% url 'vehicles:vehicle_list' %}" class="nav-link"><i class="fas fa-car"></i> Cars</a>
+                </li>
+                <li class="nav-item mega-menu">
+                    <a href="#" class="nav-link"><i class="fas fa-home"></i> Houses</a>
+                </li>
+                <li class="nav-item mega-menu">
+                    <a href="#" class="nav-link"><i class="fas fa-laptop"></i> Electronics</a>
+                </li>
+                <li class="nav-item mega-menu">
+                    <a href="{% url 'clothings:clothing_list' %}" class="nav-link"><i class="fas fa-tshirt"></i> Clothing</a>
+                </li>
+                <li class="nav-item mega-menu">
+                    <a href="#" class="nav-link"><i class="fas fa-book"></i> Books</a>
+                    
+                </li>
+                <li class="nav-item mega-menu">
+                    <a href="{% url 'poultryitems:index' %}" class="nav-link">
+                        <i class="fas fa-feather-alt"></i> 
+                        
+                        Poultry</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
         
         {% block content %}{% endblock %}
 
-    <footer class="site-footer">
-        <div class="footer-container">
-            <div class="footer-grid">
-
-                <div class="footer-section">
-    <h3 class="footer-heading">{% trans "Quick Links" %}</h3>
-    <ul class="footer-links">
-        <li>
-            <a href="{% url 'base:index' %}">
-                <i class="fas fa-home icon"></i>
-                <span>{% trans "Home" %}</span>
-            </a>
-        </li>
-        <li>
-            <a href="{% url 'items:item_list' %}">
-                <i class="fas fa-store icon"></i>
-                <span>{% trans "Market Place" %}</span>
-            </a>
-        </li>
-        <li>
-            <a href="{% url 'items:item_create' %}">
-                <i class="fas fa-tag icon"></i>
-                <span>{% trans "Sell Products" %}</span>
-            </a>
-        </li>
-        <li>
-            <a href="{% url 'base:about_us' %}">
-                <i class="fas fa-info-circle icon"></i>
-                <span>{% trans "About Us" %}</span>
-            </a>
-        </li>
-    </ul>
-</div>
-
-                <div class="footer-section">
-    <h3 class="footer-heading">{% trans "Help & Support" %}</h3>
-    <ul class="footer-links">
-        <li>
-            <a href="{% url 'contact:contact_us' %}">
-                <i class="fas fa-envelope icon"></i>
-                <span>{% trans "Contact Us" %}</span>
-            </a>
-        </li>
-        <li>
-            <a href="{% url 'base:terms' %}">
-                <i class="fas fa-file-contract icon"></i>
-                <span>{% trans "Terms and Privacy" %}</span>
-            </a>
-        </li>
-    </ul>
-</div>
-                
-
-                <div class="footer-section">
-                    <h3 class="footer-heading">{% trans "Connect With Us" %}</h3>
-                    <div class="social-icons">
-                        <a href="https://t.me/Fraol_lema" aria-label="Telegram Channel" class="social-icon">
-                            <i class="fab fa-telegram"></i>
-                            <span>Channel</span>
-                        </a>
-                        <a href="https://t.me/Fraol_lema" aria-label="Telegram Group" class="social-icon">
-                            <i class="fab fa-telegram"></i>
-                            <span>Group</span>
-                        </a>
-                        <a href="https://t.me/nomoreboundaryorlimitation" aria-label="Personal Telegram" class="social-icon">
-                            <i class="fab fa-telegram"></i>
-                            <span>Personal</span>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <a href="#">
+                            <span class="logo-icon"><i class="fas fa-store"></i></span>
+                            <span class="logo-text">Fraol<span>Lemma</span></span>
                         </a>
                     </div>
-
-                    <div class="message-container">
-                         <h3>{% trans "Feedback" %}</h3>
-                        <form class="message-form" method="POST" action="{% url 'base:index' %}">
-                            {% csrf_token %}
-                            <div class="compact-form-group">
-                                <input type="text" name="phone" id="id_phone" class="compact-form-control" placeholder="+1234567890" required>
-                                <label for="id_phone">{% trans "Phone Number" %}</label>
-                            </div>
-                            <div class="compact-form-group">
-                                <textarea name="message" id="id_message" class="compact-form-control" required></textarea>
-                                <label for="id_message">{% trans "Your Message" %}</label>
-                            </div>
-                            <button type="submit" class="btn btn-primary">{% trans "Send" %}</button>
-                        </form>
+                    <p class="footer-about">Fraol Lemma is your one-stop online marketplace for cars, houses, electronics, clothing, books, and kids toys. We connect buyers and sellers across the globe.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
+                <div class="footer-column">
+                    <h4 class="footer-title">Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Products</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4 class="footer-title">Categories</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Cars</a></li>
+                        <li><a href="#">Houses</a></li>
+                        <li><a href="#">Electronics</a></li>
+                        <li><a href="#">Clothing</a></li>
+                        <li><a href="#">Books</a></li>
+                        <li><a href="#">Kids Toys</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4 class="footer-title">Customer Service</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">My Account</a></li>
+                        <li><a href="#">Order Tracking</a></li>
+                        <li><a href="#">Wishlist</a></li>
+                        <li><a href="#">Customer Service</a></li>
+                        <li><a href="#">Returns & Exchanges</a></li>
+                        <li><a href="#">FAQs</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4 class="footer-title">Contact Info</h4>
+                    <ul class="footer-contact">
+                        <li><i class="fas fa-map-marker-alt"></i> Ethiopia / Sheger City , Gelan</li>
+                        <li><i class="fas fa-phone"></i> +251(0) 9 2525 9294</li>
+                        <li><i class="fas fa-envelope"></i> fraollemma0506@gmail.com</li>
+                        <li><i class="fas fa-clock"></i> { { now|date:"Y H:i" } } </li>
+                    </ul>
+                </div>
             </div>
-            
             <div class="footer-bottom">
-                <p class="copyright">
-                    &copy; <span id="current-year">{{ now|date:"Y" }}</span> EthioPoultry. 
-                    {% trans "All rights reserved." %}
-                    {% trans "Designed by" %} <span class="designer">Fraol</span>
-                </p>
+                <div class="copyright">
+                    &copy; 2023 Fraol Lemma. All Rights Reserved.
+                </div>
             </div>
         </div>
     </footer>

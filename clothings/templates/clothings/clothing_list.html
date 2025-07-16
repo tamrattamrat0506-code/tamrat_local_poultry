@@ -1,0 +1,41 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'clothings/css/clothing_list.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="clothing-container">
+    <aside class="filters-sidebar">
+        <h3>Filters clothing list</h3>
+    </aside>
+    
+    <main class="clothing-grid">
+        {% for item in clothes %}
+        <div class="clothing-card">
+            <a href="{% url 'clothings:clothing_detail' item.slug %}">
+                <div class="image-container">
+                    <img src="{{ item.images.first.image.url }}" alt="{{ item.name }}">
+                    {% if item.is_on_sale %}
+                    <span class="sale-badge">Sale</span>
+                    {% endif %}
+                </div>
+                <div class="clothing-info">
+                    <h3>{{ item.brand }}</h3>
+                    <p>{{ item.name }}</p>
+                    <div class="price">
+                        {% if item.is_on_sale %}
+                        <span class="original-price">${{ item.price }}</span>
+                        <span class="sale-price">${{ item.discount_price }}</span>
+                        {% else %}
+                        <span>${{ item.price }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </main>
+</div>
+{% endblock %}

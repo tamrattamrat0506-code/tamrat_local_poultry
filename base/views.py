@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import get_user_model
 from django.contrib import messages as django_messages
-from items.models import Item 
+from poultryitems.models import Item 
 from conversation.models import Conversation 
 from .forms import MessageForm
 from .models import Message

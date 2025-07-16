@@ -3,7 +3,7 @@
 /* Container */
 .contact-container {
   max-width: 800px;
-  margin: 50px auto;
+  margin: 10px auto;
   padding: 20px;
   background-color: #ffffff;
   border-radius: 8px;
@@ -15,7 +15,7 @@
   font-size: 2rem;
   font-weight: bold;
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   color: #2c3e50;
 }
 
@@ -23,7 +23,7 @@
 .contact-description {
   font-size: 1rem;
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   color: #7f8c8d;
 }
 

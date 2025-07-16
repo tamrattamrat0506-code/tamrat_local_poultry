@@ -85,6 +85,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const products = {
         all: [
             {id: 1, category: 'cars', title: '2022 Tesla Model 3', price: 42990, oldPrice: 45990, image: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80', rating: 5, reviews: 42, badge: 'Popular'},
+            
             {id: 2, category: 'houses', title: 'Modern 3-Bedroom House', price: 450000, oldPrice: 475000, image: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80', rating: 4, reviews: 18, badge: 'New'},
             {id: 3, category: 'electronics', title: 'iPhone 14 Pro Max', price: 1099, oldPrice: 1199, image: 'https://images.unsplash.com/photo-1664478546384-d57ffe74a78c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80', rating: 5, reviews: 156, badge: 'Sale'},
             {id: 4, category: 'clothing', title: 'Men\'s Casual Shirt', price: 29, oldPrice: 45, image: 'https://images.unsplash.com/photo-1598033129183-c4f50c736f10?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1025&q=80', rating: 4, reviews: 89, badge: null},

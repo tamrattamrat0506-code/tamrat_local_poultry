@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Conversation, ConversationMessage
-from items.models import Item
+from poultryitems.models import Item
 from .forms import ConversationMessageForm
 from django.core.cache import cache
 from django.http import JsonResponse

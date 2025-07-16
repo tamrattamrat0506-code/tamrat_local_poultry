@@ -3,7 +3,7 @@ from django.db import models
 from django.conf import settings
 
 class Conversation(models.Model):
-    item = models.ForeignKey('items.Item', related_name='conversations', on_delete=models.CASCADE)
+    item = models.ForeignKey('poultryitems.Item', related_name='conversations', on_delete=models.CASCADE)
     members = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='conversations')
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)

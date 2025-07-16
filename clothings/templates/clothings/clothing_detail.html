@@ -1,0 +1,64 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'clothings/css/clothing_detail.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="clothing-detail">
+    <div class="gallery">
+        <!-- Main image and thumbnails would go here -->
+    </div>
+    
+    <div class="clothing-info">
+        <h1>{{ clothing.name }}</h1>
+        <p class="brand">{{ clothing.brand }}</p>
+        
+        <div class="price-section">
+            {% if clothing.is_on_sale %}
+            <span class="original-price">${{ clothing.price }}</span>
+            <span class="sale-price">${{ clothing.discount_price }}</span>
+            {% else %}
+            <span class="current-price">${{ clothing.price }}</span>
+            {% endif %}
+        </div>
+        
+        <div class="size-selector">
+            <!-- Size selection would go here -->
+        </div>
+        
+        <div class="actions">
+            <button class="add-to-cart">Add to Cart</button>
+            <button class="wishlist">Save for Later</button>
+        </div>
+        
+        <div class="details">
+            <h3>Details</h3>
+            <p>{{ clothing.description }}</p>
+            <ul>
+                <li><strong>Material:</strong> {{ clothing.material }}</li>
+                <li><strong>Color:</strong> {{ clothing.color }}</li>
+                <li><strong>Size:</strong> {{ clothing.get_size_display }}</li>
+                <li><strong>Age Group:</strong> {{ clothing.get_age_group_display }}</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="related-items">
+    <h2>You May Also Like</h2>
+    <div class="related-grid">
+        {% for item in related_items %}
+        <div class="related-card">
+            <a href="{% url 'clothings:clothing_detail' item.slug %}">
+                <img src="{{ item.images.first.image.url }}" alt="{{ item.name }}">
+                <h3>{{ item.brand }}</h3>
+                <p>{{ item.name }}</p>
+                <span class="price">${{ item.current_price }}</span>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
