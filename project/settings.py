@@ -6,14 +6,15 @@ import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 
-import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'your-development-secret-key' 
-DEBUG = True  
-ALLOWED_HOSTS = ['render-x1cx.onrender.com', 'localhost', '127.0.0.1']
+# Security - development settings
+SECRET_KEY = 'your-development-secret-key'  # For development only - change in production
+DEBUG = True  # Enabled for development
+ALLOWED_HOSTS = ['*' 'localhost', '127.0.0.1']  # Local development hosts
 
+# Internationalization
 LANGUAGES = [
     ('en', _('English')),
     ('am', _('Amharic')),
@@ -24,47 +25,54 @@ LANGUAGE_COOKIE_NAME = 'django_language'
 LANGUAGE_COOKIE_HTTPONLY = False
 LANGUAGE_COOKIE_SAMESITE = 'Lax'
 
+
+
+
+# Database and Redis configuration - local defaults
+DATABASE_URL = 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')  # Using SQLite for simplicity in development
 REDIS_URL = 'redis://localhost:6379'
 
+# Security settings - relaxed for development
 CSRF_TRUSTED_ORIGINS = ['http://localhost:8000', 'http://127.0.0.1:8000']
-SESSION_COOKIE_SECURE = False 
-CSRF_COOKIE_SECURE = False  
-SECURE_PROXY_SSL_HEADER = None 
+SESSION_COOKIE_SECURE = False  # Disabled for development
+CSRF_COOKIE_SECURE = False  # Disabled for development
+SECURE_PROXY_SSL_HEADER = None  # Disabled for development
 
-
-# Security settings for production
-#SESSION_COOKIE_SECURE = True
-#CSRF_COOKIE_SECURE = True
-#SECURE_SSL_REDIRECT = True
-
+# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'daphne',
-    'django.contrib.staticfiles',
+    'daphne',# 1
+    'django.contrib.staticfiles',# 2
+    
+    # Third-party apps
     'channels',
     'rest_framework',
     'corsheaders',
     'cloudinary',
     'cloudinary_storage',
+    
+    # Local apps
     'base',
-    'items',
+    'poultryitems',
     'conversation',
     'users',
     'contact',
     'companies',
+    'vehicles',
+    'clothings',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', # 1
+    'django.contrib.sessions.middleware.SessionMiddleware', # 1
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
+    'django.middleware.locale.LocaleMiddleware', # 2
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -76,6 +84,15 @@ ASGI_APPLICATION = 'project.asgi.application'
 WSGI_APPLICATION = 'project.wsgi.application'
 DAPHNE_TIMEOUT = 50
 
+# Database - using SQLite for local development
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
+# Channels configuration
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
@@ -85,33 +102,32 @@ CHANNEL_LAYERS = {
     },
 }
 
+# Authentication
 AUTH_USER_MODEL = 'users.CustomUser'
 AUTHENTICATION_BACKENDS = ['users.backends.UsernamePhoneBackend']
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'dashboard'
 LOGOUT_REDIRECT_URL = 'home'
 
+# Static files
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'contact/static'),
-    os.path.join(BASE_DIR, 'base/static'),
-    os.path.join(BASE_DIR, 'conversation/static'),
-    os.path.join(BASE_DIR, 'items/static'),
-    os.path.join(BASE_DIR, 'users/static'),
-] 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfile')
+STATICFILES_DIRS = [ BASE_DIR / "static",]  
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+# Media files - local storage for development
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 
+# Internationalization
 LANGUAGE_CODE = 'en'
 TIME_ZONE = 'Africa/Addis_Ababa'
 USE_I18N = True
 USE_TZ = True
 
-CORS_ALLOW_ALL_ORIGINS = True 
+# Security
+CORS_ALLOW_ALL_ORIGINS = True  # Allowed for development
 
 TEMPLATES = [
     {
@@ -129,23 +145,16 @@ TEMPLATES = [
     },
 ]
 
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 WHITENOISE_AUTOREFRESH = True
 
+
+# Cloudinary configuration
 cloudinary.config(
     cloud_name="doixo5oiw",
     api_key="435759228322341",
     api_secret="H3_ZVEXWGcyuE28IfKWUYsTo5sY",
     secure=True
 )
-
-
-# DATABASE configuration
-DATABASES = {
-    'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL'),
-        conn_max_age=600,
-        conn_health_checks=True,
-    )
-}
