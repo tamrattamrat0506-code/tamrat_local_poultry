@@ -87,13 +87,16 @@ ASGI_APPLICATION = 'project.asgi.application'
 WSGI_APPLICATION = 'project.wsgi.application'
 DAPHNE_TIMEOUT = 50
 
-# Database configuration
 DATABASES = {
-    'default': dj_database_url.config(
-        conn_max_age=600,
-        conn_health_checks=True,
-        ssl_require=True
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres_xf9a',
+        'USER': 'postgres_xf9a_user',
+        'PASSWORD': 'AWs5EvfJmzQCtblnzyGFTiBIeYEQQ0LW',
+        'HOST': 'dpg-d1fhd4hr0fns73cf3n90-a.oregon-postgres.render.com',
+        'PORT': '5432',
+        'OPTIONS': {'sslmode': 'require'},
+    }
 }
 
 # Channels configuration
