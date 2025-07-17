@@ -134,7 +134,7 @@ setInterval(updateClock, 60000);
         });
     });
 });
-
+ 
 function updateClock() {
     const clockElements = document.querySelectorAll('.live-clock');
     if (clockElements.length > 0) {
