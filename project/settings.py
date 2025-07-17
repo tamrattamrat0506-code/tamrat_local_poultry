@@ -26,7 +26,6 @@ LANGUAGE_COOKIE_NAME = 'django_language'
 LANGUAGE_COOKIE_HTTPONLY = False
 LANGUAGE_COOKIE_SAMESITE = 'Lax'
 
-# DATABASE_URL = 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3') 
 REDIS_URL = 'redis://localhost:6379'
 
 # Security settings - relaxed for development
@@ -89,22 +88,14 @@ WSGI_APPLICATION = 'project.wsgi.application'
 DAPHNE_TIMEOUT = 50
 
 # Database configuration
-if os.getenv('RENDER'):  # Running on Render
-    DATABASES = {
-        'default': dj_database_url.parse(
-            os.environ.get('DATABASE_URL'),
-            conn_max_age=600,
-            conn_health_checks=True,
-        )
-    }
-else:  # Local development
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
-    
+DATABASES = {
+    'default': dj_database_url.config(
+        conn_max_age=600,
+        conn_health_checks=True,
+        ssl_require=True
+    )
+}
+
 # Channels configuration
 CHANNEL_LAYERS = {
     "default": {
@@ -131,7 +122,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # Media files - local storage for development
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Internationalization
 LANGUAGE_CODE = 'en'
