@@ -5,7 +5,8 @@ from django.utils.translation import gettext_lazy as _
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
-
+# database
+import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -25,11 +26,7 @@ LANGUAGE_COOKIE_NAME = 'django_language'
 LANGUAGE_COOKIE_HTTPONLY = False
 LANGUAGE_COOKIE_SAMESITE = 'Lax'
 
-
-
-
-# Database and Redis configuration - local defaults
-DATABASE_URL = 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')  # Using SQLite for simplicity in development
+# DATABASE_URL = 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3') 
 REDIS_URL = 'redis://localhost:6379'
 
 # Security settings - relaxed for development
@@ -91,14 +88,23 @@ ASGI_APPLICATION = 'project.asgi.application'
 WSGI_APPLICATION = 'project.wsgi.application'
 DAPHNE_TIMEOUT = 50
 
-# Database - using SQLite for local development
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+# Database configuration
+if os.getenv('RENDER'):  # Running on Render
+    DATABASES = {
+        'default': dj_database_url.parse(
+            os.environ.get('DATABASE_URL'),
+            conn_max_age=600,
+            conn_health_checks=True,
+        )
     }
-}
-
+else:  # Local development
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+    
 # Channels configuration
 CHANNEL_LAYERS = {
     "default": {
