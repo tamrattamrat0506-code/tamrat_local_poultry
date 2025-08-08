@@ -34,6 +34,10 @@
     color: white;
     transform: translateY(-50px);
     animation: fadeInUp 1s ease;
+    text-align: center;
+    margin: 0 auto;
+    position: relative;
+    z-index: 20;
 }
 
 .slide-content h1 {
@@ -50,8 +54,31 @@
     text-shadow: 0 1px 2px rgba(0,0,0,0.3);
 }
 .slide-content a {
-    margin-left: 7.5rem;
-    z-index: 12;
+    position: relative;
+    padding: 0.75rem 1.5rem;
+    background-color: rgb(22, 170, 238);
+    color: white;
+    border: 2px solid white;
+    border-radius: 2rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-block;
+    margin-top: 1rem;
+    text-decoration: none;
+    z-index: 30;
+}
+.slide:not(.active) {
+    pointer-events: none;
+}
+
+.slide.active {
+    pointer-events: auto;
+}
+.slide-content a:hover {
+    background-color: rgba(22, 170, 238, 0.8);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 .slider-controls {
     position: absolute;
@@ -62,28 +89,29 @@
     transform: translateY(-50%);
     z-index: 10;
     padding: 0 1rem;
+    pointer-events: none;
 }
 
 .prev-slide, .next-slide {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.3);
     color: white;
     border: none;
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-size: 1.2rem;
+    font-size: 1rem;
+    pointer-events: auto;
+    outline: none;
 }
 
-.prev-slide:hover, .next-slide:hover {
-    background-color: rgba(255, 255, 255, 0.4);
-    transform: scale(1.1);
+.prev-slide:focus, .next-slide:focus {
+    box-shadow: 0 0 0 3px rgba(255,255,255,0.5);
 }
-
 .slider-dots {
     position: absolute;
     bottom: 2rem;
@@ -109,8 +137,11 @@
 }
 
 /* Category Grid */
+.section-title {
+        text-align: center;
+    }
 .category-grid {
-    padding: 4rem 0;
+    padding: 2.5rem 0;
     background-color: #f8fafc;
 }
 
@@ -184,7 +215,6 @@
     flex-wrap: wrap;
     gap: 0.5rem;
 }
-
 .tab-btn {
     padding: 0.5rem 1rem;
     background-color: white;
@@ -217,7 +247,7 @@
 .promo-banner {
     background-color: var(--primary-color);
     color: white;
-    padding: 4rem 0;
+    padding: 1.5rem 0;
     background-image: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('https://images.unsplash.com/photo-1556740738-b6a63e27c4df?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80');
     background-size: cover;
     background-position: center;
@@ -249,27 +279,87 @@
     }
 }
 
-/* Responsive */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Responsive Styles */
 @media (max-width: 768px) {
+    .section-title {
+        color: rgb(149, 247, 4);
+        text-align: center;
+    }
+    .category-grid {
+    padding: 1rem 0;
+}
+    
     .hero-slider {
-        height: 60vh;
+        height: 50vh;
     }
     
-    .slide-content h1 {
-        font-size: 2rem;
-    }
+.slide-content {
+    max-width: 600px;
+}
+
+.slide-content h1 {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+    font-weight: 700;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
     
     .slide-content p {
         font-size: 1rem;
     }
     
     .grid-container {
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+    .category-card {
+    padding: 0.5rem;
+    line-height: 1.1;
+    }
+
+   .category-card h3 {
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+}
+
+    .category-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+    .section-header {
+        flex-direction: column;
+        align-items: center;
     }
     
-    .banner-content h2 {
-        font-size: 2rem;
+    .section-tabs {
+        width: 100%;
+        overflow-x: auto;
+        padding-bottom: 0.5rem;
     }
+.category-card p {
+    font-size: 0.75rem;
+    color: rgb(202, 199, 6);
 }
 
 @media (max-width: 576px) {
@@ -291,4 +381,6 @@
         overflow-x: auto;
         padding-bottom: 0.5rem;
     }
+}
+@media (max-width: 320px) { 
 }

@@ -1,3 +1,4 @@
+// base/base.js
 document.addEventListener('DOMContentLoaded', function() {
     // Navigation toggle
     const navToggle = document.getElementById('navToggle');
@@ -5,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const navOverlay = document.createElement('div');
     navOverlay.className = 'nav-overlay';
     document.body.appendChild(navOverlay);
-
+    
     // Live clock functionality
 function updateClock() {
     const clockElements = document.querySelectorAll('.live-clock');
@@ -134,7 +135,29 @@ setInterval(updateClock, 60000);
         });
     });
 });
- 
+
+// language switcher
+document.addEventListener("DOMContentLoaded", function () {
+  const overlay = document.getElementById("language-overlay");
+
+  if (!localStorage.getItem("languageSelected")) {
+    overlay.classList.remove("hidden");
+  }
+});
+
+function submitLanguage(selectElement) {
+  localStorage.setItem("languageSelected", "true");
+  selectElement.form.submit();
+}
+
+function skipPopup() {
+  localStorage.setItem("languageSelected", "true");
+  document.getElementById("language-overlay").classList.add("hidden");
+}
+
+
+
+
 function updateClock() {
     const clockElements = document.querySelectorAll('.live-clock');
     if (clockElements.length > 0) {

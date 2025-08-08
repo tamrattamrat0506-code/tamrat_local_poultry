@@ -6,7 +6,7 @@
 {% block css %}
 <link rel="stylesheet" href="{% static 'poultryitems/css/item_detail.css' %}" preload>
 {% endblock %}
-
+ 
 {% block content %}
 <main class="item-detail" itemscope itemtype="http://schema.org/Product">
     <!-- Seller Information -->
@@ -142,7 +142,7 @@
             <i class="fas fa-edit" aria-hidden="true"></i> 
             {% trans "Edit" %}
         </a>
-        <form action="{% url 'items:item_delete' item.id %}" method="post" class="delete-form">
+        <form action="{% url 'poultryitems:item_delete' item.id %}" method="post" class="delete-form">
             {% csrf_token %}
             <button type="submit" class="button delete-button" aria-label="Delete this item">
                 <i class="fas fa-trash" aria-hidden="true"></i> 

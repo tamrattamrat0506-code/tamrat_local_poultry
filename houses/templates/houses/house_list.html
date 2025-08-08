@@ -1,0 +1,112 @@
+<!-- houses/house_list.html -->
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'houses/css/house_list.css' %}">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="house-list-container">
+    <div class="list-header">
+        <h1 class="list-title">Available Properties</h1>
+        <div class="list-controls">
+            <a href="{% url 'houses:house_create' %}" class="add-house-btn">
+                <i class="fas fa-plus"></i> Add New Property
+            </a>
+        </div>
+    </div>
+
+    <div class="house-grid">
+        {% for house in houses %}
+        <div class="house-card {% if house.is_featured %}featured{% endif %}">
+            <div class="card-image">
+                {% if house.featured_image %}
+                <img src="{{ house.featured_image.image.url }}" alt="{{ house.title }}">
+                {% else %}
+                <div class="no-image">
+                    <i class="fas fa-home"></i>
+                </div>
+                {% endif %}
+                {% if house.is_featured %}
+                <div class="featured-badge">
+                    <button type="button" 
+                        class="interaction-button like-button"
+                        aria-label="Like this item"
+                        data-item-id="{{ house.id }}"
+                        data-action="like">
+                    <i class="fas fa-thumbs-up" aria-hidden="true"></i> 
+                    <span class="interaction-count" id="like-count" aria-live="polite">{{ house.like_count }}</span>
+                </button>
+                
+                <button type="button" 
+                        class="interaction-button share-button"
+                        aria-label="Share this item"
+                        data-item-id="{{ house.id }}"
+                        data-action="share"> 
+                    <i class="fas fa-share-alt" aria-hidden="true"></i> 
+                    <span class="interaction-count" id="share-count" aria-live="polite">{{ house.share_count }}</span>
+                </button>
+                </div>
+                {% endif %}
+            </div>
+            <div class="card-body">
+                <div class="card-price">${{ house.price|floatformat:"0" }}</div>
+                <h3 class="card-title">{{ house.title }}</h3>
+                <div class="card-location">
+                    <i class="fas fa-map-marker-alt"></i>
+                    {{ house.city }}, {{ house.state }}
+                </div>
+                <div class="card-details">
+                    <span><i class="fas fa-bed"></i> {{ house.bedrooms }} beds</span>
+                    <span><i class="fas fa-bath"></i> {{ house.bathrooms }} baths</span>
+                    <span><i class="fas fa-ruler-combined"></i> {{ house.area }} sqm</span>
+                </div>
+                <div class="card-footer">
+                    <a href="{% url 'houses:house_detail' pk=house.pk %}" class="view-btn">View Details</a>
+                    <div class="card-actions">
+                        <a href="{% url 'houses:house_update' pk=house.pk %}" class="edit-btn" title="Edit">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a href="{% url 'houses:house_delete' pk=house.pk %}" class="delete-btn" title="Delete">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% if is_paginated %}
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}" class="page-link">
+            <i class="fas fa-chevron-left"></i>
+        </a>
+        {% endif %}
+        
+        {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+        <span class="current-page">{{ num }}</span>
+        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+        <a href="?page={{ num }}" class="page-link">{{ num }}</a>
+        {% endif %}
+        {% endfor %}
+        
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="page-link">
+            <i class="fas fa-chevron-right"></i>
+        </a>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+<script src="{% static 'houses/js/house_list.js' %}"></script>
+{% endblock %}

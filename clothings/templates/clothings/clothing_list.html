@@ -7,20 +7,34 @@
 
 {% block content %}
 <div class="clothing-container">
-    <aside class="filters-sidebar">
-        <h3>Filters clothing list</h3>
-    </aside>
-    
-    <main class="clothing-grid">
+    <div class="clothing-grid">
         {% for item in clothes %}
         <div class="clothing-card">
-            <a href="{% url 'clothings:clothing_detail' item.slug %}">
                 <div class="image-container">
                     <img src="{{ item.images.first.image.url }}" alt="{{ item.name }}">
                     {% if item.is_on_sale %}
                     <span class="sale-badge">Sale</span>
                     {% endif %}
                 </div>
+                
+                <button type="button" 
+                        class="interaction-button like-button"
+                        aria-label="Like this item"
+                        data-item-id="{{ item.id }}"
+                        data-action="like">
+                    <i class="fas fa-thumbs-up" aria-hidden="true"></i> 
+                    <span class="interaction-count" id="like-count" aria-live="polite">{{ item.like_count }} 0</span>
+                </button>
+                
+                <button type="button" 
+                        class="interaction-button share-button"
+                        aria-label="Share this item"
+                        data-item-id="{{ item.id }}"
+                        data-action="share"> 
+                    <i class="fas fa-share-alt" aria-hidden="true"></i> 
+                    <span class="interaction-count" id="share-count" aria-live="polite">{{ item.share_count }} 0</span>
+                </button>
+
                 <div class="clothing-info">
                     <h3>{{ item.brand }}</h3>
                     <p>{{ item.name }}</p>
@@ -33,9 +47,10 @@
                         {% endif %}
                     </div>
                 </div>
+                <a href="{% url 'clothings:clothing_detail' item.slug %}">View detail
             </a>
         </div>
         {% endfor %}
-    </main>
+    </div>
 </div>
 {% endblock %}

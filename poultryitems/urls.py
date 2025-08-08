@@ -8,8 +8,6 @@ from .views import (
     item_edit,
     item_delete,
 )
-
-
 from rest_framework.routers import DefaultRouter
 from poultryitems.api.views import ItemListAPIView, ItemDetailAPIView
 

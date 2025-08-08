@@ -1,16 +1,188 @@
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\base
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\base\__pycache__
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\base\locale
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\base\migrations
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\base\static
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\base\templates
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\base\__init__.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\base\admin.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\base\apps.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\base\forms.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\base\models.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\base\tests.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\base\urls.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\base\views.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\clothings
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\clothings\__pycache__
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\clothings\migrations
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\clothings\static
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\clothings\templates
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\clothings\__init__.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\clothings\admin.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\clothings\apps.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\clothings\forms.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\clothings\models.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\clothings\tests.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\clothings\urls.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\clothings\views.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\companies
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\companies\__pycache__
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\companies\locale
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\companies\migrations
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\companies\static
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\companies\templates
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\companies\__init__.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\companies\admin.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\companies\apps.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\companies\models.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\companies\tests.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\companies\urls.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\companies\views.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\contact
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\contact\__pycache__
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\contact\locale
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\contact\migrations
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\contact\static
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\contact\templates
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\contact\templatetags
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\contact\__init__.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\contact\admin.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\contact\apps.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\contact\forms.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\contact\models.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\contact\tests.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\contact\urls.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\contact\views.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\conversation
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\conversation\__pycache__
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\conversation\locale
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\conversation\migrations
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\conversation\static
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\conversation\templates
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\conversation\templatetags
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\conversation\__init__.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\conversation\admin.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\conversation\apps.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\conversation\consumers.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\conversation\forms.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\conversation\models.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\conversation\routing.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\conversation\signals.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\conversation\tests.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\conversation\urls.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\conversation\views.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\electronics
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\electronics\__pycache__
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\electronics\migrations
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\electronics\static
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\electronics\templates
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\electronics\__init__.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\electronics\admin.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\electronics\apps.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\electronics\forms.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\electronics\models.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\electronics\tests.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\electronics\urls.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\electronics\views.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\houses
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\houses\__pycache__
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\houses\migrations
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\houses\static
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\houses\templates
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\houses\__init__.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\houses\admin.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\houses\apps.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\houses\forms.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\houses\models.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\houses\tests.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\houses\urls.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\houses\views.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\media
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\node_modules
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\poultryitems
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\poultryitems\__pycache__
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\poultryitems\api
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\poultryitems\locale
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\poultryitems\migrations
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\poultryitems\static
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\poultryitems\templates
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\poultryitems\__init__.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\poultryitems\admin.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\poultryitems\apps.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\poultryitems\forms.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\poultryitems\models.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\poultryitems\tests.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\poultryitems\urls.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\poultryitems\views.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\project
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\project\__pycache__
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\project\__init__.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\project\asgi.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\project\render.yaml
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\project\settings.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\project\urls.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\project\wsgi.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\static
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\staticfiles
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\users
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\users\__pycache__
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\users\locale
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\users\management
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\users\migrations
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\users\static
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\users\templates
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\users\__init__.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\users\admin.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\users\apps.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\users\backends.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\users\consumers.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\users\forms.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\users\models.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\users\routing.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\users\signals.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\users\tests.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\users\urls.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\users\views.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\vehicles
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\vehicles\__pycache__
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\vehicles\migrations
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\vehicles\static
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\vehicles\templates
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\vehicles\__init__.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\vehicles\admin.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\vehicles\apps.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\vehicles\forms.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\vehicles\models.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\vehicles\tests.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\vehicles\urls.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\vehicles\views.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\.env
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\.gitignore
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\build.sh
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\create_superuser.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\db.sqlite3
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\git
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\manage.py
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\notes.md
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\Procfile
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\README.md
+C:\Users\Na\Desktop\cod\A_github_modern_local_poultry\project\requirements.txt
 
+# Media files - cloudinary storage for production
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
+C:\Users\Na\Desktop\cod\A_github_railway\railway>set DATABASE_URL=postgresql://postgres:yDwzbzUxvKCQCcQbdEJKfazaeKrWnUMx@nozomi.proxy.rlwy.net:19870/railway
 
+C:\Users\Na\Desktop\cod\A_github_railway\railway>python manage.py createsuperuser
+Phone number: 0982321151
+Username: xiqa
+Password:
+Password (again):
+Superuser created successfully.
 
-Internal Database URL = postgresql://postgres_xf9a_user:AWs5EvfJmzQCtblnzyGFTiBIeYEQQ0LW@dpg-d1fhd4hr0fns73cf3n90-a/postgres_xf9a
-
-
-PSQL Command 
- render psql dpg-d1fhd4hr0fns73cf3n90-a
-
-
-
-
+set DATABASE_URL=postgresql://postgres:yDwzbzUxvKCQCcQbdEJKfazaeKrWnUMx@postgres.railway.internal:5432/railway
 
 
 git init
@@ -1951,3 +2123,15 @@ Media Files: For production, you should use Cloudinary for media storage since R
 Scaling: The free tier has limitations. Consider upgrading if you expect significant traffic.
 
 Would you like me to elaborate on any specific part of this deployment process?
+
+
+
+
+
+
+
+
+
+
+
+I love to deploy my project to render. Is there any other option which has live chat and notification , postgresql , redis and etc...

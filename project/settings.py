@@ -6,14 +6,13 @@ import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 # database
-import dj_database_url
+# import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Security - development settings
-SECRET_KEY = 'your-development-secret-key'  # For development only - change in production
-DEBUG = True  # Enabled for development
-ALLOWED_HOSTS = ['*' 'localhost', '127.0.0.1','render-x1cx.onrender.com']
+SECRET_KEY = 'your-development-secret-key'
+DEBUG = True
+ALLOWED_HOSTS = ['*','localhost', '127.0.0.1','render-x1cx.onrender.com']
 
 # Internationalization
 LANGUAGES = [
@@ -28,23 +27,20 @@ LANGUAGE_COOKIE_SAMESITE = 'Lax'
 
 REDIS_URL = 'redis://localhost:6379'
 
-# Security settings - relaxed for development
 CSRF_TRUSTED_ORIGINS = ['http://localhost:8000', 'http://127.0.0.1:8000', 'http://render-x1cx.onrender.com']
-SESSION_COOKIE_SECURE = False  # Disabled for development
-CSRF_COOKIE_SECURE = False  # Disabled for development
-SECURE_PROXY_SSL_HEADER = None  # Disabled for development
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False
+SECURE_PROXY_SSL_HEADER = None
 
-# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'daphne',# 1
-    'django.contrib.staticfiles',# 2
+    'daphne',
+    'django.contrib.staticfiles',
     
-    # Third-party apps
     'channels',
     'rest_framework',
     'corsheaders',
@@ -60,10 +56,14 @@ INSTALLED_APPS = [
     'companies',
     'vehicles',
     'clothings',
+    'electronics.apps.ElectronicsConfig',
+    'houses.apps.HousesConfig',
 
     # aditional
     'crispy_forms',
     'crispy_bootstrap5',
+    # live server
+    "django_browser_reload",
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5" 
@@ -71,11 +71,12 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware', # 1
-    'django.contrib.sessions.middleware.SessionMiddleware', # 1
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    "django_browser_reload.middleware.BrowserReloadMiddleware",
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.locale.LocaleMiddleware', # 2
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -86,19 +87,25 @@ ROOT_URLCONF = 'project.urls'
 ASGI_APPLICATION = 'project.asgi.application'
 WSGI_APPLICATION = 'project.wsgi.application'
 DAPHNE_TIMEOUT = 50
-
+# Production
+#DATABASES = {
+#    'default': {
+        #'ENGINE': 'django.db.backends.postgresql',
+        #'NAME': 'postgres_xf9a',
+        #'USER': 'postgres_xf9a_user',
+        #'PASSWORD': #'AWs5EvfJmzQCtblnzyGFTiBIeYEQQ0LW',
+        #'HOST': #'dpg-d1fhd4hr0fns73cf3n90-a.oregon-postgres.render.com',
+   #     'PORT': '5432',
+  #      'OPTIONS': {'sslmode': 'require'},
+ #   }
+#}
+# development
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres_xf9a',
-        'USER': 'postgres_xf9a_user',
-        'PASSWORD': 'AWs5EvfJmzQCtblnzyGFTiBIeYEQQ0LW',
-        'HOST': 'dpg-d1fhd4hr0fns73cf3n90-a.oregon-postgres.render.com',
-        'PORT': '5432',
-        'OPTIONS': {'sslmode': 'require'},
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 # Channels configuration
 CHANNEL_LAYERS = {
     "default": {
@@ -122,10 +129,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfile')
 STATICFILES_DIRS = [ BASE_DIR / "static",]  
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+
 # Media files - local storage for development
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Internationalization
 LANGUAGE_CODE = 'en'
@@ -134,7 +141,7 @@ USE_I18N = True
 USE_TZ = True
 
 # Security
-CORS_ALLOW_ALL_ORIGINS = True  # Allowed for development
+CORS_ALLOW_ALL_ORIGINS = True
 
 TEMPLATES = [
     {
@@ -165,3 +172,4 @@ cloudinary.config(
     api_secret="H3_ZVEXWGcyuE28IfKWUYsTo5sY",
     secure=True
 )
+

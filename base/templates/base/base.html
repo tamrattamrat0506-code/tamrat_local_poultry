@@ -1,3 +1,5 @@
+{% load django_browser_reload %}
+
 {% load static %}
 {% load i18n %}
 <!DOCTYPE html>
@@ -6,7 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="{% trans 'Ethiopian marketplace - Buy and sell products in Ethiopia' %}">
-    <title>{% trans "MarketHub - Your Online Marketplace" %}</title>
+    <title>{% trans "Sheger.xyz | Ethiopian Market place" %}</title>
     <link rel="icon" href="{% static 'base/images/image2.jpg' %}" alt="MarketHub logo">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
@@ -15,20 +17,45 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'base/css/base.css' %}">
     {% block css %}{% endblock %}
+
 </head>
 
 <body>
+<div id="language-overlay" class="language-overlay hidden">
+  <div id="language-popup" class="language-popup">
+    <div class="popup-content">
+      <p>{% trans "Please select your language" %}:</p>
+      <form action="{% url 'set_language' %}" method="post">
+        {% csrf_token %}
+        <input name="next" type="hidden" value="{{ request.get_full_path }}">
+        <select name="language" onchange="submitLanguage(this)">
+          {% get_current_language as LANGUAGE_CODE %}
+          {% get_available_languages as LANGUAGES %}
+          {% for lang_code, lang_name in LANGUAGES %}
+            <option value="{{ lang_code }}" {% if lang_code == LANGUAGE_CODE %}selected{% endif %}>
+              {{ lang_name }}
+            </option>
+          {% endfor %}
+        </select>
+      </form>
+      <button onclick="skipPopup()" class="popup-skip">{% trans "Skip" %}</button>
+    </div>
+  </div>
+</div>
+
+
+
     <!-- Top Bar -->
     <div class="top-bar">
         <div class="container">
             <div class="top-bar-content">
                 <div class="top-links">
                      <a>
-                    <li><i class="fas fa-clock"></i> <span class="live-clock">{{ now|date:"Y-m-d H:i" }}</span></li>
+                    <i class="fas fa-clock"></i> <span class="live-clock">{{ now|date:"Y-m-d H:i" }}</span>
                 <a>
-                    <a href="{% url 'contact:contact_us' %}"><i class="fas fa-headset" aria-hidden="true"></i> Help Center</a>
-                    <a href="#"><i class="fas fa-truck" aria-hidden="true"></i> Track Order</a>
-                    <a href="#"><i class="fas fa-user" aria-hidden="true"></i> My Account</a>
+                    <a href="{% url 'contact:contact_us' %}"><i class="fas fa-headset" aria-hidden="true"></i> All Items</a>
+                    <a href="#"><i class="fas fa-truck" aria-hidden="true"></i> +251 975 060 586</a>
+                    <a href="{% url 'base:message_list' %}"><i class="fas fa-user" aria-hidden="true"></i> Contact Us</a>
                 </div>
             </div>
         </div>
@@ -92,7 +119,7 @@
                         <span class="username">{{ user.username|default:user.phone_number }}</span>
                     </a>
                     {% else %}
-                    <a href="{% url 'users:register' %}" class="login-btn">Login / Register</a>
+                    <a href="{% url 'users:register' %}" class="login-btn">Register</a>
                     {% endif %}
 
                     <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
@@ -110,12 +137,12 @@
                 <li class="nav-item"><a href="/" class="nav-link active"><i class="fas fa-home"></i> Home</a></li>
                 <li class="nav-item mega-menu">
                     <a href="{% url 'vehicles:vehicle_list' %}" class="nav-link"><i class="fas fa-car"></i> Cars</a>
+                </li> 
+                <li class="nav-item mega-menu">
+                 <a href="{% url 'houses:house_list' %}" class="nav-link"><i class="fas fa-home"></i> Houses</a>
                 </li>
                 <li class="nav-item mega-menu">
-                    <a href="#" class="nav-link"><i class="fas fa-home"></i> Houses</a>
-                </li>
-                <li class="nav-item mega-menu">
-                    <a href="#" class="nav-link"><i class="fas fa-laptop"></i> Electronics</a>
+                    <a href="{% url 'electronics:product_list' %}" class="nav-link"><i class="fas fa-laptop"></i> Electronics</a>
                 </li>
                 <li class="nav-item mega-menu">
                     <a href="{% url 'clothings:clothing_list' %}" class="nav-link"><i class="fas fa-tshirt"></i> Clothing</a>
@@ -127,9 +154,9 @@
             </ul>
         </div>
     </nav>
-        
-    {% block content %}{% endblock %}
 
+    {% block content %}{% endblock %}
+ 
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
@@ -179,7 +206,7 @@
                         <li><a href="#">Returns & Exchanges</a></li>
                         <li><a href="#">FAQs</a></li>
                     </ul>
-                </div>
+                </div> 
                 <div class="footer-column">
                     <h4 class="footer-title">Contact Info</h4>
                     <ul class="footer-contact">
@@ -205,3 +232,28 @@
     {% block js %}{% endblock %}
 </body>
 </html>
+
+{% django_browser_reload_script %}
+
+<!--
+
+<div class="language-container">
+        {% load i18n %}
+<form action="{% url 'set_language' %}" method="post" style="display: inline;">
+    {% csrf_token %}
+    <input name="next" type="hidden" value="{{ request.get_full_path }}">
+    <select name="language" onchange="this.form.submit()" style="padding: 5px;">
+        {% get_current_language as LANGUAGE_CODE %}
+        {% get_available_languages as LANGUAGES %}
+        
+        {% for code, name in LANGUAGES %}
+            <option value="{{ code }}" {% if code == LANGUAGE_CODE %}selected{% endif %}>
+                {{ name }}
+            </option>
+        {% endfor %}
+    </select>
+</form>
+</div>
+
+-->
+

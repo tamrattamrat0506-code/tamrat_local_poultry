@@ -8,7 +8,12 @@
 {% block content %}
 <div class="clothing-detail">
     <div class="gallery">
-        <!-- Main image and thumbnails would go here -->
+        <div class="image-container">
+                    <img src="{{ item.images.first.image.url }}" alt="{{ item.name }}">
+                    {% if item.is_on_sale %}
+                    <span class="sale-badge">Sale</span>
+                    {% endif %}
+                </div>
     </div>
     
     <div class="clothing-info">
@@ -24,13 +29,24 @@
             {% endif %}
         </div>
         
-        <div class="size-selector">
-            <!-- Size selection would go here -->
-        </div>
-        
         <div class="actions">
-            <button class="add-to-cart">Add to Cart</button>
-            <button class="wishlist">Save for Later</button>
+            <button type="button" 
+                        class="interaction-button like-button"
+                        aria-label="Like this item"
+                        data-item-id="{{ item.id }}"
+                        data-action="like">
+                    <i class="fas fa-thumbs-up" aria-hidden="true"></i> 
+                    <span class="interaction-count" id="like-count" aria-live="polite">{{ item.like_count }} 0</span>
+                </button>
+                
+                <button type="button" 
+                        class="interaction-button share-button"
+                        aria-label="Share this item"
+                        data-item-id="{{ item.id }}"
+                        data-action="share"> 
+                    <i class="fas fa-share-alt" aria-hidden="true"></i> 
+                    <span class="interaction-count" id="share-count" aria-live="polite">{{ item.share_count }} 0</span>
+                </button>
         </div>
         
         <div class="details">

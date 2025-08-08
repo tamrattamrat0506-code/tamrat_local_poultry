@@ -1,0 +1,44 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'houses/css/house_detail.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="house-detail-container">
+    <div class="image-gallery">
+        <div class="main-image">
+            <img id="mainHouseImage" src="{{ house.images.all.0.image.url }}" alt="Main House Image" />
+        </div>
+        <div class="thumbnail-list">
+            {% for image in house.images.all %}
+                <img class="thumbnail" src="{{ image.image.url }}" alt="House Image">
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="house-info">
+        <h1>{{ house.title }}</h1>
+        <p class="price">${{ house.price }}</p>
+        <p class="location"><strong>Location:</strong> {{ house.location }}</p>
+        <p class="category"><strong>Category:</strong> {{ house.category.name }}</p>
+        <p class="description">{{ house.description|linebreaks }}</p>
+
+        <ul class="features">
+            <li><strong>Bedrooms:</strong> {{ house.bedrooms }}</li>
+            <li><strong>Bathrooms:</strong> {{ house.bathrooms }}</li>
+            <li><strong>Area:</strong> {{ house.area }} sq.m</li>
+        </ul>
+
+        <div class="actions">
+            <button class="contact-btn">Contact Seller</button>
+            <button class="wishlist-btn">Add to Wishlist ❤️</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script defer src="{% static 'houses/js/house_detail.js' %}"></script>
+{% endblock %}

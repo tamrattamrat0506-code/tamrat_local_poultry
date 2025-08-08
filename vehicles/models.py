@@ -59,7 +59,20 @@ class Vehicle(models.Model):
     is_featured = models.BooleanField(default=False)
     date_added = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(unique=True)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(settings.
+    AUTH_USER_MODEL, on_delete=models.CASCADE)
+    like_count = models.PositiveIntegerField(default=0)
+    share_count = models.PositiveIntegerField(default=0)
+    
+    def increment_likes(self):
+        self.like_count += 1
+        self.save()
+        return self.like_count
+    
+    def increment_shares(self):
+        self.share_count += 1
+        self.save()
+        return self.share_count
     
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -83,3 +96,4 @@ class VehicleImage(models.Model):
 
     def __str__(self):
         return f"Image for {self.vehicle}"
+    

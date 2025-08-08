@@ -8,7 +8,9 @@
 }
 
 .gallery {
-    /* Gallery styles would go here */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .clothing-info h1 {
@@ -114,7 +116,11 @@
     text-decoration: none;
     color: inherit;
 }
-
+img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
 .related-card img {
     width: 100%;
     height: 200px;

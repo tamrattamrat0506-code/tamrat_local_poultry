@@ -1,0 +1,120 @@
+# project/house/views.py
+from django.shortcuts import render, get_object_or_404, redirect
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib import messages
+from .models import House, HouseImage, House, HouseCategory
+from .forms import HouseForm
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_exempt
+
+@require_POST
+@csrf_exempt
+def like_house(request, house_id):
+    try:
+        house = House.objects.get(id=house_id)
+        new_count = house.increment_likes()
+        return JsonResponse({
+            'status': 'success',
+            'like_count': new_count,
+            'house_id': house_id
+        })
+    except House.DoesNotExist:
+        return JsonResponse({'status': 'error'}, status=404)
+@require_POST
+@csrf_exempt
+def share_house(request, house_id):
+    try:
+        house = House.objects.get(id=house_id)
+        new_count = house.increment_shares()
+        return JsonResponse({
+            'status': 'success', 
+            'share_count': new_count,
+            'house_id': house_id
+        })
+    except House.DoesNotExist:
+        return JsonResponse({'status': 'error'}, status=404)
+
+class HouseListView(ListView):
+    model = House
+    template_name = 'houses/house_list.html'
+    context_object_name = 'houses'
+    paginate_by = 12
+    
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        category_slug = self.kwargs.get('category_slug')
+        if category_slug:
+            category = get_object_or_404(HouseCategory, slug=category_slug)
+            queryset = queryset.filter(category__iexact=category.name)
+        return queryset.order_by('-date_added')
+
+class HouseDetailView(DetailView):
+    model = House
+    template_name = 'houses/house_detail.html'
+    context_object_name = 'house'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['images'] = self.object.images.all()
+        return context
+
+class HouseCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+    model = House
+    form_class = HouseForm
+    template_name = 'houses/house_form.html'
+    success_url = reverse_lazy('houses:house_list')
+    success_message = "House listing created successfully!"
+
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user
+        response = super().form_valid(form)
+        files = self.request.FILES.getlist('images')
+        for f in files:
+            HouseImage.objects.create(house=self.object, image=f)
+        return response
+
+class HouseUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    model = House
+    form_class = HouseForm
+    template_name = 'houses/house_form.html'
+    success_url = reverse_lazy('houses:house_list')
+    success_message = "House listing updated successfully!"
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        files = self.request.FILES.getlist('images')
+        for f in files:
+            HouseImage.objects.create(house=self.object, image=f)
+        return response
+
+class HouseDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
+    model = House
+    template_name = 'houses/house_confirm_delete.html'
+    success_url = reverse_lazy('houses:house_list')
+    success_message = "House listing deleted successfully!"
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, self.success_message)
+        return super().delete(request, *args, **kwargs)
+
+def house_list(request):
+    houses = House.objects.all().order_by('-date_added')
+    categories = HouseCategory.objects.all()
+    context = {
+        'houses': houses,
+        'categories': categories,
+    }
+    return render(request, 'houses/house_list.html', context)
+
+def house_detail(request, pk):
+    house = get_object_or_404(House, pk=pk)
+    images = house.images.all()
+    context = {
+        'house': house,
+        'images': images,
+    }
+    return render(request, 'houses/house_detail.html', context)

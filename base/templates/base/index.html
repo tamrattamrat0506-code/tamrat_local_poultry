@@ -17,16 +17,27 @@
                     <div class="slide-content">
                         <h1>Find Your Dream Home Today</h1>
                         <p>Thousands of properties waiting for you</p>
-                        <a href="#" class="btn btn-primary">Browse Listings</a>
+                        <a href="{% url 'houses:house_list' %}" class="btn-primary">House</a>
                     </div>
                 </div>
             </div>
+
+            <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://www.globaltimes.cn/Portals/0/attachment/2024/2024-09-12/301bdce3-9b85-4ebc-b0c1-cf00b90308c4.jpeg');">
+                <div class="container">
+                    <div class="slide-content">
+                        <h1>Ethiopian Poultry Farm</h1>
+                        <p>Eggs, Chickens, poultry Equipment and tools for sell</p>
+                        <a href="{% url 'poultryitems:index' %}" class="btn-primary">poultry</a>
+                    </div>
+                </div>
+            </div>
+
             <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://www.mekina.net/_next/image?url=https%3A%2F%2Fmekina.s3.eu-west-1.amazonaws.com%2Fcars%2Fprivate%2F8e8fb1a9-3b1f-4073-b88e-fb6124257145%2Ff3d68f30-6596-46fb-aca4-4b9aa2c8b9e4%2F28_3_4a7ffd4d_d60a_4299_a316_a171e7bb74a8_8b873b4047.jpeg&w=3840&q=75');">
                 <div class="container">
                     <div class="slide-content">
                         <h1>Latest Car Models</h1>
                         <p>New arrivals with amazing deals</p>
-                        <a href="{% url 'vehicles:vehicle_list' %}" class="btn btn-primary">View Inventory</a>
+                        <a href="{% url 'vehicles:vehicle_list' %}" class="btn-primary">car</a>
                     </div>
                 </div>
             </div>
@@ -35,25 +46,18 @@
                     <div class="slide-content">
                         <h1>Summer Tech Sale</h1>
                         <p>Up to 40% off on electronics</p>
-                        <a href="#" class="btn btn-primary">Shop Now</a>
+                        <a href="{% url 'electronics:product_list' %}" class="btn-primary">Electronics</a>
                     </div>
                 </div>
             </div>
-            <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://www.globaltimes.cn/Portals/0/attachment/2024/2024-09-12/301bdce3-9b85-4ebc-b0c1-cf00b90308c4.jpeg');">
-                <div class="container">
-                    <div class="slide-content">
-                        <h1>Ethiopian Poultry Farm</h1>
-                        <p>Eggs, Chickens, poultry Equipment and tools for sell</p>
-                        <a href="{% url 'poultryitems:index' %}" class="btn btn-primary">Farm Now</a>
-                    </div>
-                </div>
-            </div>
+    <!-- last slide -->
             <div class="slider-controls">
                 <button class="prev-slide"><i class="fas fa-chevron-left"></i></button>
                 <button class="next-slide"><i class="fas fa-chevron-right"></i></button>
             </div>
             <div class="slider-dots">
                 <span class="dot active"></span>
+                <span class="dot"></span>
                 <span class="dot"></span>
                 <span class="dot"></span>
             </div>
@@ -119,7 +123,7 @@
                 <div class="section-tabs">
                     <button class="tab-btn active" data-category="all">All</button>
                     <button class="tab-btn" data-category="cars">Cars</button>
-                    <button class="tab-btn" data-category="houses">Houses</button>
+                    <button class="tab-btn" data-category="houses">s</button>
                     <button class="tab-btn" data-category="electronics">Electronics</button>
                     <button class="tab-btn" data-category="clothing">Clothing</button>
                     <button class="tab-btn" data-category="books">Books</button>
@@ -129,18 +133,18 @@
             <div class="products-container">
             </div>
             <div class="view-all">
-                <a href="#" class="btn btn-outline">View All Products</a>
+                <a href="#" class="btn-outline">View All Products</a>
             </div>
         </div>
     </section>
-
+    
     <!-- Promo Banner -->
     <section class="promo-banner">
         <div class="container">
             <div class="banner-content">
                 <h2>Summer Mega Sale!</h2>
                 <p>Up to 50% off on selected items. Limited time offer.</p>
-                <a href="#" class="btn btn-white">Shop Now</a>
+                <a href="#" class="btn-white">Shop Now</a>
             </div>
         </div>
     </section>
@@ -149,5 +153,193 @@
 {% endblock %}
 
 {% block js %}
-<script src="{% static 'base/js/index.js' %}"></script> 
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Hero Slider
+    const slides = document.querySelectorAll('.slide');
+    const dots = document.querySelectorAll('.dot');
+    const prevBtn = document.querySelector('.prev-slide');
+    const nextBtn = document.querySelector('.next-slide');
+    let currentSlide = 0;
+    const slideCount = slides.length;
+    
+    // Initialize slider
+    function showSlide(index) {
+        slides.forEach((slide, i) => {
+            slide.classList.remove('active');
+            // Reset animation for all slides
+            const content = slide.querySelector('.slide-content');
+            if (content) {
+                content.style.animation = 'none';
+            }
+        });
+        
+        dots.forEach(dot => dot.classList.remove('active'));
+        
+        // Add active class and trigger animation
+        slides[index].classList.add('active');
+        setTimeout(() => {
+            const content = slides[index].querySelector('.slide-content');
+            if (content) {
+                content.style.animation = 'fadeInUp 1s ease';
+            }
+        }, 10);
+        
+        dots[index].classList.add('active');
+        currentSlide = index;
+    }
+    
+    // Next slide
+    function nextSlide() {
+        currentSlide = (currentSlide + 1) % slideCount;
+        showSlide(currentSlide);
+    }
+    
+    // Previous slide
+    function prevSlide() {
+        currentSlide = (currentSlide - 1 + slideCount) % slideCount;
+        showSlide(currentSlide);
+    }
+    
+    // Auto slide
+    let slideInterval = setInterval(nextSlide, 6000);
+    
+    // Pause on hover and focus
+    const sliderContainer = document.querySelector('.slider-container');
+    function pauseSlider() {
+        clearInterval(slideInterval);
+    }
+    
+    function resumeSlider() {
+        slideInterval = setInterval(nextSlide, 6000);
+    }
+    
+    if (sliderContainer) {
+        sliderContainer.addEventListener('mouseenter', pauseSlider);
+        sliderContainer.addEventListener('mouseleave', resumeSlider);
+        sliderContainer.addEventListener('focusin', pauseSlider);
+        sliderContainer.addEventListener('focusout', resumeSlider);
+    }
+    
+    // Navigation controls
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            pauseSlider();
+            nextSlide();
+            resumeSlider();
+        });
+    }
+    
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            pauseSlider();
+            prevSlide();
+            resumeSlider();
+        });
+    }
+    
+    // Dot navigation
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            pauseSlider();
+            showSlide(index);
+            resumeSlider();
+        });
+    });
+    
+    // Touch support for mobile
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    if (sliderContainer) {
+        sliderContainer.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+            pauseSlider();
+        }, {passive: true});
+        
+        sliderContainer.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+            resumeSlider();
+        }, {passive: true});
+    }
+    
+    function handleSwipe() {
+        const threshold = 50;
+        if (touchEndX < touchStartX - threshold) {
+            nextSlide();
+        } else if (touchEndX > touchStartX + threshold) {
+            prevSlide();
+        }
+    }
+    
+    // Tab filtering
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const productsContainer = document.querySelector('.products-container');
+    
+    // Sample product data
+    const sampleProducts = [
+        { category: 'cars', title: 'Toyota Camry 2022', price: '$25,000' },
+        { category: 'electronics', title: 'MacBook Pro 14"', price: '$1,999' },
+        { category: 'houses', title: 'Modern Villa', price: '$350,000' },
+        { category: 'poultry', title: 'Chicken Feed', price: '$15' },
+        { category: 'clothing', title: 'Designer Jacket', price: '$120' },
+        { category: 'books', title: 'Bestseller Novel', price: '$15' },
+        { category: 'toys', title: 'LEGO Set', price: '$45' }
+    ];
+    
+    function renderProducts(category = 'all') {
+        if (!productsContainer) return;
+        
+        productsContainer.innerHTML = '';
+        
+        const filteredProducts = category === 'all' 
+            ? sampleProducts 
+            : sampleProducts.filter(product => product.category === category);
+        
+        if (filteredProducts.length === 0) {
+            productsContainer.innerHTML = '<p class="no-products">No products found in this category</p>';
+            return;
+        }
+        
+        filteredProducts.forEach(product => {
+            const productCard = document.createElement('div');
+            productCard.className = 'product-card';
+            productCard.innerHTML = `
+                <div class="product-image">
+                    <img src="https://via.placeholder.com/300" alt="${product.title}">
+                </div>
+                <div class="product-info">
+                    <h3>${product.title}</h3>
+                    <p class="price">${product.price}</p>
+                </div>
+            `;
+            productsContainer.appendChild(productCard);
+        });
+    }
+    
+    tabButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+            renderProducts(this.dataset.category);
+        });
+    });
+    
+    // Initialize
+    showSlide(0);
+    renderProducts();
+    
+    // Handle all buttons
+    document.querySelectorAll('a.btn-primary').forEach(btn => {
+        if (btn.getAttribute('href') === '#') {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                // Add your default behavior here
+                console.log('Button clicked:', btn.textContent.trim());
+            });
+        }
+    });
+});
+</script>
 {% endblock %}
