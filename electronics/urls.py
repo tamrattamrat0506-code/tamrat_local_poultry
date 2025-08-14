@@ -10,4 +10,8 @@ urlpatterns = [
     path('product/add/', views.product_create, name='product_create'),
     path('product/<int:pk>/edit/', views.product_update, name='product_update'),
     path('product/<int:pk>/delete/', views.product_delete, name='product_delete'),
+    
+    path('product/<int:product_id>/like/', views.like_product, name='like_product'),
+    path('product/<int:product_id>/share/', views.share_product, name='share_product'),
+
 ]

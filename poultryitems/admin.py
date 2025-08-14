@@ -1,6 +1,6 @@
 # poultryitems/admin.py
 from django.contrib import admin
-from .models import Category, Item, SubImage, Cart, CartItem
+from .models import Category, Item, SubImage
 
 class SubImageInline(admin.TabularInline):
     model = SubImage
@@ -32,6 +32,3 @@ class ItemAdmin(admin.ModelAdmin):
 class CategoryAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
     list_display = ('name', 'slug')
-
-admin.site.register(Cart)
-admin.site.register(CartItem)

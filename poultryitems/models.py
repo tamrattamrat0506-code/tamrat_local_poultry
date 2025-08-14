@@ -2,7 +2,6 @@
 from django.db import models
 from django.conf import settings
 from django.utils.text import slugify
-from cloudinary.models import CloudinaryField
 import uuid
 
 class Category(models.Model):
@@ -50,7 +49,11 @@ class Item(models.Model):
         related_name='items', 
         on_delete=models.CASCADE
     )
-    main_image = CloudinaryField('image')
+    main_image = models.ImageField(
+        upload_to='products/main_images/',
+        default='products/default.jpg',
+        blank=True
+    )
     like_count = models.PositiveIntegerField(default=0)
     share_count = models.PositiveIntegerField(default=0)
     
@@ -80,49 +83,13 @@ class SubImage(models.Model):
         related_name='sub_images', 
         on_delete=models.CASCADE
     )
-    image = CloudinaryField('image')
+    image = models.ImageField(
+        upload_to='products/sub_images/',
+        default='products/default.jpg',
+        blank=True
+    )
     alt_text = models.CharField(max_length=100, blank=True)
     
     def __str__(self):
         return f"Image for {self.item.name}"
 
-
-class Cart(models.Model):
-    user = models.OneToOneField(
-        settings.AUTH_USER_MODEL, 
-        on_delete=models.CASCADE
-    )
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return f"Cart of {self.user.username}"
-    
-    @property
-    def total_price(self):
-        return sum(item.total_price for item in self.items.all())
-    
-    @property
-    def item_count(self):
-        return self.items.count()
-
-
-class CartItem(models.Model):
-    cart = models.ForeignKey(
-        Cart, 
-        related_name='items', 
-        on_delete=models.CASCADE
-    )
-    item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField(default=1)
-    added_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.quantity} x {self.item.name}"
-    
-    @property
-    def total_price(self):
-        return self.quantity * self.item.price
-    
-    class Meta:
-        unique_together = ('cart', 'item')

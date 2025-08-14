@@ -12,7 +12,7 @@
 {% block content %}
 <div class="house-list-container">
     <div class="list-header">
-        <h1 class="list-title">Available Properties</h1>
+        
         <div class="list-controls">
             <a href="{% url 'houses:house_create' %}" class="add-house-btn">
                 <i class="fas fa-plus"></i> Add New Property
@@ -32,24 +32,29 @@
                 </div>
                 {% endif %}
                 {% if house.is_featured %}
-                <div class="featured-badge">
-                    <button type="button" 
-                        class="interaction-button like-button"
-                        aria-label="Like this item"
-                        data-item-id="{{ house.id }}"
-                        data-action="like">
-                    <i class="fas fa-thumbs-up" aria-hidden="true"></i> 
-                    <span class="interaction-count" id="like-count" aria-live="polite">{{ house.like_count }}</span>
-                </button>
-                
-                <button type="button" 
-                        class="interaction-button share-button"
-                        aria-label="Share this item"
-                        data-item-id="{{ house.id }}"
-                        data-action="share"> 
-                    <i class="fas fa-share-alt" aria-hidden="true"></i> 
-                    <span class="interaction-count" id="share-count" aria-live="polite">{{ house.share_count }}</span>
-                </button>
+
+                <span class="carted-badge {% if house.is_carted %}carted{% endif %}">
+                    <i class="fas fa-shopping-cart"></i>
+                </span>
+
+                <div class="interaction-buttons">
+                        <button type="button" 
+                            class="interaction-button like-button"
+                            aria-label="Like this item"
+                            data-item-id="{{ house.id }}"
+                            data-action="like">
+                                <i class="fas fa-thumbs-up" aria-hidden="true"></i> 
+                                <span class="interaction-count" id="like-count" aria-live="polite">{{ house.like_count }}</span>
+                        </button>
+                    
+                        <button type="button" 
+                            class="interaction-button share-button"
+                            aria-label="Share this item"
+                            data-item-id="{{ house.id }}"
+                            data-action="share"> 
+                                <i class="fas fa-share-alt" aria-hidden="true"></i> 
+                                <span class="interaction-count" id="share-count" aria-live="polite">{{ house.share_count }}</span>
+                    </button>
                 </div>
                 {% endif %}
             </div>

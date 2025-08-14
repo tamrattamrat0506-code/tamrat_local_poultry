@@ -1,80 +1,58 @@
-// base/base.js
+// Modern base.js with enhanced functionality
 document.addEventListener('DOMContentLoaded', function() {
-    // Navigation toggle
-    const navToggle = document.getElementById('navToggle');
-    const navMenu = document.getElementById('navMenu');
-    const navOverlay = document.createElement('div');
-    navOverlay.className = 'nav-overlay';
-    document.body.appendChild(navOverlay);
-    
-    // Live clock functionality
-function updateClock() {
-    const clockElements = document.querySelectorAll('.live-clock');
-    if (clockElements.length > 0) {
-        const now = new Date();
-        const options = { 
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: false
-        };
-        
-        // Format as YYYY-MM-DD HH:MM
-        const formattedDateTime = now.toLocaleString('en-US', options)
-            .replace(/(\d+)\/(\d+)\/(\d+),?/, '$3-$1-$2');
-        
-        clockElements.forEach(el => {
-            el.textContent = formattedDateTime;
-        });
+    // Initialize all components
+    initClock();
+    initCurrentYear();
+    initUnreadCount();
+    initFormSubmissions();
+    initButtonEffects();
+    initLanguagePopup();
+    initMobileNavigation();
+});
+// Clock functionality
+function initClock() {
+    function updateClock() {
+        const clockElements = document.querySelectorAll('.live-clock');
+        if (clockElements.length > 0) {
+            const now = new Date();
+            const options = { 
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+            };
+            
+            const formattedDateTime = now.toLocaleString('en-US', options)
+                .replace(/(\d+)\/(\d+)\/(\d+),?/, '$3-$1-$2');
+            
+            clockElements.forEach(el => {
+                el.textContent = formattedDateTime;
+            });
+        }
     }
+
+    updateClock();
+    setInterval(updateClock, 60000);
 }
 
-// Initialize clock and update every minute
-updateClock();
-setInterval(updateClock, 60000);
-    function toggleNav() {
-        const isActive = navMenu.classList.toggle('active');
-        navToggle.setAttribute('aria-expanded', isActive);
-        navOverlay.classList.toggle('active', isActive);
-        document.body.style.overflow = isActive ? 'hidden' : '';
-    }
-
-    if (navToggle && navMenu) {
-        navToggle.addEventListener('click', function(e) {
-            e.stopPropagation();
-            toggleNav();
-        });
-
-        // Close menu when clicking on a link
-        const navLinks = navMenu.querySelectorAll('.nav-link');
-        navLinks.forEach(link => {
-            link.addEventListener('click', toggleNav);
-        });
-
-        // Close menu when clicking outside
-        navOverlay.addEventListener('click', toggleNav);
-
-        // Close menu when pressing Escape key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && navMenu.classList.contains('active')) {
-                toggleNav();
-            }
-        });
-    }
-
-    // Update current year in footer
+// Current year in footer
+function initCurrentYear() {
     const currentYear = document.getElementById('current-year');
     if (currentYear) {
         currentYear.textContent = new Date().getFullYear();
     }
+}
 
-    // Unread message count
+// Unread message count
+function initUnreadCount() {
     function fetchUnreadCount() {
-        if (!UNREAD_COUNT_API_URL) return;
+        if (!window.UNREAD_COUNT_API_URL) return;
 
-        fetch(UNREAD_COUNT_API_URL)
+        fetch(window.UNREAD_COUNT_API_URL, {
+            credentials: 'include'
+        })
             .then(response => {
                 if (!response.ok) throw new Error('Network response was not ok');
                 return response.json();
@@ -83,10 +61,12 @@ setInterval(updateClock, 60000);
                 const unreadBadge = document.getElementById('navbarUnread');
                 if (unreadBadge) {
                     if (data.total_unread > 0) {
-                        unreadBadge.textContent = data.total_unread;
-                        unreadBadge.style.display = 'inline-block';
+                        unreadBadge.textContent = data.total_unread > 9 ? '9+' : data.total_unread;
+                        unreadBadge.style.display = 'flex';
+                        unreadBadge.classList.add('pulse');
                     } else {
                         unreadBadge.style.display = 'none';
+                        unreadBadge.classList.remove('pulse');
                     }
                 }
             })
@@ -95,14 +75,15 @@ setInterval(updateClock, 60000);
             });
     }
 
-    // Initialize and update unread count every 30 seconds
     fetchUnreadCount();
     setInterval(fetchUnreadCount, 30000);
+}
 
-    // Form handling
+// Form submission handling
+function initFormSubmissions() {
     const forms = document.querySelectorAll('form');
     forms.forEach(form => {
-        form.addEventListener('submit', function() {
+        form.addEventListener('submit', function(e) {
             const submitBtn = this.querySelector('button[type="submit"]');
             if (submitBtn) {
                 submitBtn.disabled = true;
@@ -115,59 +96,203 @@ setInterval(updateClock, 60000);
                     </span>
                     <span class="text">Processing...</span>
                 `;
+
+                // Handle form submission via fetch if it's not a regular form submission
+                if (form.dataset.ajax === "true") {
+                    e.preventDefault();
+                    handleAjaxForm(form, submitBtn, originalText);
+                }
             }
         });
     });
+}
 
-    // Add hover effects to buttons
+function handleAjaxForm(form, submitBtn, originalText) {
+    const formData = new FormData(form);
+    
+    fetch(form.action, {
+        method: form.method,
+        body: formData,
+        credentials: 'include'
+    })
+    .then(response => {
+        if (!response.ok) throw new Error('Network response was not ok');
+        return response.json();
+    })
+    .then(data => {
+        if (data.redirect) {
+            window.location.href = data.redirect;
+        } else if (data.success) {
+            showToast('Success!', data.message || 'Operation completed successfully', 'success');
+            form.reset();
+        }
+    })
+    .catch(error => {
+        showToast('Error', error.message || 'Something went wrong', 'error');
+    })
+    .finally(() => {
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('loading');
+        submitBtn.innerHTML = originalText;
+    });
+}
+
+// Button effects
+function initButtonEffects() {
     const buttons = document.querySelectorAll('.btn');
     buttons.forEach(button => {
         button.addEventListener('mousedown', () => {
-            button.style.transform = 'translateY(1px)';
+            button.style.transform = 'translateY(1px) scale(0.98)';
         });
         
         button.addEventListener('mouseup', () => {
-            button.style.transform = 'translateY(0)';
+            button.style.transform = 'translateY(0) scale(1)';
         });
         
         button.addEventListener('mouseleave', () => {
-            button.style.transform = 'translateY(0)';
+            button.style.transform = 'translateY(0) scale(1)';
         });
     });
-});
+}
 
-// language switcher
-document.addEventListener("DOMContentLoaded", function () {
-  const overlay = document.getElementById("language-overlay");
+// Language popup
+function initLanguagePopup() {
+    const overlay = document.getElementById("language-overlay");
 
-  if (!localStorage.getItem("languageSelected")) {
-    overlay.classList.remove("hidden");
-  }
-});
+    if (!localStorage.getItem("languageSelected")) {
+        setTimeout(() => {
+            overlay.classList.add("active");
+        }, 1000);
+    }
+}
 
 function submitLanguage(selectElement) {
-  localStorage.setItem("languageSelected", "true");
-  selectElement.form.submit();
+    localStorage.setItem("languageSelected", "true");
+    document.getElementById("language-overlay").classList.remove("active");
+    selectElement.form.submit();
 }
 
 function skipPopup() {
-  localStorage.setItem("languageSelected", "true");
-  document.getElementById("language-overlay").classList.add("hidden");
+    localStorage.setItem("languageSelected", "true");
+    document.getElementById("language-overlay").classList.remove("active");
 }
 
-
-
-
-function updateClock() {
-    const clockElements = document.querySelectorAll('.live-clock');
-    if (clockElements.length > 0) {
-        const now = new Date();
-        const hours = String(now.getHours()).padStart(2, '0');
-        const minutes = String(now.getMinutes()).padStart(2, '0');
-        const timeString = `${hours}:${minutes}`;
+// Mobile navigation
+function initMobileNavigation() {
+    const navToggle = document.getElementById('navToggle');
+    const categoryNav = document.getElementById('categoryNav');
+    let navOverlay = document.querySelector('.nav-overlay');
+    
+    // Create overlay if it doesn't exist
+    if (!navOverlay) {
+        navOverlay = document.createElement('div');
+        navOverlay.className = 'nav-overlay';
+        document.body.appendChild(navOverlay);
+    }
+    
+    function toggleCategoryNav() {
+        categoryNav.classList.toggle('active');
+        navOverlay.classList.toggle('active');
+        document.body.classList.toggle('no-scroll');
         
-        clockElements.forEach(el => {
-            el.textContent = timeString;
+        const isExpanded = categoryNav.classList.contains('active');
+        navToggle.setAttribute('aria-expanded', isExpanded);
+        
+        // Animate toggle icon
+        if (isExpanded) {
+            navToggle.querySelector('.nav-toggle-icon').innerHTML = '<i class="fas fa-times"></i>';
+        } else {
+            navToggle.querySelector('.nav-toggle-icon').innerHTML = '<i class="fas fa-bars"></i>';
+        }
+    }
+    
+    if (navToggle) {
+        navToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            toggleCategoryNav();
         });
     }
+    
+    navOverlay.addEventListener('click', function() {
+        categoryNav.classList.remove('active');
+        this.classList.remove('active');
+        document.body.classList.remove('no-scroll');
+        navToggle.setAttribute('aria-expanded', 'false');
+        navToggle.querySelector('.nav-toggle-icon').innerHTML = '<i class="fas fa-bars"></i>';
+    });
+    
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && categoryNav.classList.contains('active')) {
+            categoryNav.classList.remove('active');
+            navOverlay.classList.remove('active');
+            document.body.classList.remove('no-scroll');
+            navToggle.setAttribute('aria-expanded', 'false');
+            navToggle.querySelector('.nav-toggle-icon').innerHTML = '<i class="fas fa-bars"></i>';
+        }
+    });
+    
+    const categoryLinks = document.querySelectorAll('.category-nav-link');
+    categoryLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            categoryNav.classList.remove('active');
+            navOverlay.classList.remove('active');
+            document.body.classList.remove('no-scroll');
+            navToggle.setAttribute('aria-expanded', 'false');
+            navToggle.querySelector('.nav-toggle-icon').innerHTML = '<i class="fas fa-bars"></i>';
+        });
+    });
 }
+
+// Toast notifications
+function showToast(title, message, type = 'info') {
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.innerHTML = `
+        <div class="toast-header">
+            <strong>${title}</strong>
+            <button class="toast-close">&times;</button>
+        </div>
+        <div class="toast-body">${message}</div>
+    `;
+    
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.classList.add('show');
+    }, 10);
+    
+    // Auto-remove after 5 seconds
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => {
+            toast.remove();
+        }, 300);
+    }, 5000);
+    
+    // Close button
+    toast.querySelector('.toast-close').addEventListener('click', () => {
+        toast.classList.remove('show');
+        setTimeout(() => {
+            toast.remove();
+        }, 300);
+    });
+}
+
+// Add pulse animation for notifications
+function addPulseAnimation() {
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        .pulse {
+            animation: pulse 1s infinite;
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+// Initialize pulse animation
+addPulseAnimation();

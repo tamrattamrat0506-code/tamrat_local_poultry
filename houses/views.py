@@ -10,6 +10,10 @@ from .forms import HouseForm
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.contenttypes.models import ContentType
+
+from cart.models import CartItem
+from cart.views import _get_cart
 
 @require_POST
 @csrf_exempt
@@ -43,7 +47,7 @@ class HouseListView(ListView):
     template_name = 'houses/house_list.html'
     context_object_name = 'houses'
     paginate_by = 12
-    
+
     def get_queryset(self):
         queryset = super().get_queryset()
         category_slug = self.kwargs.get('category_slug')
@@ -52,16 +56,45 @@ class HouseListView(ListView):
             queryset = queryset.filter(category__iexact=category.name)
         return queryset.order_by('-date_added')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        houses = context['houses']
+
+        cart = _get_cart(self.request)
+        house_ct = ContentType.objects.get_for_model(House)
+        cart_house_ids = CartItem.objects.filter(
+            cart=cart,
+            content_type=house_ct,
+            object_id__in=houses.values_list('id', flat=True)
+        ).values_list('object_id', flat=True)
+
+        for house in houses:
+            house.is_carted = house.id in cart_house_ids
+
+        return context
+    
 class HouseDetailView(DetailView):
     model = House
     template_name = 'houses/house_detail.html'
     context_object_name = 'house'
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['images'] = self.object.images.all()
-        return context
+        house = self.object
+        context['images'] = house.images.all()
+        context['app_label'] = house._meta.app_label
+        context['model_name'] = house._meta.model_name
 
+        cart = _get_cart(self.request)
+        house_ct = ContentType.objects.get_for_model(house)
+        context['house'].is_carted = CartItem.objects.filter(
+            cart=cart,
+            content_type=house_ct,
+            object_id=house.id
+        ).exists()
+
+        return context
+    
 class HouseCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = House
     form_class = HouseForm
@@ -100,10 +133,21 @@ class HouseDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, self.success_message)
         return super().delete(request, *args, **kwargs)
-
 def house_list(request):
     houses = House.objects.all().order_by('-date_added')
     categories = HouseCategory.objects.all()
+
+    cart = _get_cart(request)
+    house_ct = ContentType.objects.get_for_model(House)
+    cart_house_ids = CartItem.objects.filter(
+        cart=cart,
+        content_type=house_ct,
+        object_id__in=houses.values_list('id', flat=True)
+    ).values_list('object_id', flat=True)
+
+    for house in houses:
+        house.is_carted = house.id in cart_house_ids
+
     context = {
         'houses': houses,
         'categories': categories,
@@ -113,6 +157,15 @@ def house_list(request):
 def house_detail(request, pk):
     house = get_object_or_404(House, pk=pk)
     images = house.images.all()
+
+    cart = _get_cart(request)
+    house_ct = ContentType.objects.get_for_model(House)
+    house.is_carted = CartItem.objects.filter(
+        cart=cart,
+        content_type=house_ct,
+        object_id=house.id
+    ).exists()
+
     context = {
         'house': house,
         'images': images,

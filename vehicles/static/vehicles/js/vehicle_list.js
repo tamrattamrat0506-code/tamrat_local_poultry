@@ -69,6 +69,7 @@ async function shareVehicle(vehicleId, button) {
             // Fallback for browsers without Web Share API
             await sendShareRequest(vehicleId, button);
             copyToClipboard(window.location.href);
+            
             alert('Link copied to clipboard!');
         }
     } catch (error) {

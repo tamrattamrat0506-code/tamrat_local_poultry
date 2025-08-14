@@ -16,6 +16,12 @@
                 <img class="thumbnail" src="{{ image.image.url }}" alt="Product Image">
             {% endfor %}
         </div>
+
+       <span class="carted-badge {% if product.is_carted %}carted{% endif %}">
+    <i class="fas fa-shopping-cart"></i>
+</span>
+
+
     </div>
 
     <div class="product-info">
@@ -26,10 +32,25 @@
         <p class="condition"><strong>Condition:</strong> {{ product.get_condition_display }}</p>
         <p class="stock"><strong>Stock:</strong> {{ product.stock }}</p>
 
+        <a href="{% url 'cart:add_to_cart' app_label model_name product.id %}">{% trans "Add to Cart" %}</a>
         <div class="actions">
-            <button class="contact-btn">Contact Seller</button>
-            <button class="wishlist-btn">Add to Wishlist ❤️</button>
-        </div>
+    <button type="button" 
+            class="interaction-button like-button" 
+            aria-label="Like this product"
+            data-item-id="{{ product.id }}">
+        <i class="fas fa-thumbs-up" aria-hidden="true"></i> 
+        <span class="interaction-count">{{ product.like_count }}</span>
+    </button>
+
+    <button type="button" 
+            class="interaction-button share-button" 
+            aria-label="Share this product"
+            data-item-id="{{ product.id }}">
+        <i class="fas fa-share-alt" aria-hidden="true"></i> 
+        <span class="interaction-count">{{ product.share_count }}</span>
+    </button>
+</div>
+
     </div>
 </div>
 {% endblock %}

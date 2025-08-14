@@ -6,7 +6,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from django.contrib.auth import get_user_model
-from cloudinary.models import CloudinaryField
+import os
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, username, phone_number, **extra_fields):
@@ -64,10 +64,9 @@ class Profile(models.Model):
         on_delete=models.CASCADE,
         related_name='profile'
     )
-    profile_picture = CloudinaryField(
-        'image',
-        folder='profile_pics/',
-        default='kvtec0mqxawgxmhsaamd',
+    profile_picture = models.ImageField(
+        upload_to='profile_pics/',
+        default='profile_pics/default.jpg',
         blank=True
     )
     

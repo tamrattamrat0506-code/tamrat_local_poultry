@@ -9,7 +9,9 @@
 <div class="house-detail-container">
     <div class="image-gallery">
         <div class="main-image">
-            <img id="mainHouseImage" src="{{ house.images.all.0.image.url }}" alt="Main House Image" />
+            <img id="mainHouseImage" src="{{ house.images.all.0.image.url }}" alt="Main House Image" /><span class="carted-badge {% if house.is_carted %}carted{% endif %}">
+        <i class="fas fa-shopping-cart"></i>
+    </span>
         </div>
         <div class="thumbnail-list">
             {% for image in house.images.all %}
@@ -19,6 +21,9 @@
     </div>
 
     <div class="house-info">
+        
+        <a href="{% url 'cart:add_to_cart' app_label model_name house.id %}">Add to Cart</a>
+
         <h1>{{ house.title }}</h1>
         <p class="price">${{ house.price }}</p>
         <p class="location"><strong>Location:</strong> {{ house.location }}</p>

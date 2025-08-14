@@ -2,11 +2,6 @@
 import os
 from pathlib import Path
 from django.utils.translation import gettext_lazy as _
-import cloudinary
-import cloudinary.uploader
-import cloudinary.api
-# database
-# import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -14,7 +9,6 @@ SECRET_KEY = 'your-development-secret-key'
 DEBUG = True
 ALLOWED_HOSTS = ['*','localhost', '127.0.0.1','render-x1cx.onrender.com']
 
-# Internationalization
 LANGUAGES = [
     ('en', _('English')),
     ('am', _('Amharic')),
@@ -44,10 +38,7 @@ INSTALLED_APPS = [
     'channels',
     'rest_framework',
     'corsheaders',
-    'cloudinary',
-    'cloudinary_storage',
     
-    # Local apps
     'base',
     'poultryitems',
     'conversation',
@@ -58,11 +49,10 @@ INSTALLED_APPS = [
     'clothings',
     'electronics.apps.ElectronicsConfig',
     'houses.apps.HousesConfig',
+    'cart',
 
-    # aditional
     'crispy_forms',
     'crispy_bootstrap5',
-    # live server
     "django_browser_reload",
 ]
 
@@ -87,26 +77,13 @@ ROOT_URLCONF = 'project.urls'
 ASGI_APPLICATION = 'project.asgi.application'
 WSGI_APPLICATION = 'project.wsgi.application'
 DAPHNE_TIMEOUT = 50
-# Production
-#DATABASES = {
-#    'default': {
-        #'ENGINE': 'django.db.backends.postgresql',
-        #'NAME': 'postgres_xf9a',
-        #'USER': 'postgres_xf9a_user',
-        #'PASSWORD': #'AWs5EvfJmzQCtblnzyGFTiBIeYEQQ0LW',
-        #'HOST': #'dpg-d1fhd4hr0fns73cf3n90-a.oregon-postgres.render.com',
-   #     'PORT': '5432',
-  #      'OPTIONS': {'sslmode': 'require'},
- #   }
-#}
-# development
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-# Channels configuration
+
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
@@ -116,31 +93,25 @@ CHANNEL_LAYERS = {
     },
 }
 
-# Authentication
 AUTH_USER_MODEL = 'users.CustomUser'
 AUTHENTICATION_BACKENDS = ['users.backends.UsernamePhoneBackend']
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'dashboard'
 LOGOUT_REDIRECT_URL = 'home'
 
-# Static files
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfile')
 STATICFILES_DIRS = [ BASE_DIR / "static",]  
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-
-# Media files - local storage for development
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# Internationalization
 LANGUAGE_CODE = 'en'
 TIME_ZONE = 'Africa/Addis_Ababa'
 USE_I18N = True
 USE_TZ = True
 
-# Security
 CORS_ALLOW_ALL_ORIGINS = True
 
 TEMPLATES = [
@@ -163,13 +134,3 @@ TEMPLATES = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 WHITENOISE_AUTOREFRESH = True
-
-
-# Cloudinary configuration
-cloudinary.config(
-    cloud_name="doixo5oiw",
-    api_key="435759228322341",
-    api_secret="H3_ZVEXWGcyuE28IfKWUYsTo5sY",
-    secure=True
-)
-

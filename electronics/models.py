@@ -27,6 +27,19 @@ class Product(models.Model):
     stock = models.PositiveIntegerField(default=1)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    like_count = models.PositiveIntegerField(default=0)
+    share_count = models.PositiveIntegerField(default=0)
+    is_featured = models.BooleanField(default=True)
+
+    def increment_likes(self):
+        self.like_count += 1
+        self.save(update_fields=['like_count'])
+        return self.like_count
+
+    def increment_shares(self):
+        self.share_count += 1
+        self.save(update_fields=['share_count'])
+        return self.share_count
     
     def __str__(self):
         return f"{self.name} - ${self.price}"

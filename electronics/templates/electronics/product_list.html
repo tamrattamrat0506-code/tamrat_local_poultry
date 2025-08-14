@@ -7,26 +7,72 @@
 {% endblock %}
 
 {% block content %}
-<h2>Electronics for Sale</h2>
-<div class="product-grid">
-  {% for product in products %}
-    <div class="product-card">
-      <a href="{% url 'electronics:product_detail' product.pk %}">
-        {% if product.images.all %}
-          <!-- Show first image only -->
-          <img src="{{ product.images.first.image.url }}" alt="{{ product.images.first.alt_text }}">
-        {% else %}
-          <!-- Placeholder if no images exist -->
-          <img src="{% static 'electronics/images/no-image.jpg' %}" alt="No image available">
-        {% endif %}
-        <h3>{{ product.name }}</h3>
-        <p>${{ product.price }}</p>
-        <p>{{ product.get_condition_display }}</p>
-      </a>
+<div class="product-container">
+
+    <div class="list-header">
+        <a href="{% url 'electronics:product_create' %}" class="add-product-btn">
+            <i class="fas fa-plus"></i> {% trans "Add New Electronics" %}
+        </a>
     </div>
-  {% empty %}
-    <p>No products found.</p>
-  {% endfor %}
+
+    
+<div class="electronics-listings">
+  <div class="electronics-grid">
+
+     {% for product in products %}
+    <div class="electronics-card">
+                <div class="card-image">
+            <img src="{{ product.images.first.image.url }}" alt="{{ product.images.first.alt_text|default:product.name }}" loading="lazy">
+          <span class="carted-badge {% if product.is_carted %}carted{% endif %}">
+            <i class="fas fa-shopping-cart"></i>
+          </span>
+
+          <div class="interaction-buttons">
+    <button type="button" 
+            class="interaction-button like-button" 
+            aria-label="Like this product"
+            data-item-id="{{ product.id }}">
+        <i class="fas fa-thumbs-up" aria-hidden="true"></i> 
+        <span class="interaction-count">{{ product.like_count }}</span>
+    </button>
+
+    <button type="button" 
+            class="interaction-button share-button" 
+            aria-label="Share this product"
+            data-item-id="{{ product.id }}">
+        <i class="fas fa-share-alt" aria-hidden="true"></i> 
+        <span class="interaction-count">{{ product.share_count }}</span>
+    </button>
+</div>
+
+        </div>
+
+         <div class="card-content">
+              <div class="electronics-meta">
+              </div>
+
+              <h3 class="product-title">{{ product.name }}</h3>
+
+              <div class="electronics-price">
+                        <span class="price">${{ product.price }}</span>
+                    </div>
+              <p class="product-condition">{{ product.get_condition_display }}</p>
+        </div>
+        
+        <a href="{% url 'electronics:product_detail' product.pk %}" class="view-details">
+          <div class="fraol">
+            view-details
+           <i class="fas fa-chevron-right"></i>
+         </div>  
+        </a>
+    </div>
+      {% empty %}
+            <div class="no-results">
+                <i class="fas fa-home"></i>
+                <h3>{% trans "No House found" %}</h3>
+                <p>{% trans "Try another time" %}</p>
+            </div>
+            {% endfor %}
 </div>
 {% endblock %}
 

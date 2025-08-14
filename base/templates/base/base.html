@@ -1,5 +1,4 @@
 {% load django_browser_reload %}
-
 {% load static %}
 {% load i18n %}
 <!DOCTYPE html>
@@ -53,9 +52,9 @@
                      <a>
                     <i class="fas fa-clock"></i> <span class="live-clock">{{ now|date:"Y-m-d H:i" }}</span>
                 <a>
-                    <a href="{% url 'contact:contact_us' %}"><i class="fas fa-headset" aria-hidden="true"></i> All Items</a>
+                    <a href="{% url 'contact:contact_us' %}"><i class="fas fa-headset" aria-hidden="true"></i> {% trans "All Items" %}</a>
                     <a href="#"><i class="fas fa-truck" aria-hidden="true"></i> +251 975 060 586</a>
-                    <a href="{% url 'base:message_list' %}"><i class="fas fa-user" aria-hidden="true"></i> Contact Us</a>
+                    <a href="{% url 'base:message_list' %}"><i class="fas fa-user" aria-hidden="true"></i> {% trans "Contact Us" %}</a>
                 </div>
             </div>
         </div>
@@ -68,25 +67,25 @@
                 <div class="logo">
                     <a href="/" aria-label="Home">
                         <span class="logo-icon"><i class="fas fa-store" aria-hidden="true"></i></span>
-                        <span class="logo-text">Sheger<span class="hub">city</span></span>
+                        <span class="logo-text">{% trans "Sheger" %}<span class="hub">{% trans "city" %}</span></span>
                     </a>
                 </div>
 
                 <div class="search-bar">
                     <form action="#" role="search">
-                        <label for="search-input" class="sr-only">Search products</label>
+                        <label for="search-input" class="sr-only">{% trans "Search products" %}</label>
                         <div class="search-input">
                             <input type="text" id="search-input" placeholder="Search for products...">
                             <button type="submit" aria-label="Search"><i class="fas fa-search"></i></button>
                         </div>
                         <div class="category-select">
                             <select aria-label="Select category">
-                                <option value="all">All Categories</option>
-                                <option value="cars">Cars</option>
-                                <option value="houses">Houses</option>
-                                <option value="electronics">Electronics</option>
-                                <option value="clothing">Clothing</option>
-                                <option value="toys">Kids Toys</option>
+                                <option value="all">{% trans "All Categories" %}</option>
+                                <option value="cars">{% trans "Cars" %}</option>
+                                <option value="houses">{% trans "Houses" %}</option>
+                                <option value="electronics">{% trans "Electronics" %}</option>
+                                <option value="clothing">{% trans "Clothing" %}</option>
+                                <option value="toys">{% trans "Kids Toys" %}</option>
                             </select>
                         </div>
                     </form>
@@ -99,15 +98,8 @@
                         <span class="count" id="navbarUnread">0</span>
                     </a>
 
-                    <a href="{% url 'poultryitems:view_cart' %}" class="action-btn cart-btn" aria-label="Cart">
-                        <i class="fas fa-shopping-cart"></i>
-                        <span class="count badge unread-badge" id="cart-count">
-                            {% if user.is_authenticated %}
-                                {{ user.cart.items.count }}
-                            {% else %}
-                                0
-                            {% endif %}
-                        </span>
+                    <a href="{% url 'cart:cart_detail' %}" class="action-btn wishlist-btn">
+                        <i class="fas fa-shopping-cart"></i>{{ cart_item_count|default:0 }}
                     </a>
                     
                     <a href="{% url 'users:profile' %}" class="user-btn">
@@ -119,7 +111,7 @@
                         <span class="username">{{ user.username|default:user.phone_number }}</span>
                     </a>
                     {% else %}
-                    <a href="{% url 'users:register' %}" class="login-btn">Register</a>
+                    <a href="{% url 'users:register' %}" class="login-btn">{% trans "Register" %}</a>
                     {% endif %}
 
                     <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
@@ -130,30 +122,110 @@
         </div>
     </header>
 
-    <!-- Navigation -->
-    <nav class="main-nav" id="navMenu">
-        <div class="container">
-            <ul class="nav-list">
-                <li class="nav-item"><a href="/" class="nav-link active"><i class="fas fa-home"></i> Home</a></li>
-                <li class="nav-item mega-menu">
-                    <a href="{% url 'vehicles:vehicle_list' %}" class="nav-link"><i class="fas fa-car"></i> Cars</a>
-                </li> 
-                <li class="nav-item mega-menu">
-                 <a href="{% url 'houses:house_list' %}" class="nav-link"><i class="fas fa-home"></i> Houses</a>
-                </li>
-                <li class="nav-item mega-menu">
-                    <a href="{% url 'electronics:product_list' %}" class="nav-link"><i class="fas fa-laptop"></i> Electronics</a>
-                </li>
-                <li class="nav-item mega-menu">
-                    <a href="{% url 'clothings:clothing_list' %}" class="nav-link"><i class="fas fa-tshirt"></i> Clothing</a>
-                </li>
-                
-                <li class="nav-item mega-menu">
-                    <a href="{% url 'poultryitems:index' %}" class="nav-link"><i class="fas fa-feather-alt"></i> Poultry</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+    <nav class="category-nav" id="categoryNav">
+        <ul class="category-nav-list">
+    <li class="category-nav-item {% if request.resolver_match.app_name == 'vehicles' %}active{% endif %}">
+        <a href="{% url 'vehicles:vehicle_list' %}" class="category-nav-link">
+            <i class="fas fa-car"></i>{% trans " Cars for Sale" %}
+        </a>
+    </li>
+    <li class="category-nav-item {% if request.resolver_match.app_name == 'houses' %}active{% endif %}">
+        <a href="{% url 'houses:house_list' %}" class="category-nav-link">
+            <i class="fas fa-home"></i>{% trans " Houses for Sale" %}
+        </a>
+    </li>
+    <li class="category-nav-item {% if request.resolver_match.app_name == 'electronics' %}active{% endif %}">
+        <a href="{% url 'electronics:product_list' %}" class="category-nav-link">
+            <i class="fas fa-laptop"></i>{% trans " Electronics" %}
+        </a>
+    </li>
+    <li class="category-nav-item {% if request.resolver_match.app_name == 'clothings' %}active{% endif %}">
+        <a href="{% url 'clothings:clothing_list' %}" class="category-nav-link">
+            <i class="fas fa-tshirt"></i>{% trans " Clothing" %}
+        </a>
+    </li>
+    <li class="category-nav-item {% if request.resolver_match.app_name == 'poultryitems' %}active{% endif %}">
+        <a href="{% url 'poultryitems:index' %}" class="category-nav-link">
+            <i class="fas fa-feather-alt"></i>{% trans " Poultry Items" %}
+        </a>
+    </li>
+    <li class="category-nav-item {% if request.resolver_match.app_name == 'base' and request.resolver_match.url_name == 'about_us' %}active{% endif %}">
+        <a href="{% url 'base:about_us' %}" class="category-nav-link">
+            <i class="fas fa-info-circle"></i>{% trans " About us" %}
+        </a>
+    </li>
+    <li class="category-nav-item {% if request.resolver_match.app_name == 'users' %}active{% endif %}">
+        <a href="{% url 'users:user_list' %}" class="category-nav-link">
+            <i class="fas fa-users"></i>{% trans " User list" %}
+        </a>
+    </li>
+    <li class="category-nav-item {% if request.resolver_match.app_name == 'cart' %}active{% endif %}">
+        <a href="{% url 'cart:cart_detail' %}" class="category-nav-link">
+            <i class="fas fa-shopping-cart"></i>{% trans " Cart" %} ({{ cart_item_count|default:0 }})
+        </a>
+    </li>
+    <li class="category-nav-item {% if request.resolver_match.app_name == 'base' %}active{% endif %}">
+        <a href="{% url 'contact:contact_us' %}" class="category-nav-link">
+            <i class="fas fa-envelope"></i>
+            Contact Us
+        </a>
+    </li>
+    <li class="category-nav-item {% if request.resolver_match.app_name == 'base' %}active{% endif %}">
+        <a href="/" class="category-nav-link">
+            <i class="fas fa-bars"></i>
+            Line break for admins
+        </a>
+    </li>
+    <li class="category-nav-item {% if request.resolver_match.app_name == 'base' and request.resolver_match.url_name == 'admin_links' %}active{% endif %}">
+        <a href="{% url 'base:admin_links' %}" class="category-nav-link">
+            <i class="fas fa-user-shield"></i>{% trans " Admin Links" %}
+        </a>
+    </li>
+    <li class="category-nav-item {% if request.resolver_match.app_name == 'base' and request.resolver_match.url_name == 'message_list' %}active{% endif %}">
+        <a href="{% url 'base:message_list' %}" class="category-nav-link">
+            <i class="fas fa-envelope"></i>{% trans " Message" %}
+        </a>
+    </li>
+</ul>
+</nav>
+
+<nav class="main-nav" id="navMenu">
+    <div class="container">
+    <ul class="nav-list">
+        <li class="nav-item mega-menu {% if request.resolver_match.app_name == 'base' %}active{% endif %}">
+            <a href="/" class="nav-link active"><i class="fas fa-home"></i>{% trans " Home" %}</a></li>
+
+        <li class="nav-item mega-menu {% if request.resolver_match.app_name == 'vehicles' %}active{% endif %}">
+    <a href="{% url 'vehicles:vehicle_list' %}" class="nav-link">
+        <i class="fas fa-car"></i>{% trans " Cars" %}
+    </a>
+</li>
+<li class="nav-item mega-menu {% if request.resolver_match.app_name == 'houses' %}active{% endif %}">
+    <a href="{% url 'houses:house_list' %}" class="nav-link">
+        <i class="fas fa-home"></i>{% trans " Houses" %}
+    </a>
+</li>
+<li class="nav-item mega-menu {% if request.resolver_match.app_name == 'electronics' %}active{% endif %}">
+    <a href="{% url 'electronics:product_list' %}" class="nav-link">
+        <i class="fas fa-laptop"></i>{% trans " Electronics" %}
+    </a>
+</li>
+<li class="nav-item mega-menu {% if request.resolver_match.app_name == 'clothings' %}active{% endif %}">
+    <a href="{% url 'clothings:clothing_list' %}" class="nav-link">
+        <i class="fas fa-tshirt"></i>{% trans " Clothing" %}
+    </a>
+</li>
+<li class="nav-item mega-menu {% if request.resolver_match.app_name == 'poultryitems' %}active{% endif %}">
+    <a href="{% url 'poultryitems:index' %}" class="nav-link">
+        <i class="fas fa-feather-alt"></i>{% trans " Poultry" %}
+    </a>
+</li>
+
+
+
+    </ul>
+    </div>
+</nav>
 
     {% block content %}{% endblock %}
  
@@ -164,10 +236,10 @@
                     <div class="footer-logo">
                         <a href="#">
                             <span class="logo-icon"><i class="fas fa-store"></i></span>
-                            <span class="logo-text">Market<span>Hub</span></span>
+                            <span class="logo-text">{% trans "Market" %}<span>{% trans "Hub" %}</span></span>
                         </a>
                     </div>
-                    <p class="footer-about">MarketHub is your one-stop online marketplace for cars, houses, electronics, clothing and kids toys. We connect buyers and sellers across the globe.</p>
+                    <p class="footer-about">{% trans "Sheger.xyz is your one-stop online marketplace for cars, houses, electronics, clothing and kids toys. We connect buyers and sellers across the globe." %}</p>
                     <div class="social-links">
                         <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
                         <a href="#" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
@@ -177,49 +249,38 @@
                     </div>
                 </div>
                 <div class="footer-column">
-                    <h4 class="footer-title">Quick Links</h4>
+                    <h4 class="footer-title">{% trans "Categories" %}</h4>
                     <ul class="footer-links">
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Products</a></li>
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">Contact</a></li>
-                    </ul>
-                </div> 
-                <div class="footer-column">
-                    <h4 class="footer-title">Categories</h4>
-                    <ul class="footer-links">
-                        <li><a href="{% url 'vehicles:vehicle_list' %}">Cars</a></li>
-                        <li><a href="#">Houses</a></li>
-                        <li><a href="#">Electronics</a></li>
-                        <li><a href="#">Clothing</a></li>
-                        <li><a href="#">Kids Toys</a></li>
+                        <li><a href="{% url 'vehicles:vehicle_list' %}">{% trans "Cars" %}</a></li>
+                        <li><a href="#">{% trans "Houses" %}</a></li>
+                        <li><a href="#">{% trans "Electronics" %}</a></li>
+                        <li><a href="#">{% trans "Clothing" %}</a></li>
+                        <li><a href="#">{% trans "Kids Toys" %}</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
-                    <h4 class="footer-title">Customer Service</h4>
-                    <ul class="footer-links">
-                        <li><a href="#">My Account</a></li>
-                        <li><a href="#">Order Tracking</a></li>
-                        <li><a href="#">Wishlist</a></li>
-                        <li><a href="#">Customer Service</a></li>
-                        <li><a href="#">Returns & Exchanges</a></li>
-                        <li><a href="#">FAQs</a></li>
-                    </ul>
-                </div> 
-                <div class="footer-column">
-                    <h4 class="footer-title">Contact Info</h4>
+                    <h4 class="footer-title">{% trans "Contact Info" %}</h4>
                     <ul class="footer-contact">
-                        <li><i class="fas fa-map-marker-alt"></i> Ethiopia / Sheger City , Gelan</li>
+                        <li><i class="fas fa-map-marker-alt"></i> {% trans "Ethiopia / Sheger City , Gelan" %}</li>
                         <li><i class="fas fa-phone"></i> +251(0) 9 2525 9294</li>
                         <li><i class="fas fa-envelope"></i> fraollemma0506@gmail.com</li>
                         <li><i class="fas fa-clock"></i> <span class="live-clock">{{ now|date:"Y-m-d H:i" }}</span></li>
                     </ul>
                 </div>
+                <div class="footer-column">
+                    <h4 class="footer-title">{% trans "Quick Links" %}</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">{% trans "Home" %}</a></li>
+                        <li><a href="#">{% trans "About Us" %}</a></li>
+                        <li><a href="#">{% trans "Products" %}</a></li>
+                        <li><a href="#">{% trans "Blog" %}</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
             </div>
             <div class="footer-bottom">
                 <div class="copyright">
-                    &copy; <span id="current-year"></span> MarketHub. All Rights Reserved.
+                    &copy; <span id="current-year"></span> {% trans "Sheger.xyz All Rights Reserved." %}
                 </div>
             </div>
         </div>
@@ -235,25 +296,20 @@
 
 {% django_browser_reload_script %}
 
+
 <!--
-
-<div class="language-container">
-        {% load i18n %}
-<form action="{% url 'set_language' %}" method="post" style="display: inline;">
-    {% csrf_token %}
-    <input name="next" type="hidden" value="{{ request.get_full_path }}">
-    <select name="language" onchange="this.form.submit()" style="padding: 5px;">
-        {% get_current_language as LANGUAGE_CODE %}
-        {% get_available_languages as LANGUAGES %}
-        
-        {% for code, name in LANGUAGES %}
-            <option value="{{ code }}" {% if code == LANGUAGE_CODE %}selected{% endif %}>
-                {{ name }}
-            </option>
-        {% endfor %}
-    </select>
-</form>
+<div class="language-switcher">
+    <form action="{% url 'set_language' %}" method="post" class="language-form">
+        {% csrf_token %}
+        <input name="next" type="hidden" value="{{ request.get_full_path }}">
+        <select name="language" class="language-select" onchange="this.form.submit()">
+            {% get_current_language as LANGUAGE_CODE %}
+            {% get_available_languages as LANGUAGES %}
+            {% for code, name in LANGUAGES %}
+                <option value="{{ code }}" {% if code == LANGUAGE_CODE %}selected{% endif %}>
+                    {{ name }}
+                </option>
+            {% endfor %}
+        </select>
+    </form>
 </div>
-
--->
-

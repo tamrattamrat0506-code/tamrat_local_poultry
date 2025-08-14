@@ -1,4 +1,3 @@
-<!-- vehicles/vehicle_list.html -->
 {% extends "base/base.html" %}
 {% load static %}
 {% load i18n %}
@@ -10,49 +9,56 @@
 
 {% block content %}
 <div class="vehicle-container">
+
     <div class="list-header">
             <a href="{% url 'vehicles:vehicle_add' %}"  class="add-vehicle-btn">
                 <i class="fas fa-plus"></i> Add New Vehicle
             </a>
-    </div>
-    <main class="vehicle-listings">
+    </div> 
+    
+<main class="vehicle-listings">
         <div class="vehicle-grid">
+ 
             {% for vehicle in vehicles %}
             <div class="vehicle-card" data-category="{{ vehicle.category.slug }}" data-price="{{ vehicle.price }}">
 
                 <div class="card-image">
-    <img src="{{ vehicle.images.first.image.url }}" alt="{{ vehicle.make }} {{ vehicle.model }}" loading="lazy">
-    <span class="featured-badge {% if vehicle.is_featured %}featured{% endif %}">
-        <i class="fas fa-star"></i>
-    </span>
+            <img src="{{ vehicle.images.first.image.url }}" alt="{{ vehicle.make }} {{ vehicle.model }}" loading="lazy">
+            <span class="carted-badge {% if vehicle.is_carted %}carted{% endif %}">
+                <i class="fas fa-shopping-cart"></i>
+            </span>
     
-    <div class="interaction-buttons">
-        <button type="button" 
-                class="interaction-button like-button"
-                aria-label="Like this vehicle"
-                data-item-id="{{ vehicle.id }}"
-                data-action="like">
-            <i class="fas fa-thumbs-up" aria-hidden="true"></i> 
-            <span class="interaction-count">{{ vehicle.like_count }}</span>
-        </button>
+            <div class="interaction-buttons">
 
-        <button type="button" 
-                class="interaction-button share-button"
-                aria-label="Share this vehicle"
-                data-item-id="{{ vehicle.id }}"
-                data-action="share"> 
-            <i class="fas fa-share-alt" aria-hidden="true"></i> 
-            <span class="interaction-count">{{ vehicle.share_count }}</span>
-        </button>
-    </div>
-</div>
+                <button type="button" 
+                        class="interaction-button like-button"
+                        aria-label="Like this vehicle"
+                        data-item-id="{{ vehicle.id }}"
+                        data-action="like">
+                    <i class="fas fa-thumbs-up" aria-hidden="true"></i> 
+                    <span class="interaction-count">{{ vehicle.like_count }}</span>
+                </button>
+
+                <button type="button" 
+                        class="interaction-button share-button"
+                        aria-label="Share this vehicle"
+                        data-item-id="{{ vehicle.id }}"
+                        data-action="share"> 
+                    <i class="fas fa-share-alt" aria-hidden="true"></i> 
+                    <span class="interaction-count">{{ vehicle.share_count }}</span>
+                </button>
+            </div>
+         </div>
                 
                 <div class="card-content">
                     <div class="vehicle-meta">
+
                         <span class="vehicle-year">{{ vehicle.year }}</span>
                         <span class="vehicle-mileage"><i class="fas fa-tachometer-alt"></i> {{ vehicle.mileage|floatformat:"0" }} km</span>
                     </div>
+
                     <h3>{{ vehicle.make }} {{ vehicle.model }}</h3>
+
                     <div class="vehicle-specs">
                         <span><i class="fas fa-gas-pump"></i> {{ vehicle.get_fuel_type_display }}</span>
                         <span><i class="fas fa-cog"></i> {{ vehicle.engine_size|default:"N/A" }}</span>
@@ -61,7 +67,9 @@
                         <span class="price">${{ vehicle.price|floatformat:"0" }}</span>
                     </div>
                     <a href="{% url 'vehicles:vehicle_detail' vehicle.slug %}" class="view-details">
+                        <div class="fraol">
                         {% trans "View Details" %} <i class="fas fa-chevron-right"></i>
+                        </div>
                     </a>
                     <div class="card-actions">
     <a href="{% url 'vehicles:vehicle_edit' vehicle.slug %}" class="edit-btn" title="Edit">
@@ -70,14 +78,8 @@
     <a href="{% url 'vehicles:vehicle_delete' vehicle.slug %}" class="delete-btn" title="Delete">
         <i class="fas fa-trash"></i>
     </a>
-</div>
+                    </div>
                 </div>
-            </div>
-            {% empty %}
-            <div class="no-results">
-                <i class="fas fa-car-crash"></i>
-                <h3>{% trans "No vehicles found" %}</h3>
-                <p>{% trans "Try adjusting your filters" %}</p>
             </div>
             {% endfor %}
         </div>
@@ -105,10 +107,195 @@
             {% endif %}
         </div>
         {% endif %}
-    </main>
+</main>
 </div>
+
 {% endblock %}
 
 {% block js %}
 <script src="{% static 'vehicles/js/vehicle_list.js' %}"></script>
 {% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- start for more items add item -->
+            <div class="vehicle-card">
+
+                <div class="card-image">
+            <img  alt="An image for cars" loading="lazy">
+            <span class="carted-badge {% if vehicle.is_carted %}carted{% endif %}">
+                <i class="fas fa-shopping-cart"></i>
+            </span>
+    
+            <div class="interaction-buttons">
+
+                <button type="button" 
+                        class="interaction-button like-button"
+                        aria-label="Like this vehicle"
+                        data-item-id="{{ vehicle.id }}"
+                        data-action="like">
+                    <i class="fas fa-thumbs-up" aria-hidden="true"></i> 
+                    <span class="interaction-count">1k</span>
+                </button>
+
+                <button type="button" 
+                        class="interaction-button share-button"
+                        aria-label="Share this vehicle"
+                        data-item-id="{{ vehicle.id }}"
+                        data-action="share"> 
+                    <i class="fas fa-share-alt" aria-hidden="true"></i> 
+                    <span class="interaction-count">140</span>
+                </button>
+            </div>
+    </div>
+                
+                <div class="card-content">
+                    <div class="vehicle-meta">
+
+                        <span class="vehicle-year">1998</span>
+                        <span class="vehicle-mileage"><i class="fas fa-tachometer-alt"></i> 0.0 km</span>
+                    </div>
+
+                    <h3>2025</h3>
+
+                    <div class="vehicle-specs">
+                        <span><i class="fas fa-gas-pump"></i> Electric</span>
+                        <span><i class="fas fa-cog"></i> 3</span>
+                    </div>
+                    <div class="vehicle-price">
+                        <span class="price">$1,000,000</span>
+                    </div>
+                    <a href="/" class="view-details">
+                        <div class="fraol">
+                        {% trans "Add new" %} <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </a>
+                    <div class="card-actions">
+    <a href="/" class="edit-btn" title="Edit">
+        <i class="fas fa-edit"></i>
+    </a>
+    <a href="/" class="delete-btn" title="Delete">
+        <i class="fas fa-trash"></i>
+    </a>
+                    </div>
+                </div>
+            </div>
+<!-- end for more items add item -->

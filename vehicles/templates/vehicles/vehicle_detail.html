@@ -13,14 +13,16 @@
 <div class="vehicle-detail-container">
   <div class="vehicle-gallery">
     <img id="mainVehicleImage" src="{{ vehicle.images.first.image.url }}" alt="Main Image" class="main-image">
+    <span class="carted-badge {% if vehicle.is_carted %}carted{% endif %}">
+        <i class="fas fa-shopping-cart"></i>
+    </span>
     <div class="thumbnail-gallery">
       {% for image in vehicle.images.all %}
         <img src="{{ image.image.url }}" alt="Thumbnail" class="thumbnail" onclick="updateMainImage(this)">
       {% endfor %}
     </div>
   </div>
-
-  <div class="vehicle-info">
+<div class="vehicle-info"></div>
     <h1>{{ vehicle.make }} {{ vehicle.model }} ({{ vehicle.year }})</h1>
     <p><strong>Price:</strong> ${{ vehicle.price }}</p>
     <p><strong>Mileage:</strong> {{ vehicle.mileage }} km</p>
@@ -31,10 +33,7 @@
     <p><strong>Location:</strong> {{ vehicle.location }}</p>
     <p><strong>Description:</strong> {{ vehicle.description|linebreaks }}</p>
 
-    <div class="action-buttons">
-      <button onclick="likeVehicle({{ vehicle.id }})" id="likeBtn">❤️ Like ({{ vehicle.likes }})</button>
-      <button onclick="shareVehicle({{ vehicle.id }})" id="shareBtn">🔗 Share ({{ vehicle.shares }})</button>
-    </div>
+    <a href="{% url 'cart:add_to_cart' app_label model_name vehicle.id %}">Add to Cart</a>
   </div>
 </div>
 

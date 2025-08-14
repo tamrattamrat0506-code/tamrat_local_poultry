@@ -1,6 +1,4 @@
 /* vehicle_detail.css */
-
-/* Reset some default styles */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -24,8 +22,6 @@ body {
   border-radius: 10px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
 }
-
-/* Left: Gallery */
 .vehicle-gallery {
   flex: 1 1 40%;
   display: flex;
@@ -63,7 +59,6 @@ body {
   transform: scale(1.05);
 }
 
-/* Right: Info */
 .vehicle-info {
   flex: 1 1 55%;
   display: flex;
@@ -85,8 +80,6 @@ body {
 .vehicle-info p strong {
   color: #1b1b1b;
 }
-
-/* Action buttons */
 .action-buttons {
   margin-top: 1.5rem;
   display: flex;
@@ -119,8 +112,6 @@ body {
 #shareBtn:hover {
   background: #666;
 }
-
-/* Responsive */
 @media (max-width: 768px) {
   .vehicle-detail-container {
     flex-direction: column;
@@ -142,4 +133,39 @@ body {
   .thumbnail-gallery {
     justify-content: center;
   }
+}
+.carted-badge {
+    position: sticky;
+    top: 10px;
+    left: 10px;
+    background: rgba(0, 0, 0, 0.486);
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #888;
+    font-size: 18px;
+    cursor: default;
+    box-shadow: 0 0 8px rgb(224, 1, 245);
+    transition: color 0.3s ease, box-shadow 0.3s ease;
+    user-select: none;
+    z-index: 5;
+}
+
+.carted-badge.carted {
+    color: #ffda36;
+    top: 1rem;
+    left: 1rem;
+    background: rgba(0, 0, 0, 0.822);
+    padding: 0.375rem 0.875rem;
+    border-radius: 9999px;
+    font-size: 0.8rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    transition: var(--transition);
+    z-index: 1000000000;
+    border: 1px solid #ffa31a;
 }

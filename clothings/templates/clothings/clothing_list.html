@@ -1,56 +1,90 @@
 {% extends "base/base.html" %}
 {% load static %}
+{% load i18n %}
 
 {% block css %}
 <link rel="stylesheet" href="{% static 'clothings/css/clothing_list.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 {% endblock %}
 
 {% block content %}
 <div class="clothing-container">
-    <div class="clothing-grid">
-        {% for item in clothes %}
-        <div class="clothing-card">
-                <div class="image-container">
-                    <img src="{{ item.images.first.image.url }}" alt="{{ item.name }}">
-                    {% if item.is_on_sale %}
-                    <span class="sale-badge">Sale</span>
-                    {% endif %}
-                </div>
-                
-                <button type="button" 
-                        class="interaction-button like-button"
-                        aria-label="Like this item"
-                        data-item-id="{{ item.id }}"
-                        data-action="like">
-                    <i class="fas fa-thumbs-up" aria-hidden="true"></i> 
-                    <span class="interaction-count" id="like-count" aria-live="polite">{{ item.like_count }} 0</span>
-                </button>
-                
-                <button type="button" 
-                        class="interaction-button share-button"
-                        aria-label="Share this item"
-                        data-item-id="{{ item.id }}"
-                        data-action="share"> 
-                    <i class="fas fa-share-alt" aria-hidden="true"></i> 
-                    <span class="interaction-count" id="share-count" aria-live="polite">{{ item.share_count }} 0</span>
-                </button>
 
-                <div class="clothing-info">
-                    <h3>{{ item.brand }}</h3>
-                    <p>{{ item.name }}</p>
-                    <div class="price">
+    <div class="list-header">
+        <a href="{% url 'clothings:clothing_create' %}" class="add-clothing-btn">
+            <i class="fas fa-plus"></i> {% trans "Add New Clothing Item" %}
+        </a>
+    </div>
+
+    <main class="clothing-listings">
+        <div class="clothing-grid">
+
+            {% for item in clothes %}
+            <div class="clothing-card" data-category="{{ item.category.slug }}" data-price="{{ item.current_price }}">
+                <div class="card-image">
+                    <img src="{{ item.images.first.image.url }}" alt="{{ item.name }}" loading="lazy">
+                    <span class="carted-badge {% if item.is_carted %}carted{% endif %}">
+                        <i class="fas fa-shopping-cart"></i>
+                    </span>
+
+                    <div class="interaction-buttons">
+
+    <button type="button" 
+            class="interaction-button like-button"
+            aria-label="Like this clothing"
+            data-item-id="{{ item.id }}"
+            data-action="like">
+        <i class="fas fa-thumbs-up" aria-hidden="true"></i> 
+        <span class="interaction-count">{{ item.like_count }}</span>
+    </button>
+
+    <button type="button" 
+            class="interaction-button share-button"
+            aria-label="Share this clothing item"
+            data-item-id="{{ item.id }}"
+            data-action="share"> 
+        <i class="fas fa-share-alt" aria-hidden="true"></i> 
+        <span class="interaction-count">{{ item.share_count }}</span>
+    </button>
+
+</div>
+
+
+                </div>
+
+                <div class="card-content">
+                    <h3 class="brand-name">{{ item.brand }}</h3>
+                    <p class="item-name">{{ item.name }}</p>
+
+                    <div class="price-section">
                         {% if item.is_on_sale %}
-                        <span class="original-price">${{ item.price }}</span>
-                        <span class="sale-price">${{ item.discount_price }}</span>
+                            <span class="original-price">${{ item.price }}</span>
+                            <span class="sale-price">${{ item.discount_price }}</span>
                         {% else %}
-                        <span>${{ item.price }}</span>
+                            <span class="price">${{ item.price }}</span>
                         {% endif %}
                     </div>
+
+                    <a href="{% url 'clothings:clothing_detail' item.slug %}" class="view-details">
+                        <div class="fraol">
+                            {% trans "View Details" %} <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </a>
                 </div>
-                <a href="{% url 'clothings:clothing_detail' item.slug %}">View detail
-            </a>
+            </div>
+            {% empty %}
+            <div class="no-results">
+                <i class="fas fa-tshirt"></i>
+                <h3>{% trans "No clothing items found." %}</h3>
+                <p>{% trans "Try again later or add new items." %}</p>
+            </div>
+            {% endfor %}
+
         </div>
-        {% endfor %}
-    </div>
+    </main>
 </div>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'clothings/js/clothing_list.js' %}"></script>
 {% endblock %}
