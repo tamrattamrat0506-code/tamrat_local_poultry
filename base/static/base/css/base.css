@@ -138,6 +138,23 @@ img {
     z-index: 1000;
 }
 
+/* header class name for users and header-staf for staf and header-admin for admin */
+.header-guest {
+    background: linear-gradient(230deg, rgba(170, 243, 231, 0.952), #f3d9d9c2, rgba(153, 241, 241, 0.945));
+}
+
+.header-user {
+    background: linear-gradient(230deg, rgba(10, 202, 173, 0.952), #18aa61c2, rgba(17, 177, 158, 0.945));
+}
+
+.header-staf {
+    background: linear-gradient(230deg, rgba(7, 231, 198, 0.952), #f30101c2, rgba(15, 206, 184, 0.945));
+}
+
+.header-admin {
+    background: linear-gradient(230deg, rgba(5, 238, 203, 0.952), #000000c2, rgba(11, 235, 209, 0.945));
+}
+
 .header-content {
     display: flex;
     align-items: center;
@@ -166,7 +183,7 @@ img {
     color: white;
     font-size: 0.81rem;
 }
-.search-bar {z
+.search-bar {
     flex: 1;
     min-width: 250px;
     max-width: 600px;
@@ -875,5 +892,4 @@ li {
     opacity: 1;
     visibility: visible;
 }
-
 

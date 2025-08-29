@@ -1,0 +1,37 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load i18n %}
+
+  {% block css %}
+  <link rel="stylesheet" href="{% static 'poultryitems/css/veterinary_consultancy.css' %}">
+{% endblock %}
+
+{% block content %}
+<h1>{% trans "Veterinary Consultancy" %}</h1>
+<ul>
+    <li>
+        <h2>{% trans "Dr. Jane Smith" %}</h2>
+        <p>{% trans "Specializes in poultry health and nutrition." %}</p>
+        <div class="dropdown">
+          <p class="description">{% trans "Dr. Jane Smith is a leading expert in poultry health and nutrition, offering tailored advice to farmers." %}</p>
+          <p class="phone">{% trans "Phone: (123) 456-7890" %}</p>
+          <div class="social-links">
+            <a href="#" class="social-link"><i class="fa fas-facebook"></i> Facebook</a>
+            <a href="#" class="social-link"><i class="fa fas-telegram"></i> Telegram</a>
+            <a href="#" class="social-link"><i class="fa fas-envelope"></i> Email</a>
+        </div>
+    </li>
+    <li>
+        <h2>{% trans "Dr. John Doe" %}</h2>
+        <p>{% trans "Expert in poultry disease management." %}</p>
+    </li>
+    <li>
+        <h2>{% trans "Dr. Emily Johnson" %}</h2>
+        <p>{% trans "Focuses on poultry breeding and genetics." %}</p>
+    </li>
+</ul>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'poultryitems/js/veterinary_consultancy.js' %}"></script>
+{% endblock %}

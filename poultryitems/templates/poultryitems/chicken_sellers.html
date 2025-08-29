@@ -1,0 +1,71 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load i18n %}
+
+  {% block css %}
+  <link rel="stylesheet" href="{% static 'poultryitems/css/chicken_sellers.css' %}">
+{% endblock %}
+
+{% block content %}
+<!--Chicken seller list at which clicked displays more dropdown-->
+<div class="chicken-seller-list">
+    <h2>{% trans "Chicken Sellers" %}</h2>
+    <ul>
+        <li>
+            <div class="chicken-seller-name">{% trans "Seller name 1" %}</div>
+            <div class="chicken-seller-details">
+                <p>{% trans "Location: City A" %}</p>
+                <p>{% trans "Chickens quantity: 100" %}</p>
+            </div>
+            <div class="dropdown">
+              <p class="description">{% trans "Description for Seller 1" %}</p>
+              <p class="contact">{% trans "Contact: 123-456-7890" %}</p>
+              <div class="social-links">
+                <a href="#" class="social-link"><i class="fa fas-facebook"></i> Facebook</a>
+                <a href="#" class="social-link"><i class="fa fas-telegram"></i> Telegram</a>
+                <a href="#" class="social-link"><i class="fa fas-envelope"></i> Email</a>
+              </div>
+           </div>
+       </li>
+
+       <li>
+            <div class="chicken-seller-name">{% trans "Seller name 2" %}</div>
+            <div class="chicken-seller-details">
+                <p>{% trans "Location: City B" %}</p>
+                <p>{% trans "Chickens quantity: 150" %}</p>
+            </div>
+            <div class="dropdown">
+              <p class="description">{% trans "Description for Seller 2" %}</p>
+              <p class="contact">{% trans "Contact: 123-456-7890" %}</p>
+              <div class="social-links">
+                <a href="#" class="social-link"><i class="fa fas-facebook"></i> Facebook</a>
+                <a href="#" class="social-link"><i class="fa fas-telegram"></i> Telegram</a>
+                <a href="#" class="social-link"><i class="fa fas-envelope"></i> Email</a>
+              </div>
+           </div>
+       </li>
+
+       <li>
+            <div class="chicken-seller-name">{% trans "Seller name 3" %}</div>
+            <div class="chicken-seller-details">
+                <p>{% trans "Location: City C" %}</p>
+                <p>{% trans "Chickens quantity: 200" %}</p>
+            </div>
+            <div class="dropdown">
+              <p class="description">{% trans "Description for Seller 3" %}</p>
+              <p class="contact">{% trans "Contact: 123-456-7890" %}</p>
+              <div class="social-links">
+                <a href="#" class="social-link"><i class="fa fas-facebook"></i> Facebook</a>
+                <a href="#" class="social-link"><i class="fa fas-telegram"></i> Telegram</a>
+                <a href="#" class="social-link"><i class="fa fas-envelope"></i> Email</a>
+              </div>
+           </div>
+       </li>
+
+   </ul>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'poultryitems/js/chicken_sellers.js' %}"></script>
+{% endblock %}

@@ -1,17 +1,17 @@
-# project/house/views.py
+# project/houses/views.py
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
-from .models import House, HouseImage, House, HouseCategory
+from .models import House, HouseImage, HouseCategory
 from .forms import HouseForm
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.contenttypes.models import ContentType
-
+from django.utils.decorators import method_decorator
 from cart.models import CartItem
 from cart.views import _get_cart
 
@@ -28,6 +28,7 @@ def like_house(request, house_id):
         })
     except House.DoesNotExist:
         return JsonResponse({'status': 'error'}, status=404)
+
 @require_POST
 @csrf_exempt
 def share_house(request, house_id):
@@ -124,15 +125,43 @@ class HouseUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
             HouseImage.objects.create(house=self.object, image=f)
         return response
 
+# project/houses/views.py
 class HouseDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = House
-    template_name = 'houses/house_confirm_delete.html'
     success_url = reverse_lazy('houses:house_list')
     success_message = "House listing deleted successfully!"
+    
+    # Completely disable template rendering by overriding get method
+    def get(self, request, *args, **kwargs):
+        return redirect(self.success_url)
+
+    @method_decorator(csrf_exempt)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
-        messages.success(self.request, self.success_message)
-        return super().delete(request, *args, **kwargs)
+        try:
+            self.object = self.get_object()
+            self.object.delete()
+            
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'status': 'success',
+                    'message': self.success_message
+                })
+            messages.success(self.request, self.success_message)
+            return redirect(self.success_url)
+            
+        except Exception as e:
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'status': 'error',
+                    'message': 'Error deleting property: ' + str(e)
+                }, status=500)
+            
+            messages.error(self.request, 'Error deleting property: ' + str(e))
+            return redirect(self.success_url)
+        
 def house_list(request):
     houses = House.objects.all().order_by('-date_added')
     categories = HouseCategory.objects.all()

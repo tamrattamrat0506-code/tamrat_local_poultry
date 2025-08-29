@@ -13,4 +13,5 @@ urlpatterns = [
     path('<slug:slug>/update/', views.ClothingUpdateView.as_view(), name='clothing_update'),
     path('<slug:slug>/delete/', views.ClothingDeleteView.as_view(), name='clothing_delete'),
     path('<slug:slug>/', views.ClothingDetailView.as_view(), name='clothing_detail'),
+    
 ]

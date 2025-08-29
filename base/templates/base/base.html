@@ -60,8 +60,7 @@
         </div>
     </div>
 
-    <!-- Header -->
-    <header class="header">
+    <header class="header {% if user.is_not_authenticated %}header-guest{% elif user.is_authenticated and user.is_staff %}header-staf{% elif user.is_authenticated and user.is_superuser %}header-admin{% else %}header-user{% endif %}">
         <div class="container">
             <div class="header-content">
                 <div class="logo">
@@ -70,7 +69,6 @@
                         <span class="logo-text">{% trans "Sheger" %}<span class="hub">{% trans "city" %}</span></span>
                     </a>
                 </div>
-
                 <div class="search-bar">
                     <form action="#" role="search">
                         <label for="search-input" class="sr-only">{% trans "Search products" %}</label>
@@ -79,14 +77,6 @@
                             <button type="submit" aria-label="Search"><i class="fas fa-search"></i></button>
                         </div>
                         <div class="category-select">
-                            <select aria-label="Select category">
-                                <option value="all">{% trans "All Categories" %}</option>
-                                <option value="cars">{% trans "Cars" %}</option>
-                                <option value="houses">{% trans "Houses" %}</option>
-                                <option value="electronics">{% trans "Electronics" %}</option>
-                                <option value="clothing">{% trans "Clothing" %}</option>
-                                <option value="toys">{% trans "Kids Toys" %}</option>
-                            </select>
                         </div>
                     </form>
                 </div>

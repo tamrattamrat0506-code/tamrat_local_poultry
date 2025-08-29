@@ -29,8 +29,17 @@ urlpatterns = [
     path('api/items/<int:pk>/', ItemDetailAPIView.as_view(), name='api_item_detail'),
     path('<int:pk>/edit/', item_edit, name='item_edit'),
     path('<int:pk>/delete/', item_delete, name='item_delete'),
+    
+    # add to cart
+    path('<int:pk>/add-to-cart/', views.add_to_cart, name='add_to_cart'),
 
     # like and share
     path('<int:pk>/like/', views.like_item, name='item_like'),
     path('<int:pk>/share/', views.share_item, name='item_share'),
+
+    # Egg sellers, Chicken sellers, Poultry trainings and veterinary consultancy
+    path('egg-sellers/', views.egg_sellers, name='egg_sellers'),#egg
+    path('chicken-sellers/', views.chicken_sellers, name='chicken_sellers'),#chicken
+    path('veterinary-consultancy/', views.veterinary_consultancy, name='veterinary_consultancy'),#consultancy
+    path('poultry-trainings/', views.poultry_trainings, name='poultry_trainings'),#trainings
 ]

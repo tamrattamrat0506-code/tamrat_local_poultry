@@ -1,0 +1,74 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'poultryitems/css/egg_sellers.css' %}">
+<!-- Add Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="egg-seller-list">
+    <h2>{% trans "Egg Sellers" %}</h2>
+    <ul>
+        <li>
+            <div class="egg-seller-name">{% trans "Fresh Farm Eggs" %}</div>
+            <div class="egg-seller-details">
+                <p><strong>{% trans "Location:" %}</strong> {% trans "City A" %}</p>
+                <p><strong>{% trans "Eggs quantity:" %}</strong> {% trans "8,000" %}</p>
+                <p><strong>{% trans "Price:" %}</strong> {% trans "$3.50/dozen" %}</p>
+            </div>
+            <div class="dropdown">
+                <p class="description">{% trans "We offer fresh, organic eggs from free-range chickens. Our eggs are collected daily and are rich in nutrients. Delivery options available within City A." %}</p>
+                <p class="contact">{% trans "Contact: 123-456-7890" %}</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook"></i> Facebook</a>
+                    <a href="#" class="social-link"><i class="fab fa-telegram"></i> Telegram</a>
+                    <a href="#" class="social-link"><i class="far fa-envelope"></i> Email</a>
+                </div>
+            </div>
+        </li>
+
+        <li>
+            <div class="egg-seller-name">{% trans "Countryside Eggs" %}</div>
+            <div class="egg-seller-details">
+                <p><strong>{% trans "Location:" %}</strong> {% trans "City B" %}</p>
+                <p><strong>{% trans "Eggs quantity:" %}</strong> {% trans "5,000" %}</p>
+                <p><strong>{% trans "Price:" %}</strong> {% trans "$3.20/dozen" %}</p>
+            </div>
+            <div class="dropdown">
+                <p class="description">{% trans "Family-owned farm with happy hens that roam freely. Our eggs have deep yellow yolks and robust flavor. Certified organic and antibiotic-free." %}</p>
+                <p class="contact">{% trans "Contact: 234-567-8901" %}</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook"></i> Facebook</a>
+                    <a href="#" class="social-link"><i class="fab fa-telegram"></i> Telegram</a>
+                    <a href="#" class="social-link"><i class="far fa-envelope"></i> Email</a>
+                </div>
+            </div>
+        </li>
+
+        <li>
+            <div class="egg-seller-name">{% trans "Organic Egg Haven" %}</div>
+            <div class="egg-seller-details">
+                <p><strong>{% trans "Location:" %}</strong> {% trans "City C" %}</p>
+                <p><strong>{% trans "Eggs quantity:" %}</strong> {% trans "12,000" %}</p>
+                <p><strong>{% trans "Price:" %}</strong> {% trans "$4.00/dozen" %}</p>
+            </div>
+            <div class="dropdown">
+                <p class="description">{% trans "Premium organic eggs from chickens fed with non-GMO feed. Our eggs are known for their exceptional quality and taste. Wholesale options available." %}</p>
+                <p class="contact">{% trans "Contact: 345-678-9012" %}</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook"></i> Facebook</a>
+                    <a href="#" class="social-link"><i class="fab fa-telegram"></i> Telegram</a>
+                    <a href="#" class="social-link"><i class="far fa-envelope"></i> Email</a>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'poultryitems/js/egg_sellers.js' %}"></script>
+{% endblock %}

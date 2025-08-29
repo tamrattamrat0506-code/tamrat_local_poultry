@@ -16,7 +16,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.views.decorators.csrf import csrf_protect
-
+from .forms import ClothingItemForm
 
 @require_POST
 @login_required
@@ -134,7 +134,15 @@ class ClothingDetailView(DetailView):
         ).exists()
 
         return context
-
+    
+def generate_unique_slug(name):
+    base_slug = slugify(name)
+    slug = base_slug
+    counter = 1
+    while ClothingItem.objects.filter(slug=slug).exists():
+        slug = f"{base_slug}-{counter}"
+        counter += 1
+    return slug
 
 class ClothingCreateView(CreateView):
     model = ClothingItem
@@ -142,15 +150,19 @@ class ClothingCreateView(CreateView):
     template_name = 'clothings/clothing_create.html'
     
     def form_valid(self, form):
-        form.instance.slug = slugify(form.instance.name)
+        form.instance.slug = generate_unique_slug(form.instance.name)
         return super().form_valid(form)
+
+    def form_invalid(self, form):
+        print("Form errors:", form.errors)
+        return super().form_invalid(form)
     
     def get_success_url(self):
         return reverse_lazy('clothings:clothing_detail', kwargs={'slug': self.object.slug})
 
 class ClothingUpdateView(UpdateView):
     model = ClothingItem
-    form_class = ClothingCreateForm 
+    form_class = ClothingItemForm 
     template_name = 'clothings/clothing_create.html'
     
     def get_success_url(self):

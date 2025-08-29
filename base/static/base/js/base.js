@@ -1,4 +1,3 @@
-// Modern base.js with enhanced functionality
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize all components
     initClock();

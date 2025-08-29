@@ -72,14 +72,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Confirmation for delete buttons
-    document.querySelectorAll('.delete-btn').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            if (!confirm('Are you sure you want to delete this property?')) {
-                e.preventDefault();
-            }
-        });
-    });
+    // REMOVED THE OLD DELETE CONFIRMATION CODE
+    // We're now handling delete with AJAX in the template
 });
 
 document.addEventListener('DOMContentLoaded', function() {

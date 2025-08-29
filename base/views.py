@@ -1,3 +1,4 @@
+# base/views.py
 from django.shortcuts import render, redirect
 from django.contrib.auth import get_user_model
 from django.contrib import messages as django_messages
@@ -5,12 +6,11 @@ from poultryitems.models import Item
 from conversation.models import Conversation 
 from .forms import MessageForm
 from .models import Message
-
-
-from clothings.models import ClothingItem
-from electronics.models import Product
 from houses.models import House
 from vehicles.models import Vehicle
+from electronics.models import Product as ElectronicsProduct
+from clothings.models import ClothingItem as Clothing
+from poultryitems.models import Item as PoultryItem
 
 def base(request):
     User = get_user_model()
@@ -18,32 +18,29 @@ def base(request):
     active_users_count = User.objects.filter(is_active=True).count()
     items_count = Item.objects.count() 
     conversations_count = Conversation.objects.count()
-
-    featured_clothing = ClothingItem.objects.filter(is_featured=True)
-    if not featured_clothing.exists():
-        featured_clothing = ClothingItem.objects.all()
-    featured_clothing = featured_clothing[:6]
-
-    featured_electronics = Product.objects.filter(is_featured=True)
-    if not featured_electronics.exists():
-        featured_electronics = Product.objects.all()
-    featured_electronics = featured_electronics[:6]
-
-    featured_houses = House.objects.filter(is_featured=True)
-    if not featured_houses.exists():
-        featured_houses = House.objects.all()
-    featured_houses = featured_houses[:6]
-
-    featured_poultry = Item.objects.filter(is_featured=True)
-    if not featured_poultry.exists():
-        featured_poultry = Item.objects.all()
-    featured_poultry = featured_poultry[:6]
-
-    featured_vehicles = Vehicle.objects.filter(is_featured=True)
-    if not featured_vehicles.exists():
-        featured_vehicles = Vehicle.objects.all()
-    featured_vehicles = featured_vehicles[:6]
-
+    featured_houses = House.objects.filter(is_featured=True).prefetch_related('images')[:4]
+    featured_vehicles = Vehicle.objects.filter(is_featured=True).prefetch_related('images')[:4]
+    featured_electronics = ElectronicsProduct.objects.filter(is_featured=True).prefetch_related('images')[:4]
+    featured_clothing = Clothing.objects.filter(is_featured=True).prefetch_related('images')[:4]
+    featured_poultry = PoultryItem.objects.filter(is_featured=True)[:4]
+    
+    for house in featured_houses:
+        house.product_type = 'house'
+    
+    for vehicle in featured_vehicles:
+        vehicle.product_type = 'vehicle'
+    
+    for electronics in featured_electronics:
+        electronics.product_type = 'electronics'
+    
+    for clothing in featured_clothing:
+        clothing.product_type = 'clothing'
+    
+    for poultry in featured_poultry:
+        poultry.product_type = 'poultry'
+    
+    all_featured = list(featured_houses) + list(featured_vehicles) + list(featured_electronics) + list(featured_clothing) + list(featured_poultry)
+    
     if request.method == 'POST':
         form = MessageForm(request.POST)
         if form.is_valid():
@@ -56,19 +53,15 @@ def base(request):
     else:
         form = MessageForm()
 
-    # Pass all data to the template
     context = {
         'users_count': users_count,
         'active_users_count': active_users_count,
         'items_count': items_count,
         'conversations_count': conversations_count,
         'form': form,
-        'featured_clothing': featured_clothing,
-        'featured_electronics': featured_electronics,
-        'featured_houses': featured_houses,
-        'featured_poultry': featured_poultry,
-        'featured_vehicles': featured_vehicles,
+        'all_featured': all_featured,
     }
+
     return render(request, 'base/index.html', context)
 
 def message_list(request):

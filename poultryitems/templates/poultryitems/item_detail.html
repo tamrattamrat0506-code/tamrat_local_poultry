@@ -9,11 +9,11 @@
  
 {% block content %}
 <main class="item-detail" itemscope itemtype="http://schema.org/Product">
-    <!-- Seller Information -->
+    
     <section class="seller-card" aria-labelledby="seller-heading">
         <div class="seller-profile">
             <a href="{% url 'users:seller_profile' item.created_by.id %}" class="seller-link" aria-label="View seller profile">
-                {% if item.created_by.profile.profile_picture %}
+                {% if item.created_by %}
                     <img src="{{ item.created_by.profile.profile_picture.url }}" 
                          alt="Seller profile picture" 
                          class="seller-avatar"

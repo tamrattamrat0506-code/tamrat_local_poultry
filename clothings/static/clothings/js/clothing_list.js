@@ -1,10 +1,11 @@
+// clothings/static/clothings/js/clothing_list.js
 document.addEventListener('DOMContentLoaded', function() {
     // Like button functionality
     document.querySelectorAll('.like-button').forEach(button => {
         button.addEventListener('click', function(e) {
             e.preventDefault();
-            const clothingId = this.getAttribute('data-item-id');
-            likeClothing(clothingId, this);
+            const itemId = this.getAttribute('data-item-id');
+            likeClothing(itemId, this);
         });
     });
 
@@ -12,15 +13,15 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.share-button').forEach(button => {
         button.addEventListener('click', function(e) {
             e.preventDefault();
-            const clothingId = this.getAttribute('data-item-id');
-            shareClothing(clothingId, this);
+            const itemId = this.getAttribute('data-item-id');
+            shareClothing(itemId, this);
         });
     });
 });
 
-async function likeClothing(clothingId, button) {
+async function likeClothing(itemId, button) {
     try {
-        const response = await fetch(`/en/clothings/clothing/${clothingId}/like/`, {
+        const response = await fetch(`/en/clothings/${itemId}/like/`, {
             method: 'POST',
             headers: {
                 'X-CSRFToken': getCookie('csrftoken'),
@@ -29,15 +30,22 @@ async function likeClothing(clothingId, button) {
             credentials: 'same-origin'
         });
 
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
 
         const data = await response.json();
+        
         if (data.status === 'success') {
             const countElement = button.querySelector('.interaction-count');
             countElement.textContent = data.like_count;
             button.classList.add('liked');
+            // Visual feedback
+            button.innerHTML = `<i class="fas fa-thumbs-up"></i> ${data.like_count}`;
             button.style.backgroundColor = '#e3f2fd';
-            setTimeout(() => { button.style.backgroundColor = ''; }, 500);
+            setTimeout(() => {
+                button.style.backgroundColor = '';
+            }, 500);
         }
     } catch (error) {
         console.error('Like error:', error);
@@ -45,18 +53,23 @@ async function likeClothing(clothingId, button) {
     }
 }
 
-async function shareClothing(clothingId, button) {
+async function shareClothing(itemId, button) {
     try {
+        // First try the Web Share API
         if (navigator.share) {
             await navigator.share({
                 title: 'Check out this clothing item!',
                 text: 'I found this amazing clothing item you might like',
                 url: window.location.href,
             });
-            await sendShareRequest(clothingId, button);
+            
+            // Only increment share count if sharing was successful
+            await sendShareRequest(itemId, button);
         } else {
-            await sendShareRequest(clothingId, button);
+            // Fallback for browsers without Web Share API
+            await sendShareRequest(itemId, button);
             copyToClipboard(window.location.href);
+            
             alert('Link copied to clipboard!');
         }
     } catch (error) {
@@ -67,9 +80,9 @@ async function shareClothing(clothingId, button) {
     }
 }
 
-async function sendShareRequest(clothingId, button) {
+async function sendShareRequest(itemId, button) {
     try {
-        const response = await fetch(`/en/clothings/clothing/${clothingId}/share/`, {
+        const response = await fetch(`/en/clothings/${itemId}/share/`, {
             method: 'POST',
             headers: {
                 'X-CSRFToken': getCookie('csrftoken'),
@@ -78,14 +91,21 @@ async function sendShareRequest(clothingId, button) {
             credentials: 'same-origin'
         });
 
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
 
         const data = await response.json();
+        
         if (data.status === 'success') {
             const countElement = button.querySelector('.interaction-count');
             countElement.textContent = data.share_count;
+            // Visual feedback
+            button.innerHTML = `<i class="fas fa-share-alt"></i> ${data.share_count}`;
             button.style.backgroundColor = '#e8f5e9';
-            setTimeout(() => { button.style.backgroundColor = ''; }, 500);
+            setTimeout(() => {
+                button.style.backgroundColor = '';
+            }, 500);
         }
     } catch (error) {
         console.error('Share count error:', error);
@@ -115,4 +135,9 @@ function getCookie(name) {
         }
     }
     return cookieValue;
+}
+
+// Clothing detail gallery (if needed)
+function updateMainImage(thumbnail) {
+    document.getElementById('mainClothingImage').src = thumbnail.src;
 }

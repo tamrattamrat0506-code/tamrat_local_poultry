@@ -33,7 +33,7 @@
             <div class="service-content">
                 <h3>Fresh Eggs Supply</h3>
                 <p>We provide farm-fresh eggs daily from our free-range chickens, ensuring quality and nutrition.</p>
-                <a href="#" class="cta-button">View More</a>
+                <a href="{% url 'poultryitems:egg_sellers' %}" class="cta-button">View More</a>
             </div>
         </div>
         
@@ -53,11 +53,12 @@
                 <img src="{% static 'poultryitems/images/hatchery.jpg' %}" alt="Day-old Chicks">
             </div>
             <div class="service-content">
-                <h3>Poultry Chichens</h3>
+                <h3>Poultry Chickens</h3>
                 <p>High-quality, vaccinated day-old chicks from top breeds for your poultry farming needs.</p>
-                <a href="#" class="cta-button">View More</a>
+                <a href="{% url 'poultryitems:chicken_sellers' %}" class="cta-button">View More</a>
             </div>
         </div>
+        
     </div>
 </section>
 
@@ -68,12 +69,25 @@
             <h2>Poultry Farming Training</h2>
             <p>Join our comprehensive poultry farming training program designed for both beginners and experienced farmers. Learn modern techniques, best practices, and business strategies to maximize your poultry farming success.</p>
             <p>Our hands-on training covers everything from housing and feeding to disease control and marketing.</p>
-            <a href="#" class="cta-button">Enroll Now</a>
+            <a href="{% url 'poultryitems:poultry_trainings' %}" class="cta-button">Enroll Now</a>
         </div>
         <div class="training-image">
             <img src="{% static 'poultryitems/images/training.jpg' %}" alt="Poultry Training">
         </div>
     </div>
+
+    <div class="training-container">
+        <div class="training-content">
+            <h2>Poultry Farming Consultancy</h2>
+            <p>Our consultancy services provide expert guidance on all aspects of poultry farming, from setup to management.</p>
+            <p>We help you optimize your operations, improve productivity, and ensure the health and welfare of your birds.</p>
+            <a href="{% url 'poultryitems:veterinary_consultancy' %}" class="cta-button">Get Started</a>
+        </div>
+        <div class="training-image">
+            <img src="{% static 'poultryitems/images/training.jpg' %}" alt="Poultry Consultancy">
+        </div>
+    </div>
+
 </section>
 
 <!-- Products Section -->

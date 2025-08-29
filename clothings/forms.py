@@ -28,11 +28,6 @@ class ClothingItemForm(forms.ModelForm):
             'description',
             'price',
             'discount_price',
-            'size',
-            'age_group',
-            'color',
-            'material',
-            'brand',
             'stock_quantity',
             'is_featured'
         ]
@@ -52,10 +47,6 @@ class ClothingItemForm(forms.ModelForm):
             'stock_quantity': forms.NumberInput(attrs={
                 'min': 0
             }),
-            'color': forms.TextInput(attrs={
-                'type': 'color',
-                'style': 'width: 80px; height: 40px; padding: 2px;'
-            })
         }
 
 class ClothingCreateForm(forms.ModelForm):
@@ -67,7 +58,6 @@ class ClothingCreateForm(forms.ModelForm):
     class Meta(ClothingItemForm.Meta):
         pass
 
-    #####
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['category'].queryset = ClothingCategory.objects.all()
@@ -78,8 +68,7 @@ class ClothingCreateForm(forms.ModelForm):
         })
         self.fields['category'].empty_label = "Select a category"
         self.fields['category'].help_text = "Choose the most appropriate category for your item"
-    ####
-
+        
     def save(self, commit=True):
         instance = super().save(commit=commit)
         if commit and self.cleaned_data.get('images'):
