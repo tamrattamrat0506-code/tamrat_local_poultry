@@ -10,19 +10,25 @@ document.addEventListener('DOMContentLoaded', function() {
         const dropdown = item.querySelector('.dropdown');
         
         sellerName.addEventListener('click', function() {
-            // Toggle active class on seller name
-            this.classList.toggle('active');
+            // Check if this dropdown is already active
+            const isActive = this.classList.contains('active');
             
-            // Toggle dropdown visibility
-            dropdown.classList.toggle('active');
-            
-            // Close other open dropdowns
+            // Close all dropdowns first
             sellerItems.forEach(otherItem => {
-                if (otherItem !== item) {
-                    otherItem.querySelector('.egg-seller-name').classList.remove('active');
-                    otherItem.querySelector('.dropdown').classList.remove('active');
-                }
+                otherItem.querySelector('.egg-seller-name').classList.remove('active');
+                otherItem.querySelector('.dropdown').classList.remove('active');
             });
+            
+            // If it wasn't active, open it
+            if (!isActive) {
+                this.classList.add('active');
+                dropdown.classList.add('active');
+                
+                // Scroll into view if on mobile
+                if (window.innerWidth < 768) {
+                    item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            }
         });
     });
     
@@ -30,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const observerOptions = {
         root: null,
         rootMargin: '0px',
-        threshold: 0.1
+        threshold: 0.05
     };
     
     const observer = new IntersectionObserver((entries) => {
@@ -54,11 +60,21 @@ document.addEventListener('DOMContentLoaded', function() {
     const socialLinks = document.querySelectorAll('.social-link');
     socialLinks.forEach(link => {
         link.addEventListener('mouseenter', function() {
-            this.style.background = 'linear-gradient(90deg, #ff7e5f, #feb47b)';
+            this.style.transform = 'translateY(-5px) scale(1.1)';
         });
         
         link.addEventListener('mouseleave', function() {
-            this.style.background = 'linear-gradient(90deg, #3498db, #2c3e50)';
+            this.style.transform = 'translateY(0) scale(1)';
         });
+    });
+    
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(event) {
+        if (!event.target.closest('.egg-seller-list li')) {
+            sellerItems.forEach(item => {
+                item.querySelector('.egg-seller-name').classList.remove('active');
+                item.querySelector('.dropdown').classList.remove('active');
+            });
+        }
     });
 });

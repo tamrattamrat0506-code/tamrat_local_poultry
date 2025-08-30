@@ -2,67 +2,126 @@
 {% load static %}
 {% load i18n %}
 
-  {% block css %}
-  <link rel="stylesheet" href="{% static 'poultryitems/css/chicken_sellers.css' %}">
+{% block css %}
+<link rel="stylesheet" href="{% static 'poultryitems/css/chicken_sellers.css' %}">
+<!-- Add Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 {% endblock %}
 
 {% block content %}
-<!--Chicken seller list at which clicked displays more dropdown-->
 <div class="chicken-seller-list">
     <h2>{% trans "Chicken Sellers" %}</h2>
-    <ul>
-        <li>
-            <div class="chicken-seller-name">{% trans "Seller name 1" %}</div>
+    <ul id="sellerList">
+        <li class="seller-item" data-location="City A" data-quantity="100">
+            <div class="chicken-seller-header">
+                <div class="chicken-seller-name">{% trans "Premium Poultry Farm" %}</div>
+                
+            </div>
             <div class="chicken-seller-details">
-                <p>{% trans "Location: City A" %}</p>
-                <p>{% trans "Chickens quantity: 100" %}</p>
+                <p><strong>{% trans "Location:" %}</strong> {% trans "City A" %}</p>
+                <p><strong>{% trans "Available Chickens:" %}</strong> {% trans "100" %}</p>
+                <p><strong>{% trans "Price Range:" %}</strong> {% trans "$15-25 each" %}</p>
+                <p><strong>{% trans "Breeds:" %}</strong> {% trans "Rhode Island Red, Plymouth Rock" %}</p>
             </div>
             <div class="dropdown">
-              <p class="description">{% trans "Description for Seller 1" %}</p>
-              <p class="contact">{% trans "Contact: 123-456-7890" %}</p>
-              <div class="social-links">
-                <a href="#" class="social-link"><i class="fa fas-facebook"></i> Facebook</a>
-                <a href="#" class="social-link"><i class="fa fas-telegram"></i> Telegram</a>
-                <a href="#" class="social-link"><i class="fa fas-envelope"></i> Email</a>
-              </div>
-           </div>
-       </li>
+                <p class="description">{% trans "Family-owned farm specializing in free-range, antibiotic-free chickens. Our birds are raised with care and fed organic feed. Available in various sizes and ages." %}</p>
+                <div class="seller-features">
+                    <span class="feature-tag"><i class="fas fa-truck"></i> {% trans "Delivery Available" %}</span>
+                    <span class="feature-tag"><i class="fas fa-check-circle"></i> {% trans "Vaccinated" %}</span>
+                </div>
+                <p class="contact"><strong>{% trans "Contact:" %}</strong> {% trans "123-456-7890" %}</p>
+                <p class="email"><strong>{% trans "Email:" %}</strong> premium@poultryfarm.com</p>
+                <div class="social-links">
+                    <a href="#" class="social-link facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link telegram"><i class="fab fa-telegram"></i></a>
+                    <a href="#" class="social-link email"><i class="far fa-envelope"></i></a>
+                    <a href="#" class="social-link whatsapp"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </li>
 
-       <li>
-            <div class="chicken-seller-name">{% trans "Seller name 2" %}</div>
+        <li class="seller-item" data-location="City A" data-quantity="100">
+            <div class="chicken-seller-header">
+                <div class="chicken-seller-name">{% trans "Premium Poultry Farm" %}</div>
+                
+            </div>
             <div class="chicken-seller-details">
-                <p>{% trans "Location: City B" %}</p>
-                <p>{% trans "Chickens quantity: 150" %}</p>
+                <p><strong>{% trans "Location:" %}</strong> {% trans "City A" %}</p>
+                <p><strong>{% trans "Available Chickens:" %}</strong> {% trans "100" %}</p>
+                <p><strong>{% trans "Price Range:" %}</strong> {% trans "$15-25 each" %}</p>
+                <p><strong>{% trans "Breeds:" %}</strong> {% trans "Rhode Island Red, Plymouth Rock" %}</p>
             </div>
             <div class="dropdown">
-              <p class="description">{% trans "Description for Seller 2" %}</p>
-              <p class="contact">{% trans "Contact: 123-456-7890" %}</p>
-              <div class="social-links">
-                <a href="#" class="social-link"><i class="fa fas-facebook"></i> Facebook</a>
-                <a href="#" class="social-link"><i class="fa fas-telegram"></i> Telegram</a>
-                <a href="#" class="social-link"><i class="fa fas-envelope"></i> Email</a>
-              </div>
-           </div>
-       </li>
-
-       <li>
-            <div class="chicken-seller-name">{% trans "Seller name 3" %}</div>
+                <p class="description">{% trans "Family-owned farm specializing in free-range, antibiotic-free chickens. Our birds are raised with care and fed organic feed. Available in various sizes and ages." %}</p>
+                <div class="seller-features">
+                    <span class="feature-tag"><i class="fas fa-truck"></i> {% trans "Delivery Available" %}</span>
+                    <span class="feature-tag"><i class="fas fa-check-circle"></i> {% trans "Vaccinated" %}</span>
+                </div>
+                <p class="contact"><strong>{% trans "Contact:" %}</strong> {% trans "123-456-7890" %}</p>
+                <p class="email"><strong>{% trans "Email:" %}</strong> premium@poultryfarm.com</p>
+                <div class="social-links">
+                    <a href="#" class="social-link facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link telegram"><i class="fab fa-telegram"></i></a>
+                    <a href="#" class="social-link email"><i class="far fa-envelope"></i></a>
+                    <a href="#" class="social-link whatsapp"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </li>
+        <li class="seller-item" data-location="City A" data-quantity="100">
+            <div class="chicken-seller-header">
+                <div class="chicken-seller-name">{% trans "Premium Poultry Farm" %}</div>
+                
+            </div>
             <div class="chicken-seller-details">
-                <p>{% trans "Location: City C" %}</p>
-                <p>{% trans "Chickens quantity: 200" %}</p>
+                <p><strong>{% trans "Location:" %}</strong> {% trans "City A" %}</p>
+                <p><strong>{% trans "Available Chickens:" %}</strong> {% trans "100" %}</p>
+                <p><strong>{% trans "Price Range:" %}</strong> {% trans "$15-25 each" %}</p>
+                <p><strong>{% trans "Breeds:" %}</strong> {% trans "Rhode Island Red, Plymouth Rock" %}</p>
             </div>
             <div class="dropdown">
-              <p class="description">{% trans "Description for Seller 3" %}</p>
-              <p class="contact">{% trans "Contact: 123-456-7890" %}</p>
-              <div class="social-links">
-                <a href="#" class="social-link"><i class="fa fas-facebook"></i> Facebook</a>
-                <a href="#" class="social-link"><i class="fa fas-telegram"></i> Telegram</a>
-                <a href="#" class="social-link"><i class="fa fas-envelope"></i> Email</a>
-              </div>
-           </div>
-       </li>
-
-   </ul>
+                <p class="description">{% trans "Family-owned farm specializing in free-range, antibiotic-free chickens. Our birds are raised with care and fed organic feed. Available in various sizes and ages." %}</p>
+                <div class="seller-features">
+                    <span class="feature-tag"><i class="fas fa-truck"></i> {% trans "Delivery Available" %}</span>
+                    <span class="feature-tag"><i class="fas fa-check-circle"></i> {% trans "Vaccinated" %}</span>
+                </div>
+                <p class="contact"><strong>{% trans "Contact:" %}</strong> {% trans "123-456-7890" %}</p>
+                <p class="email"><strong>{% trans "Email:" %}</strong> premium@poultryfarm.com</p>
+                <div class="social-links">
+                    <a href="#" class="social-link facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link telegram"><i class="fab fa-telegram"></i></a>
+                    <a href="#" class="social-link email"><i class="far fa-envelope"></i></a>
+                    <a href="#" class="social-link whatsapp"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </li>
+        <li class="seller-item" data-location="City A" data-quantity="100">
+            <div class="chicken-seller-header">
+                <div class="chicken-seller-name">{% trans "Premium Poultry Farm" %}</div>
+                
+            </div>
+            <div class="chicken-seller-details">
+                <p><strong>{% trans "Location:" %}</strong> {% trans "City A" %}</p>
+                <p><strong>{% trans "Available Chickens:" %}</strong> {% trans "100" %}</p>
+                <p><strong>{% trans "Price Range:" %}</strong> {% trans "$15-25 each" %}</p>
+                <p><strong>{% trans "Breeds:" %}</strong> {% trans "Rhode Island Red, Plymouth Rock" %}</p>
+            </div>
+            <div class="dropdown">
+                <p class="description">{% trans "Family-owned farm specializing in free-range, antibiotic-free chickens. Our birds are raised with care and fed organic feed. Available in various sizes and ages." %}</p>
+                <div class="seller-features">
+                    <span class="feature-tag"><i class="fas fa-truck"></i> {% trans "Delivery Available" %}</span>
+                    <span class="feature-tag"><i class="fas fa-check-circle"></i> {% trans "Vaccinated" %}</span>
+                </div>
+                <p class="contact"><strong>{% trans "Contact:" %}</strong> {% trans "123-456-7890" %}</p>
+                <p class="email"><strong>{% trans "Email:" %}</strong> premium@poultryfarm.com</p>
+                <div class="social-links">
+                    <a href="#" class="social-link facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link telegram"><i class="fab fa-telegram"></i></a>
+                    <a href="#" class="social-link email"><i class="far fa-envelope"></i></a>
+                    <a href="#" class="social-link whatsapp"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </li>
+    </ul>
 </div>
 {% endblock %}
 

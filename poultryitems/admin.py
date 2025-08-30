@@ -2,6 +2,14 @@
 from django.contrib import admin
 from .models import Category, Item, SubImage
 
+# consultancy
+from django.contrib import admin
+from .models import Consultant, ConsultationService, ConsultationBooking
+
+# eggs for sell
+from django.contrib import admin
+from .models import EggSeller, EggOrder
+
 class SubImageInline(admin.TabularInline):
     model = SubImage
     extra = 1
@@ -32,3 +40,42 @@ class ItemAdmin(admin.ModelAdmin):
 class CategoryAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
     list_display = ('name', 'slug')
+
+# eggs for sell
+# poultryitems/admin.py
+
+
+@admin.register(Consultant)
+class ConsultantAdmin(admin.ModelAdmin):
+    list_display = ['name', 'specialty', 'experience', 'rating', 'is_available']
+    list_filter = ['specialty', 'availability', 'is_available']
+    search_fields = ['name', 'specialty']
+
+@admin.register(ConsultationService)
+class ConsultationServiceAdmin(admin.ModelAdmin):
+    list_display = ['consultant', 'service_type', 'price', 'duration']
+    list_filter = ['service_type']
+    search_fields = ['consultant__name']
+
+@admin.register(ConsultationBooking)
+class ConsultationBookingAdmin(admin.ModelAdmin):
+    list_display = ['user_name', 'consultant', 'service', 'status', 'preferred_date']
+    list_filter = ['status', 'preferred_date']
+    readonly_fields = ['created_at']
+
+
+# eggs for sell
+
+@admin.register(EggSeller)
+class EggSellerAdmin(admin.ModelAdmin):
+    list_display = ['farm_name', 'city', 'egg_type', 'price_per_dozen', 'quantity_available', 'is_verified', 'is_active']
+    list_filter = ['egg_type', 'certification', 'is_verified', 'is_active', 'city']
+    search_fields = ['farm_name', 'city', 'owner_name']
+    list_editable = ['is_verified', 'is_active']
+
+@admin.register(EggOrder)
+class EggOrderAdmin(admin.ModelAdmin):
+    list_display = ['id', 'seller', 'customer_name', 'quantity', 'total_price', 'status', 'order_date']
+    list_filter = ['status', 'order_date', 'seller']
+    search_fields = ['customer_name', 'customer_email', 'customer_phone']
+    readonly_fields = ['order_date']

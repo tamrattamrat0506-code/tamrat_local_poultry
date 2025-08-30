@@ -38,8 +38,13 @@ urlpatterns = [
     path('<int:pk>/share/', views.share_item, name='item_share'),
 
     # Egg sellers, Chicken sellers, Poultry trainings and veterinary consultancy
-    path('egg-sellers/', views.egg_sellers, name='egg_sellers'),#egg
+    path('egg-sellers/', views.egg_sellers, name='egg_sellers'),
+    path('egg-sellers/<int:pk>/', views.egg_seller_detail, name='egg_seller_detail'),
+    path('egg-sellers/place-order/', views.place_egg_order, name='place_egg_order'),
+    path('egg-sellers/add/', views.add_egg_seller, name='add_egg_seller'),
+    path('egg-sellers/edit/<int:pk>/', views.edit_egg_seller, name='edit_egg_seller'),#egg
     path('chicken-sellers/', views.chicken_sellers, name='chicken_sellers'),#chicken
-    path('veterinary-consultancy/', views.veterinary_consultancy, name='veterinary_consultancy'),#consultancy
+    path('veterinary-consultancy/', views.veterinary_consultancy, name='veterinary_consultancy'),
+    path('book-consultation/', views.book_consultation, name='book_consultation'),#consultancy
     path('poultry-trainings/', views.poultry_trainings, name='poultry_trainings'),#trainings
 ]

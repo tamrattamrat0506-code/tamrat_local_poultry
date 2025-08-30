@@ -10,7 +10,7 @@
     text-align: center;
     color: #2c3e50;
     margin-bottom: 30px;
-    font-size: 2.5rem;
+    font-size: 2.2rem;
     position: relative;
     padding-bottom: 15px;
 }
@@ -33,13 +33,13 @@
 }
 
 .egg-seller-list li {
-    background-color: #fff;
     border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     margin-bottom: 25px;
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     position: relative;
+    background: white;
 }
 
 .egg-seller-list li:hover {
@@ -67,6 +67,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    transition: background 0.3s ease;
+}
+
+.egg-seller-name:hover {
+    background: linear-gradient(90deg, #2980b9, #1a2530);
 }
 
 .egg-seller-name::after {
@@ -102,11 +107,11 @@
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.5s ease;
-    background-color: #fff;
 }
 
 .dropdown.active {
     max-height: 500px;
+    background-color: rgb(247, 245, 245);
 }
 
 .description, .contact {
@@ -117,33 +122,55 @@
     border-bottom: 1px solid #e9ecef;
 }
 
+.contact {
+    font-weight: 600;
+    color: #2c3e50;
+    background-color: #f8f9fa;
+}
+
 .social-links {
     display: flex;
     justify-content: center;
     padding: 20px;
     gap: 15px;
     flex-wrap: wrap;
+    border-radius: 500px;
 }
 
 .social-link {
     display: flex;
     align-items: center;
-    padding: 10px 20px;
-    background: linear-gradient(90deg, #3498db, #2c3e50);
+    justify-content: center;
+    width: 50px;
+    height: 50px;
     color: white;
     text-decoration: none;
-    border-radius: 50px;
+    border-radius: 50%;
     transition: all 0.3s ease;
-    font-weight: 500;
+    font-size: 1.2rem;
+}
+
+.social-link.facebook {
+    background: #3b5998;
+}
+
+.social-link.telegram {
+    background: #0088cc;
+}
+
+.social-link.email {
+    background: #d44638;
 }
 
 .social-link:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transform: translateY(-5px) scale(1.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-.social-link i {
-    margin-right: 8px;
+/* Price highlight */
+.egg-seller-details p:last-child {
+    color: #e74c3c;
+    font-weight: bold;
 }
 
 /* Responsive design */
@@ -160,20 +187,21 @@
     .egg-seller-details {
         grid-template-columns: 1fr;
         padding: 15px;
+        gap: 10px;
     }
     
     .social-links {
-        flex-direction: row;
-        align-items: center;
+        padding: 15px;
     }
     
     .social-link {
-        width: 80%;
-        justify-content: center;
+        width: 45px;
+        height: 45px;
+        font-size: 1.1rem;
     }
 }
 
-/* Add some decorative elements */
+/* Background pattern */
 .egg-seller-list::before {
     content: '';
     position: fixed;
@@ -181,9 +209,9 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: url('../images/eggs.jpg') no-repeat center center fixed;
-    background-size: cover;
-    opacity: 0.05;
+    background: 
+        radial-gradient(circle at 10% 20%, rgba(255, 126, 95, 0.05) 0%, transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(254, 180, 123, 0.05) 0%, transparent 20%);
     z-index: -1;
     pointer-events: none;
 }
