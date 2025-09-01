@@ -7,43 +7,53 @@ document.addEventListener('DOMContentLoaded', function() {
     const locationFilter = document.getElementById('locationFilter');
     const sellerList = document.getElementById('sellerList');
     
-    // Create no results message
-    const noResults = document.createElement('div');
-    noResults.className = 'no-results';
-    noResults.innerHTML = '<i class="fas fa-search" style="font-size: 3rem; margin-bottom: 20px;"></i><h3>No sellers found</h3><p>Try adjusting your search criteria</p>';
-    sellerList.parentNode.insertBefore(noResults, sellerList.nextSibling);
-
+    // Check if no results message exists, if not create it
+    let noResults = document.querySelector('.no-results');
+    if (!noResults && sellerList) {
+        noResults = document.createElement('div');
+        noResults.className = 'no-results';
+        noResults.innerHTML = '<i class="fas fa-search" style="font-size: 3rem; margin-bottom: 20px;"></i><h3>No sellers found</h3><p>Try adjusting your search criteria</p>';
+        sellerList.parentNode.insertBefore(noResults, sellerList.nextSibling);
+    }
+    
     // Add click event to each seller item
-    sellerItems.forEach(item => {
-        const sellerName = item.querySelector('.chicken-seller-name');
-        const dropdown = item.querySelector('.dropdown');
-        
-        sellerName.addEventListener('click', function() {
-            // Check if this dropdown is already active
-            const isActive = this.parentElement.parentElement.classList.contains('active');
+    if (sellerItems.length > 0) {
+        sellerItems.forEach(item => {
+            const sellerName = item.querySelector('.chicken-seller-name');
+            const dropdown = item.querySelector('.dropdown');
             
-            // Close all dropdowns first
-            sellerItems.forEach(otherItem => {
-                otherItem.classList.remove('active');
-                otherItem.querySelector('.dropdown').classList.remove('active');
-            });
-            
-            // If it wasn't active, open it
-            if (!isActive) {
-                item.classList.add('active');
-                dropdown.classList.add('active');
-                
-                // Scroll into view if on mobile
-                if (window.innerWidth < 768) {
-                    item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                }
+            if (sellerName && dropdown) {
+                sellerName.addEventListener('click', function() {
+                    // Check if this dropdown is already active
+                    const isActive = this.parentElement.parentElement.classList.contains('active');
+                    
+                    // Close all dropdowns first
+                    sellerItems.forEach(otherItem => {
+                        otherItem.classList.remove('active');
+                        const otherDropdown = otherItem.querySelector('.dropdown');
+                        if (otherDropdown) otherDropdown.classList.remove('active');
+                    });
+                    
+                    // If it wasn't active, open it
+                    if (!isActive) {
+                        item.classList.add('active');
+                        dropdown.classList.add('active');
+                        
+                        // Scroll into view if on mobile
+                        if (window.innerWidth < 768) {
+                            item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                        }
+                    }
+                });
             }
         });
-    });
+    }
     
-    // Search functionality
-    searchInput.addEventListener('input', filterSellers);
-    locationFilter.addEventListener('change', filterSellers);
+    // Search and filter functionality if elements exist
+    if (searchInput && locationFilter) {
+        searchInput.addEventListener('input', filterSellers);
+        locationFilter.addEventListener('change', filterSellers);
+    }
     
     function filterSellers() {
         const searchTerm = searchInput.value.toLowerCase();
@@ -65,7 +75,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         // Show/hide no results message
-        noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+        if (noResults) {
+            noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+        }
     }
     
     // Add animation on scroll
@@ -117,7 +129,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!event.target.closest('.seller-item')) {
             sellerItems.forEach(item => {
                 item.classList.remove('active');
-                item.querySelector('.dropdown').classList.remove('active');
+                const dropdown = item.querySelector('.dropdown');
+                if (dropdown) dropdown.classList.remove('active');
             });
         }
     });
@@ -127,8 +140,108 @@ document.addEventListener('DOMContentLoaded', function() {
         if (event.key === 'Escape') {
             sellerItems.forEach(item => {
                 item.classList.remove('active');
-                item.querySelector('.dropdown').classList.remove('active');
+                const dropdown = item.querySelector('.dropdown');
+                if (dropdown) dropdown.classList.remove('active');
             });
         }
     });
+});
+// Add this to your existing chicken_sellers.js
+
+document.addEventListener('DOMContentLoaded', function() {
+    // ... existing code ...
+    
+    // Delete functionality
+    const deleteButtons = document.querySelectorAll('.btn-delete');
+    const deleteModal = document.getElementById('deleteModal');
+    const sellerNameSpan = document.getElementById('sellerName');
+    const confirmDeleteBtn = document.getElementById('confirmDelete');
+    const cancelDeleteBtn = document.getElementById('cancelDelete');
+    const closeModalBtn = document.querySelector('.close');
+    
+    let currentSellerId = null;
+    
+    // Set up delete button click handlers
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            currentSellerId = this.getAttribute('data-seller-id');
+            const sellerName = this.getAttribute('data-seller-name');
+            
+            sellerNameSpan.textContent = sellerName;
+            deleteModal.style.display = 'block';
+        });
+    });
+    
+    // Confirm delete
+    confirmDeleteBtn.addEventListener('click', function() {
+        if (currentSellerId) {
+            // Send AJAX request to delete the seller
+            const csrfToken = getCookie('csrftoken');
+            
+            fetch(`/delete-seller-ajax/${currentSellerId}/`, {
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': csrfToken
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Remove the seller item from the list
+                    const sellerItem = document.querySelector(`.seller-item[data-seller-id="${currentSellerId}"]`);
+                    if (sellerItem) {
+                        sellerItem.remove();
+                    }
+                    
+                    // Show success message (you might want to implement a toast notification)
+                    alert('Seller deleted successfully!');
+                } else {
+                    alert('Error deleting seller: ' + data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error deleting seller');
+            })
+            .finally(() => {
+                deleteModal.style.display = 'none';
+                currentSellerId = null;
+            });
+        }
+    });
+    
+    // Close modal
+    function closeModal() {
+        deleteModal.style.display = 'none';
+        currentSellerId = null;
+    }
+    
+    cancelDeleteBtn.addEventListener('click', closeModal);
+    closeModalBtn.addEventListener('click', closeModal);
+    
+    // Close modal when clicking outside
+    window.addEventListener('click', function(event) {
+        if (event.target === deleteModal) {
+            closeModal();
+        }
+    });
+    
+    // Helper function to get CSRF token
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    
+    // ... rest of your existing code ...
 });

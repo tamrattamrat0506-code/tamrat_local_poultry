@@ -8,27 +8,6 @@
 
 {% block content %}
 <div class="house-detail-container">
-    <!-- Seller Info Section -->
-    {% if house.created_by %}
-    <div class="seller-section">
-        <a href="{% url 'users:seller_profile' house.created_by.id %}" class="seller-link">
-            {% if house.created_by.profile.profile_picture %}
-                <img src="{{ house.created_by.profile.profile_picture.url }}" 
-                     alt="{{ house.created_by.username }}'s profile picture" 
-                     class="seller-avatar" width="60" height="60" loading="lazy">
-            {% else %}
-                <div class="seller-avatar default-avatar"><i class="fas fa-user-circle"></i></div>
-            {% endif %}
-        </a>
-        <div class="seller-info">
-            <h2 id="seller-heading" class="seller-name">
-                {{ house.created_by.profile.user_name|default:house.created_by.phone_number }}
-            </h2>
-            <span class="seller-label">{% trans "Seller" %}</span>
-        </div>
-    </div>
-    {% endif %}
-
     <!-- Main Content -->
     <div class="house-content">
         <div class="image-gallery">
@@ -43,6 +22,25 @@
                     <img class="thumbnail" src="{{ image.image.url }}" alt="House Image" loading="lazy">
                 {% endfor %}
             </div>
+            <div class="interaction-buttons">
+                    <button type="button" 
+                            class="interaction-button like-button"
+                            aria-label="{% trans 'Like this house' %}"
+                            data-item-id="{{ house.id }}"
+                            data-action="like">
+                        <i class="fas fa-thumbs-up" aria-hidden="true"></i> 
+                        <span class="interaction-count" id="like-count" aria-live="polite">{{ house.like_count }}</span>
+                    </button>
+                    
+                    <button type="button" 
+                            class="interaction-button share-button"
+                            aria-label="{% trans 'Share this house' %}"
+                            data-item-id="{{ house.id }}"
+                            data-action="share"> 
+                        <i class="fas fa-share-alt" aria-hidden="true"></i> 
+                        <span class="interaction-count" id="share-count" aria-live="polite">{{ house.share_count }}</span>
+                    </button>
+                </div>
         </div>
 
         <!-- House Information -->
@@ -63,27 +61,26 @@
             <!-- Action Buttons -->
             <div class="action-buttons">
                 
-                <div class="interaction-buttons">
-                    <button type="button" 
-                            class="interaction-button like-button"
-                            aria-label="{% trans 'Like this house' %}"
-                            data-item-id="{{ house.id }}"
-                            data-action="like">
-                        <i class="fas fa-thumbs-up" aria-hidden="true"></i> 
-                        <span class="interaction-count" id="like-count" aria-live="polite">{{ house.like_count }}</span>
-                    </button>
-                    
-                    <button type="button" 
-                            class="interaction-button share-button"
-                            aria-label="{% trans 'Share this house' %}"
-                            data-item-id="{{ house.id }}"
-                            data-action="share"> 
-                        <i class="fas fa-share-alt" aria-hidden="true"></i> 
-                        <span class="interaction-count" id="share-count" aria-live="polite">{{ house.share_count }}</span>
-                    </button>
-                </div>
-
-                <a href="{% url 'cart:add_to_cart' app_label model_name house.id %}" class="add-to-cart-btn">
+                {% if house.created_by %}
+    <div class="seller-section">
+        <a href="{% url 'users:seller_profile' house.created_by.id %}" class="seller-link">
+            {% if house.created_by.profile.profile_picture %}
+                <img src="{{ house.created_by.profile.profile_picture.url }}" 
+                     alt="{{ house.created_by.username }}'s profile picture" 
+                     class="seller-avatar" width="60" height="60" loading="lazy">
+            {% else %}
+                <div class="seller-avatar default-avatar"><i class="fas fa-user-circle"></i></div>
+            {% endif %}
+        </a>
+        <div class="seller-info">
+            <h2 id="seller-heading" class="seller-name">
+                {{ house.created_by.profile.user_name|default:house.created_by.phone_number }}
+            </h2>
+            <span class="seller-label">{% trans "Seller" %}</span>
+        </div>
+    </div>
+    {% endif %}
+                <a href="{% url 'cart:add_to_cart' app_label model_name house.id %}" class="add-to-cart-btn"><i class="fas fa-shopping-cart"></i> 
                     {% trans "Add to Cart" %}
                 </a>
                 

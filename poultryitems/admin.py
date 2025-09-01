@@ -3,12 +3,15 @@ from django.contrib import admin
 from .models import Category, Item, SubImage
 
 # consultancy
-from django.contrib import admin
 from .models import Consultant, ConsultationService, ConsultationBooking
 
 # eggs for sell
 from django.contrib import admin
 from .models import EggSeller, EggOrder
+
+# chicken for sell
+from django.utils.translation import gettext_lazy as _
+from .models import ChickenSeller
 
 class SubImageInline(admin.TabularInline):
     model = SubImage
@@ -79,3 +82,34 @@ class EggOrderAdmin(admin.ModelAdmin):
     list_filter = ['status', 'order_date', 'seller']
     search_fields = ['customer_name', 'customer_email', 'customer_phone']
     readonly_fields = ['order_date']
+
+# chicken for sell
+
+@admin.register(ChickenSeller)
+class ChickenSellerAdmin(admin.ModelAdmin):
+    list_display = ('farm_name', 'user', 'location', 'available_quantity', 'min_price', 'max_price', 'is_active')
+    list_filter = ('location', 'delivery_available', 'vaccinated', 'is_active', 'created_at')
+    search_fields = ('farm_name', 'user__username', 'location', 'breeds')
+    readonly_fields = ('created_at', 'updated_at')
+    fieldsets = (
+        (None, {
+            'fields': ('user', 'farm_name', 'location', 'is_active')
+        }),
+        (_('Inventory & Pricing'), {
+            'fields': ('available_quantity', 'min_price', 'max_price', 'breeds')
+        }),
+        (_('Description & Features'), {
+            'fields': ('description', 'delivery_available', 'vaccinated')
+        }),
+        (_('Contact Information'), {
+            'fields': ('contact_number', 'email')
+        }),
+        (_('Social Media'), {
+            'fields': ('facebook_url', 'telegram_handle', 'whatsapp_number', 'instagram_handle', 'youtube_channel'),
+            'classes': ('collapse',)
+        }),
+        (_('Metadata'), {
+            'fields': ('created_at', 'updated_at'),
+            'classes': ('collapse',)
+        }),
+    )

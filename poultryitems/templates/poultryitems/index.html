@@ -55,7 +55,7 @@
             <div class="service-content">
                 <h3>Poultry Chickens</h3>
                 <p>High-quality, vaccinated day-old chicks from top breeds for your poultry farming needs.</p>
-                <a href="{% url 'poultryitems:chicken_sellers' %}" class="cta-button">View More</a>
+                <a href="{% url 'poultryitems:chicken_sellers_list' %}" class="cta-button">View More</a>
             </div>
         </div>
         
@@ -77,15 +77,16 @@
     </div>
 
     <div class="training-container">
+        <div class="training-image">
+            <img src="{% static 'poultryitems/images/training.jpg' %}" alt="Poultry Consultancy">
+        </div>
         <div class="training-content">
             <h2>Poultry Farming Consultancy</h2>
             <p>Our consultancy services provide expert guidance on all aspects of poultry farming, from setup to management.</p>
             <p>We help you optimize your operations, improve productivity, and ensure the health and welfare of your birds.</p>
             <a href="{% url 'poultryitems:veterinary_consultancy' %}" class="cta-button">Get Started</a>
         </div>
-        <div class="training-image">
-            <img src="{% static 'poultryitems/images/training.jpg' %}" alt="Poultry Consultancy">
-        </div>
+        
     </div>
 
 </section>

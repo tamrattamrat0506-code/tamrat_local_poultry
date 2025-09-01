@@ -1,16 +1,12 @@
 # poultryitems/forms.py
 from django import forms
 from .models import Item, SubImage
-
-# consultancy
-from django import forms
 from django.utils.translation import gettext_lazy as _
 from .models import ConsultationBooking, Consultant, ConsultationService
-
-# egg for sell
-from django import forms
-from django.utils.translation import gettext_lazy as _
 from .models import EggSeller, EggOrder
+
+# chicken for sell
+from .models import ChickenSeller
 
 class MultipleFileInput(forms.ClearableFileInput):
     allow_multiple_selected = True
@@ -60,8 +56,6 @@ class ItemForm(forms.ModelForm):
 # consultancy forms
 
 class ConsultationBookingForm(forms.ModelForm):
-    # You might want to let users choose the consultant and service from the database
-    # Alternatively, these can be set from the page based on which button they click (as in your HTML)
     consultant = forms.ModelChoiceField(
         queryset=Consultant.objects.filter(is_available=True),
         widget=forms.HiddenInput(),
@@ -144,3 +138,47 @@ class EggSellerFilterForm(forms.Form):
     min_price = forms.DecimalField(required=False, label=_('Min Price'), max_digits=6, decimal_places=2)
     max_price = forms.DecimalField(required=False, label=_('Max Price'), max_digits=6, decimal_places=2)
     certified_only = forms.BooleanField(required=False, label=_('Certified Only'))
+
+# chicken for sell
+
+class ChickenSellerForm(forms.ModelForm):
+    class Meta:
+        model = ChickenSeller
+        fields = [
+            'farm_name', 'location', 'available_quantity', 
+            'min_price', 'max_price', 'breeds', 'description',
+            'delivery_available', 'vaccinated', 'contact_number',
+            'email', 'facebook_url', 'telegram_handle', 
+            'whatsapp_number', 'instagram_handle', 'youtube_channel'
+        ]
+        widgets = {
+            'description': forms.Textarea(attrs={'rows': 4}),
+        }
+        labels = {
+            'farm_name': _('Farm Name'),
+            'location': _('Location'),
+            'available_quantity': _('Available Chickens'),
+            'min_price': _('Minimum Price'),
+            'max_price': _('Maximum Price'),
+            'breeds': _('Breeds (comma separated)'),
+            'description': _('Description'),
+            'delivery_available': _('Delivery Available'),
+            'vaccinated': _('Vaccinated'),
+            'contact_number': _('Contact Number'),
+            'email': _('Email'),
+            'facebook_url': _('Facebook URL'),
+            'telegram_handle': _('Telegram Handle'),
+            'whatsapp_number': _('WhatsApp Number'),
+            'instagram_handle': _('Instagram Handle'),
+            'youtube_channel': _('YouTube Channel'),
+        }
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        min_price = cleaned_data.get('min_price')
+        max_price = cleaned_data.get('max_price')
+        
+        if min_price and max_price and min_price > max_price:
+            raise forms.ValidationError(_("Minimum price cannot be greater than maximum price."))
+        
+        return cleaned_data

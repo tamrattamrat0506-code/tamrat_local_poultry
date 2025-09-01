@@ -9,11 +9,8 @@ from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.translation import gettext_lazy as _
 
-# egg for sell
-from django.db import models
-from django.core.validators import MinValueValidator
-from django.utils.translation import gettext_lazy as _
-
+# chicken for sell
+from django.contrib.auth.models import User
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -288,3 +285,49 @@ class EggOrder(models.Model):
         if not self.total_price:
             self.total_price = self.quantity * self.seller.price_per_dozen
         super().save(*args, **kwargs)
+
+# chickens for sell
+
+
+class ChickenSeller(models.Model):
+    BREED_CHOICES = [
+        ('rhode_island_red', _('Rhode Island Red')),
+        ('plymouth_rock', _('Plymouth Rock')),
+        ('leghorn', _('Leghorn')),
+        ('sussex', _('Sussex')),
+        ('orpington', _('Orpington')),
+        ('other', _('Other')),
+    ]
+    
+    # Using your custom user model from the users app
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='chicken_seller')
+    farm_name = models.CharField(max_length=200, verbose_name=_("Farm Name"))
+    location = models.CharField(max_length=100, verbose_name=_("Location"))
+    available_quantity = models.PositiveIntegerField(verbose_name=_("Available Chickens"))
+    min_price = models.DecimalField(max_digits=6, decimal_places=2, verbose_name=_("Minimum Price"))
+    max_price = models.DecimalField(max_digits=6, decimal_places=2, verbose_name=_("Maximum Price"))
+    breeds = models.CharField(max_length=300, verbose_name=_("Breeds"))
+    description = models.TextField(verbose_name=_("Description"))
+    delivery_available = models.BooleanField(default=False, verbose_name=_("Delivery Available"))
+    vaccinated = models.BooleanField(default=False, verbose_name=_("Vaccinated"))
+    contact_number = models.CharField(max_length=20, verbose_name=_("Contact Number"))
+    email = models.EmailField(verbose_name=_("Email"))
+    facebook_url = models.URLField(blank=True, null=True, verbose_name=_("Facebook URL"))
+    telegram_handle = models.CharField(max_length=100, blank=True, null=True, verbose_name=_("Telegram Handle"))
+    whatsapp_number = models.CharField(max_length=20, blank=True, null=True, verbose_name=_("WhatsApp Number"))
+    instagram_handle = models.CharField(max_length=100, blank=True, null=True, verbose_name=_("Instagram Handle"))
+    youtube_channel = models.URLField(blank=True, null=True, verbose_name=_("YouTube Channel"))
+    is_active = models.BooleanField(default=True, verbose_name=_("Active"))
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return self.farm_name
+    
+    def price_range(self):
+        return f"${self.min_price}-{self.max_price} {_('each')}"
+    
+    class Meta:
+        verbose_name = _("Chicken Seller")
+        verbose_name_plural = _("Chicken Sellers")
+        ordering = ['-created_at']

@@ -152,6 +152,11 @@
     padding: 0.5rem 0;
 }
 
+.thumbnail-gallery {
+    display: flex;
+    flex-direction: row;
+}
+
 .thumbnail {
     width: 80px;
     height: 80px;
@@ -265,6 +270,7 @@
 /* Interaction Buttons */
 .interaction-buttons {
     display: flex;
+    flex-direction: row;
     gap: 1rem;
 }
 
@@ -280,6 +286,7 @@
     transition: var(--transition);
     font-size: 1rem;
     font-weight: 500;
+    width: fit-content;
 }
 
 .interaction-button:hover {
@@ -287,7 +294,7 @@
     transform: translateY(-2px);
     box-shadow: var(--shadow);
 }
-
+ 
 .interaction-button.liked {
     border-color: var(--primary);
     background: #e3f2fd;
@@ -344,7 +351,7 @@
     }
     
     .interaction-buttons {
-        flex-direction: column;
+        flex-direction: row;
     }
     
     .action-buttons {

@@ -54,6 +54,42 @@
                         {% endfor %}
                         {% endwith %}
                         <span class="rating-count">({{ seller.review_count }})</span>
+                        <!-- Add this where you display each egg seller -->
+{% for seller in sellers %}
+<div class="egg-seller-card">
+    <!-- ... existing seller info ... -->
+    
+    {% if user.is_staff %}
+    <div class="seller-actions">
+        <a href="{% url 'poultryitems:edit_egg_seller' seller.pk %}" class="btn-edit" title="Edit">
+            <i class="fas fa-edit"></i> {% trans "Edit" %}
+        </a>
+        <button class="btn-delete" 
+                title="Delete" 
+                data-seller-id="{{ seller.pk }}" 
+                data-seller-name="{{ seller.farm_name }}">
+            <i class="fas fa-trash"></i> {% trans "Delete" %}
+        </button>
+        <a href="{% url 'poultryitems:delete_egg_seller' seller.pk %}" class="btn-delete-page">
+            <i class="fas fa-trash"></i> {% trans "Delete (Page)" %}
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endfor %}
+
+<!-- Add delete modal (similar to chicken sellers) -->
+<div id="deleteEggModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3>{% trans "Confirm Delete" %}</h3>
+        <p>{% trans "Are you sure you want to delete" %} <span id="eggSellerName"></span>?</p>
+        <div class="modal-actions">
+            <button id="confirmEggDelete" class="btn-danger">{% trans "Delete" %}</button>
+            <button id="cancelEggDelete" class="btn-secondary">{% trans "Cancel" %}</button>
+        </div>
+    </div>
+</div>
                     </div>
                 </div>
                 

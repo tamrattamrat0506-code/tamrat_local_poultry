@@ -40,6 +40,7 @@
             {% endif %}
         </div>
         <p>{{ clothing.description }}</p>
+        
         <a href="{% url 'cart:add_to_cart' app_label model_name clothing.id %}">{% trans "Add to Cart" %}</a>
     </div>
 </div>

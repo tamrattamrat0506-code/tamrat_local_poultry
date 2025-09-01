@@ -9,33 +9,25 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.decorators import login_required
-
 from cart.models import CartItem
 from cart.views import _get_cart
 from django.contrib.contenttypes.models import ContentType
-
-# consultancy
-from django.shortcuts import render, get_object_or_404
-from django.http import JsonResponse
 from django.utils.translation import gettext_lazy as _
-from django.views.decorators.http import require_POST
-from django.views.decorators.csrf import csrf_exempt
 import json
 from .models import Consultant, ConsultationService, ConsultationBooking
 from .forms import ConsultationBookingForm
-
-# eggs for sell
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import JsonResponse
 from django.db.models import Q
-from django.utils.translation import gettext_lazy as _
 from django.contrib import messages
-from django.views.decorators.http import require_POST
-from django.views.decorators.csrf import csrf_exempt
-import json
 from .models import EggSeller, EggOrder
 from .forms import EggSellerForm, EggOrderForm, EggSellerFilterForm
+from django.contrib.auth.decorators import login_required, user_passes_test
+
+# chicken for sell
+from .models import ChickenSeller
+from .forms import ChickenSellerForm
+
+
 
 @login_required
 @require_POST
@@ -170,21 +162,18 @@ def veterinary_consultancy(request):
     }
     return render(request, 'poultryitems/veterinary_consultancy.html', context)
 
-# A view to handle the AJAX form submission for bookings
 @require_POST
-@csrf_exempt  # For simplicity in example. For production, handle CSRF properly with AJAX.
+@csrf_exempt 
 def book_consultation(request):
     data = json.loads(request.body)
     
     try:
-        # Get consultant and service based on the data sent from the frontend
         consultant_id = data.get('consultant_id')
         service_id = data.get('service_id')
         
         consultant = get_object_or_404(Consultant, id=consultant_id, is_available=True)
         service = get_object_or_404(ConsultationService, id=service_id, consultant=consultant)
         
-        # Create a form instance and populate it with data from the request:
         form = ConsultationBookingForm({
             'consultant': consultant.id,
             'service': service.id,
@@ -198,7 +187,6 @@ def book_consultation(request):
         
         if form.is_valid():
             booking = form.save()
-            # Send email notifications here (to consultant and admin)
             return JsonResponse({
                 'success': True,
                 'message': _('Your consultation request has been submitted successfully! We will contact you shortly.')
@@ -217,8 +205,6 @@ def book_consultation(request):
     
 
 # eggs for sell
-
-
 def egg_sellers(request):
     sellers = EggSeller.objects.filter(is_active=True)
     form = EggSellerFilterForm(request.GET or None)
@@ -241,7 +227,6 @@ def egg_sellers(request):
         if certified_only:
             sellers = sellers.filter(~Q(certification='none'))
     
-    # Order by verified first, then rating
     sellers = sellers.order_by('-is_verified', '-rating')
     
     context = {
@@ -284,10 +269,7 @@ def place_egg_order(request):
             order.seller = seller
             order.total_price = int(data.get('quantity')) * seller.price_per_dozen
             order.save()
-            
-            # Here you would typically send email notifications
-            # send_order_confirmation_email(order)
-            
+           
             return JsonResponse({
                 'success': True,
                 'message': _('Your order has been placed successfully! The seller will contact you soon.'),
@@ -305,8 +287,6 @@ def place_egg_order(request):
             'message': _('An error occurred while processing your order. Please try again.')
         }, status=500)
 
-# Admin views for managing sellers
-from django.contrib.auth.decorators import login_required, user_passes_test
 
 def is_staff(user):
     return user.is_staff
@@ -339,3 +319,146 @@ def edit_egg_seller(request, pk):
         form = EggSellerForm(instance=seller)
     
     return render(request, 'poultryitems/edit_egg_seller.html', {'form': form, 'seller': seller})
+
+# chicken for sell
+
+def chicken_sellers_list(request):
+    sellers = ChickenSeller.objects.filter(is_active=True)
+    
+    # Filtering logic
+    location_filter = request.GET.get('location', '')
+    search_query = request.GET.get('search', '')
+    
+    if location_filter:
+        sellers = sellers.filter(location__icontains=location_filter)
+    
+    if search_query:
+        sellers = sellers.filter(
+            Q(farm_name__icontains=search_query) |
+            Q(description__icontains=search_query) |
+            Q(breeds__icontains=search_query)
+        )
+    
+    # Get unique locations for filter dropdown
+    locations = ChickenSeller.objects.filter(is_active=True).values_list('location', flat=True).distinct()
+    
+    context = {
+        'sellers': sellers,
+        'locations': locations,
+        'selected_location': location_filter,
+        'search_query': search_query,
+    }
+    
+    return render(request, 'poultryitems/chicken_sellers.html', context)
+
+def chicken_seller_detail(request, seller_id):
+    seller = get_object_or_404(ChickenSeller, id=seller_id, is_active=True)
+    return render(request, 'poultryitems/chicken_seller_detail.html', {'seller': seller})
+
+@login_required
+def register_seller(request):
+    if hasattr(request.user, 'chicken_seller') and request.user.chicken_seller.is_active:
+        messages.info(request, 'You already have an active seller profile.')
+        return redirect('poultryitems:chicken_sellers_list')
+    
+    if request.method == 'POST':
+        form = ChickenSellerForm(request.POST)
+        if form.is_valid():
+            if hasattr(request.user, 'chicken_seller'):
+                request.user.chicken_seller.delete()
+            
+            seller = form.save(commit=False)
+            seller.user = request.user
+            seller.save()
+            messages.success(request, 'Seller profile created successfully!')
+            return redirect('poultryitems:chicken_sellers_list')
+    else:
+        form = ChickenSellerForm()
+    
+    return render(request, 'poultryitems/register_seller.html', {'form': form})
+
+@login_required
+def edit_seller(request, seller_id):
+    seller = get_object_or_404(ChickenSeller, id=seller_id, is_active=True)
+    
+    # Check if the current user owns this seller profile
+    if seller.user != request.user and not request.user.is_staff:
+        messages.error(request, 'You do not have permission to edit this profile.')
+        return redirect('poultryitems:chicken_sellers_list')
+    
+    if request.method == 'POST':
+        form = ChickenSellerForm(request.POST, instance=seller)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Profile updated successfully!')
+            return redirect('poultryitems:chicken_sellers_list')
+    else:
+        form = ChickenSellerForm(instance=seller)
+    
+    return render(request, 'poultryitems/edit_seller.html', {
+        'form': form,
+        'seller': seller
+    })
+
+@login_required
+def delete_seller(request, seller_id):
+    seller = get_object_or_404(ChickenSeller, id=seller_id, is_active=True)
+    
+    # Check if the current user owns this seller profile or is staff
+    if seller.user != request.user and not request.user.is_staff:
+        messages.error(request, 'You do not have permission to delete this profile.')
+        return redirect('poultryitems:chicken_sellers_list')
+    
+    if request.method == 'POST':
+        # Soft delete by setting is_active to False
+        seller.is_active = False
+        seller.save()
+        messages.success(request, 'Seller profile deleted successfully!')
+        return redirect('poultryitems:chicken_sellers_list')
+    
+    return render(request, 'poultryitems/delete_seller.html', {'seller': seller})
+
+# AJAX view for quick delete (optional)
+@login_required
+def delete_seller_ajax(request, seller_id):
+    if request.method == 'POST' and request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        seller = get_object_or_404(ChickenSeller, id=seller_id, is_active=True)
+        
+        # Check if the current user owns this seller profile or is staff
+        if seller.user != request.user and not request.user.is_staff:
+            return JsonResponse({'success': False, 'error': 'Permission denied'})
+        
+        # Soft delete
+        seller.is_active = False
+        seller.save()
+        
+        return JsonResponse({'success': True})
+    
+    return JsonResponse({'success': False, 'error': 'Invalid request'})
+
+# delete for egg seler
+# Add to your existing egg seller views
+@login_required
+@user_passes_test(is_staff)
+def delete_egg_seller(request, pk):
+    seller = get_object_or_404(EggSeller, pk=pk)
+    
+    if request.method == 'POST':
+        seller.delete()
+        messages.success(request, _('Egg seller deleted successfully!'))
+        return redirect('poultryitems:egg_sellers')
+    
+    return render(request, 'poultryitems/delete_egg_seller.html', {'seller': seller})
+
+# AJAX delete view for egg sellers
+@login_required
+@user_passes_test(is_staff)
+@require_POST
+@csrf_exempt
+def delete_egg_seller_ajax(request, pk):
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        seller = get_object_or_404(EggSeller, pk=pk)
+        seller.delete()
+        return JsonResponse({'success': True, 'message': _('Egg seller deleted successfully!')})
+    
+    return JsonResponse({'success': False, 'error': _('Invalid request')})

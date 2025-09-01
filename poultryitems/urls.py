@@ -36,14 +36,23 @@ urlpatterns = [
     # like and share
     path('<int:pk>/like/', views.like_item, name='item_like'),
     path('<int:pk>/share/', views.share_item, name='item_share'),
-
-    # Egg sellers, Chicken sellers, Poultry trainings and veterinary consultancy
+    #egg
+    path('egg-sellers/delete/<int:pk>/', views.delete_egg_seller, name='delete_egg_seller'),
+    path('egg-sellers/delete-ajax/<int:pk>/', views.delete_egg_seller_ajax, name='delete_egg_seller_ajax'),
     path('egg-sellers/', views.egg_sellers, name='egg_sellers'),
     path('egg-sellers/<int:pk>/', views.egg_seller_detail, name='egg_seller_detail'),
     path('egg-sellers/place-order/', views.place_egg_order, name='place_egg_order'),
     path('egg-sellers/add/', views.add_egg_seller, name='add_egg_seller'),
-    path('egg-sellers/edit/<int:pk>/', views.edit_egg_seller, name='edit_egg_seller'),#egg
-    path('chicken-sellers/', views.chicken_sellers, name='chicken_sellers'),#chicken
+    path('egg-sellers/edit/<int:pk>/', views.edit_egg_seller, name='edit_egg_seller'),
+    #egg
+    #chicken
+    path('chicken-sellers/', views.chicken_sellers_list, name='chicken_sellers_list'),
+    path('chicken-seller/<int:seller_id>/', views.chicken_seller_detail, name='chicken_seller_detail'),
+    path('register-seller/', views.register_seller, name='register_seller'),
+    path('edit-seller/<int:seller_id>/', views.edit_seller, name='edit_seller'),
+    path('delete-seller/<int:seller_id>/', views.delete_seller, name='delete_seller'),
+    path('delete-seller-ajax/<int:seller_id>/', views.delete_seller_ajax, name='delete_seller_ajax'),
+    #chicken
     path('veterinary-consultancy/', views.veterinary_consultancy, name='veterinary_consultancy'),
     path('book-consultation/', views.book_consultation, name='book_consultation'),#consultancy
     path('poultry-trainings/', views.poultry_trainings, name='poultry_trainings'),#trainings

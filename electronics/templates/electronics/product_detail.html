@@ -8,29 +8,7 @@
 
 {% block content %}
 <div class="product-detail-container">
-    <!-- Seller Info Section -->
-    {% if product.seller %}
-    <div class="seller-section">
-        <a href="{% url 'users:seller_profile' product.seller.id %}" class="seller-link">
-            {% if product.seller.profile.profile_picture %}
-                <img src="{{ product.seller.profile.profile_picture.url }}" 
-                     alt="Seller profile picture" 
-                     class="seller-avatar" width="60" height="60" loading="lazy">
-            {% else %}
-                <div class="seller-avatar default-avatar">
-                    <i class="fas fa-user-circle"></i>
-                </div>
-            {% endif %}
-        </a>
-        <div class="seller-info">
-            <h2 id="seller-heading" class="seller-name">
-                {{ product.seller.profile.user_name|default:product.seller.phone_number }}
-            </h2>
-            <span class="seller-label">{% trans "Seller" %}</span>
-        </div>
-    </div>
-    {% endif %}
-
+    
     <!-- Main Content -->
     <div class="product-content">
         <!-- Image Gallery -->
@@ -46,6 +24,23 @@
                     <img class="thumbnail" src="{{ image.image.url }}" alt="Product Image">
                 {% endfor %}
             </div>
+            <div class="interaction-buttons">
+                    <button type="button" 
+                            class="interaction-button like-button" 
+                            aria-label="Like this product"
+                            data-item-id="{{ product.id }}">
+                        <i class="fas fa-thumbs-up" aria-hidden="true"></i> 
+                        <span class="interaction-count">{{ product.like_count }}</span>
+                    </button>
+
+                    <button type="button" 
+                            class="interaction-button share-button" 
+                            aria-label="Share this product"
+                            data-item-id="{{ product.id }}">
+                        <i class="fas fa-share-alt" aria-hidden="true"></i> 
+                        <span class="interaction-count">{{ product.share_count }}</span>
+                    </button>
+                </div>
         </div>
 
         <!-- Product Information -->
@@ -82,24 +77,28 @@
             <!-- Action Buttons -->
             <div class="action-buttons">
                 
-                <div class="interaction-buttons">
-                    <button type="button" 
-                            class="interaction-button like-button" 
-                            aria-label="Like this product"
-                            data-item-id="{{ product.id }}">
-                        <i class="fas fa-thumbs-up" aria-hidden="true"></i> 
-                        <span class="interaction-count">{{ product.like_count }}</span>
-                    </button>
-
-                    <button type="button" 
-                            class="interaction-button share-button" 
-                            aria-label="Share this product"
-                            data-item-id="{{ product.id }}">
-                        <i class="fas fa-share-alt" aria-hidden="true"></i> 
-                        <span class="interaction-count">{{ product.share_count }}</span>
-                    </button>
+                <!-- Seller Info Section -->
+    {% if product.seller %}
+    <div class="seller-section">
+        <a href="{% url 'users:seller_profile' product.seller.id %}" class="seller-link">
+            {% if product.seller.profile.profile_picture %}
+                <img src="{{ product.seller.profile.profile_picture.url }}" 
+                     alt="Seller profile picture" 
+                     class="seller-avatar" width="60" height="60" loading="lazy">
+            {% else %}
+                <div class="seller-avatar default-avatar">
+                    <i class="fas fa-user-circle"></i>
                 </div>
-
+            {% endif %}
+        </a>
+        <div class="seller-info">
+            <h2 id="seller-heading" class="seller-name">
+                {{ product.seller.profile.user_name|default:product.seller.phone_number }}
+            </h2>
+            <span class="seller-label">{% trans "Seller" %}</span>
+        </div>
+    </div>
+    {% endif %}
                 <a href="{% url 'cart:add_to_cart' app_label model_name product.id %}" class="add-to-cart-btn">
                     <i class="fas fa-shopping-cart"></i>
                     {% trans "Add to Cart" %}

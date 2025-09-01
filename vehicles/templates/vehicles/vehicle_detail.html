@@ -11,29 +11,6 @@
 {% block content %}
 
 <div class="vehicle-detail-container">
-    <!-- Seller Info Section -->
-    {% if vehicle.created_by %}
-    <div class="seller-section">
-        <a href="{% url 'users:seller_profile' vehicle.created_by.id %}" class="seller-link">
-            {% if vehicle.created_by.profile.profile_picture %}
-                <img src="{{ vehicle.created_by.profile.profile_picture.url }}" 
-                     alt="Seller profile picture" 
-                     class="seller-avatar" width="60" height="60" loading="lazy">
-            {% else %}
-                <div class="seller-avatar default-avatar">
-                    <i class="fas fa-user-circle"></i>
-                </div>
-            {% endif %}
-        </a>
-        <div class="seller-info">
-            <h2 id="seller-heading" class="seller-name">
-                {{ vehicle.created_by.profile.user_name|default:vehicle.created_by.phone_number }}
-            </h2>
-            <span class="seller-label">{% trans "Seller" %}</span>
-        </div>
-    </div>
-    {% endif %}
-
     <!-- Main Content -->
     <div class="vehicle-content">
         <div class="image-gallery">
@@ -48,6 +25,19 @@
                     <img src="{{ image.image.url }}" alt="Thumbnail" class="thumbnail" onclick="updateMainImage(this)">
                 {% endfor %}
             </div>
+            <div class="interaction-buttons">
+                    <button type="button" class="interaction-button like-btn" onclick="likeVehicle('{{ vehicle.id }}')">
+                        <i class="fas fa-thumbs-up"></i>
+                        {{ vehicle.like_count }}
+                        <span class="btn-text">{% trans "Likes" %}</span>
+                    </button>
+                    
+                    <button type="button" class="interaction-button share-btn" onclick="shareVehicle('{{ vehicle.id }}')">
+                        <i class="fas fa-share-alt"></i>
+                        {{ vehicle.share_count }}
+                        <span class="btn-text">{% trans "Shares" %}</span>
+                    </button>
+                </div>
         </div>
 
         <!-- Vehicle Information -->
@@ -99,20 +89,28 @@
             <!-- Action Buttons -->
             <div class="action-buttons">
                 
-                <div class="interaction-buttons">
-                    <button type="button" class="interaction-button like-btn" onclick="likeVehicle('{{ vehicle.id }}')">
-                        <i class="fas fa-thumbs-up"></i>
-                        {{ vehicle.like_count }}
-                        <span class="btn-text">{% trans "Likes" %}</span>
-                    </button>
-                    
-                    <button type="button" class="interaction-button share-btn" onclick="shareVehicle('{{ vehicle.id }}')">
-                        <i class="fas fa-share-alt"></i>
-                        {{ vehicle.share_count }}
-                        <span class="btn-text">{% trans "Shares" %}</span>
-                    </button>
+                <!-- Seller Info Section -->
+    {% if vehicle.created_by %}
+    <div class="seller-section">
+        <a href="{% url 'users:seller_profile' vehicle.created_by.id %}" class="seller-link">
+            {% if vehicle.created_by.profile.profile_picture %}
+                <img src="{{ vehicle.created_by.profile.profile_picture.url }}" 
+                     alt="Seller profile picture" 
+                     class="seller-avatar" width="60" height="60" loading="lazy">
+            {% else %}
+                <div class="seller-avatar default-avatar">
+                    <i class="fas fa-user-circle"></i>
                 </div>
-
+            {% endif %}
+        </a>
+        <div class="seller-info">
+            <h2 id="seller-heading" class="seller-name">
+                {{ vehicle.created_by.profile.user_name|default:vehicle.created_by.phone_number }}
+            </h2>
+            <span class="seller-label">{% trans "Seller" %}</span>
+        </div>
+    </div>
+    {% endif %}
                 <a href="{% url 'cart:add_to_cart' app_label model_name vehicle.id %}" class="add-to-cart-btn">
                     <i class="fas fa-shopping-cart"></i>
                     {% trans "Add to Cart" %}

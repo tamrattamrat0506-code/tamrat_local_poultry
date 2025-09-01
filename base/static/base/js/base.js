@@ -93,10 +93,8 @@ function initFormSubmissions() {
                     <span class="spinner">
                         <i class="fas fa-spinner fa-spin"></i>
                     </span>
-                    <span class="text">Processing...</span>
+                    <span class="text">...</span>
                 `;
-
-                // Handle form submission via fetch if it's not a regular form submission
                 if (form.dataset.ajax === "true") {
                     e.preventDefault();
                     handleAjaxForm(form, submitBtn, originalText);
@@ -295,3 +293,80 @@ function addPulseAnimation() {
 
 // Initialize pulse animation
 addPulseAnimation();
+
+
+
+// Search functionality
+function initSearch() {
+    const searchToggle = document.getElementById('searchToggle');
+    const searchInput = document.querySelector('.search-input');
+    const searchForm = document.querySelector('.search-bar form');
+    const searchField = document.getElementById('search-input');
+    
+    if (searchToggle && searchInput) {
+        searchToggle.addEventListener('click', function() {
+            searchInput.classList.toggle('active');
+            document.body.classList.toggle('search-active');
+            
+            const isExpanded = searchInput.classList.contains('active');
+            searchToggle.setAttribute('aria-expanded', isExpanded);
+            
+            if (isExpanded) {
+                searchField.focus();
+            }
+        });
+        
+        // Close search when clicking outside
+        document.addEventListener('click', function(e) {
+            if (searchInput.classList.contains('active') && 
+                !searchInput.contains(e.target) && 
+                !searchToggle.contains(e.target)) {
+                closeSearch();
+            }
+        });
+        
+        // Close on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && searchInput.classList.contains('active')) {
+                closeSearch();
+            }
+        });
+        
+        // Prevent form submission from closing search on mobile
+        searchForm.addEventListener('submit', function(e) {
+            if (window.innerWidth > 768) {
+                closeSearch();
+            }
+        });
+    }
+    
+    function closeSearch() {
+        searchInput.classList.remove('active');
+        document.body.classList.remove('search-active');
+        searchToggle.setAttribute('aria-expanded', 'false');
+    }
+    
+    // Auto-complete functionality (optional)
+    if (searchField) {
+        let timeout;
+        searchField.addEventListener('input', function() {
+            clearTimeout(timeout);
+            timeout = setTimeout(function() {
+                const query = searchField.value.trim();
+                if (query.length > 2) {
+                    fetchSearchSuggestions(query);
+                }
+            }, 300);
+        });
+    }
+}
+
+function fetchSearchSuggestions(query) {
+  
+
+function showSearchSuggestions(suggestions) {
+}
+document.addEventListener('DOMContentLoaded', function() {
+    
+    initSearch(); 
+});
