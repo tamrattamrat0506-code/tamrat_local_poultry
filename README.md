@@ -1,3 +1,10 @@
+github paassword tame
+link = https://github.com/settings/tokens?utm_source=chatgpt.com
+password = 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
+
+fraol lemma password
+ 
+ 
 Pulsing & glowing text
 Buttons and cards with glowing animated borders
 Shimmer & shine effects
@@ -11,7 +18,7 @@ Shape morphing (ripple and blob effects)
 Mystical backgrounds (starry night sky, twinkling effects)
 Animated spell effects (fireball trail, water ripple)
 Floating magical elements (scrolls, runes, ancient text effects)
-
+ 
 Please write a modern and visually appealing CSS in one stylesheet. Keep it clean and organized with comments.
 
 
