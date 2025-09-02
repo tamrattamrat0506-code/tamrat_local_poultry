@@ -2,12 +2,16 @@
 import os
 from pathlib import Path
 from django.utils.translation import gettext_lazy as _
+import dj_database_url  # ✅ for Railway PostgreSQL
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'your-development-secret-key'
-DEBUG = True
-ALLOWED_HOSTS = ['*','localhost', '127.0.0.1','render-x1cx.onrender.com']
+# ✅ Use environment variable for security
+SECRET_KEY = os.environ.get("SECRET_KEY", "unsafe-secret-key")
+DEBUG = os.environ.get("DEBUG", "False") == "True"
+
+# ✅ Railway provides DOMAIN dynamically
+ALLOWED_HOSTS = ["*"]
 
 LANGUAGES = [
     ('en', _('English')),
@@ -19,12 +23,16 @@ LANGUAGE_COOKIE_NAME = 'django_language'
 LANGUAGE_COOKIE_HTTPONLY = False
 LANGUAGE_COOKIE_SAMESITE = 'Lax'
 
-REDIS_URL = 'redis://localhost:6379'
+# ✅ Redis will also come from env (if you add Redis in Railway)
+REDIS_URL = os.environ.get("REDIS_URL", "redis://localhost:6379")
 
-CSRF_TRUSTED_ORIGINS = ['http://localhost:8000', 'http://127.0.0.1:8000', 'http://render-x1cx.onrender.com']
-SESSION_COOKIE_SECURE = False
-CSRF_COOKIE_SECURE = False
-SECURE_PROXY_SSL_HEADER = None
+CSRF_TRUSTED_ORIGINS = [
+    "https://*.up.railway.app",   # ✅ Railway default domain
+]
+
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -34,11 +42,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'daphne',
     'django.contrib.staticfiles',
-    
+
     'channels',
     'rest_framework',
     'corsheaders',
-    
+
     'base',
     'poultryitems',
     'conversation',
@@ -77,13 +85,17 @@ ROOT_URLCONF = 'project.urls'
 ASGI_APPLICATION = 'project.asgi.application'
 WSGI_APPLICATION = 'project.wsgi.application'
 DAPHNE_TIMEOUT = 50
+
+# ✅ Railway PostgreSQL database
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    "default": dj_database_url.config(
+        default=f"sqlite:///{BASE_DIR}/db.sqlite3",
+        conn_max_age=600,
+        ssl_require=True
+    )
 }
 
+# ✅ Channels with Redis
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
@@ -99,9 +111,10 @@ LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'dashboard'
 LOGOUT_REDIRECT_URL = 'home'
 
+# ✅ Static files setup for Railway
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfile')
-STATICFILES_DIRS = [ BASE_DIR / "static",]  
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = [BASE_DIR / "static"]
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_URL = '/media/'
@@ -130,7 +143,4 @@ TEMPLATES = [
     },
 ]
 
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-WHITENOISE_AUTOREFRESH = True
