@@ -370,11 +370,11 @@ def register_seller(request):
             seller = form.save(commit=False)
             seller.user = request.user
             seller.save()
-            messages.success(request, 'Seller profile created successfully!')
+            messages.success(request, 'Chicken seller created successfully!')
             return redirect('poultryitems:chicken_sellers_list')
     else:
         form = ChickenSellerForm()
-    
+      
     return render(request, 'poultryitems/register_seller.html', {'form': form})
 
 @login_required

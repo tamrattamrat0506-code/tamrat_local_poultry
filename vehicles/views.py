@@ -49,7 +49,7 @@ class VehicleListView(ListView):
     paginate_by = 12
 
     def get_queryset(self):
-        return Vehicle.objects.filter(is_featured=True)
+        return Vehicle.objects.filter(is_featured=True).order_by('-created_at')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -99,7 +99,7 @@ class CategoryView(ListView):
     paginate_by = 12
 
     def get_queryset(self):
-        return Vehicle.objects.filter(category__slug=self.kwargs['slug'])
+        return Vehicle.objects.filter(category__slug=self.kwargs['slug']).order_by('-created_at')
 
 
 class VehicleCreateView(LoginRequiredMixin, CreateView):

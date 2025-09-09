@@ -63,6 +63,7 @@ class Vehicle(models.Model):
     AUTH_USER_MODEL, on_delete=models.CASCADE)
     like_count = models.PositiveIntegerField(default=0)
     share_count = models.PositiveIntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
     
     def increment_likes(self):
         self.like_count += 1
