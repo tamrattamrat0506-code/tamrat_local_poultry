@@ -32,14 +32,8 @@
             </a>
         </div>
         
-        {% if request.user.is_authenticated and request.user != item.created_by %}
-        <div class="seller-actions">
-            <a href="{% url 'conversation:new' item.id %}" class="button contact-button" aria-label="Contact seller">
-                <i class="fas fa-envelope" aria-hidden="true"></i> 
-                <span>{% trans "Contact" %}</span>
-            </a>
-        </div>
-        {% endif %}
+        <a href="{% url 'conversation:new' app_label='poultryitems' model_name='item' object_id=item.id %}" class="start-conversation-btn"></a>
+        
     </section>
 
     <!-- Product Main Content -->

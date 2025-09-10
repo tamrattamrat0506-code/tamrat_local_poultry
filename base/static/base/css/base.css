@@ -310,6 +310,10 @@ img {
     padding: 0 var(--spacing-xs);
 }
 
+.count {
+    color: white;
+    font-size: 0.7rem;
+}
 .login-btn, .user-btn {
     padding: var(--spacing-xs) var(--spacing-sm);
     border: 1px solid var(--primary-color);

@@ -19,6 +19,8 @@
             <img src="{{ image.image.url }}" alt="{{ clothing.name }}" class="thumbnail" onclick="updateMainImage(this)">
             {% endfor %}
         </div>
+        <a href="{% url 'conversation:new' app_label='clothings' model_name='clothing' object_id=clothing.id %}" class="start-conversation-btn"></a>
+        
         <div class="interaction-buttons">
             <button type="button" class="interaction-button like-button" data-item-id="{{ clothing.id }}">
                 <i class="fas fa-thumbs-up"></i> <span class="interaction-count">{{ clothing.like_count }}</span>

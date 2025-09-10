@@ -88,14 +88,6 @@
 
                 
                     {% if user.is_authenticated %}
-                    <a href="{% url 'conversation:inbox' %}" class="action-btn wishlist-btn" aria-label="Messages">
-                        <i class="far fa-envelope"></i>
-                        <span class="count" id="navbarUnread">0</span>
-                    </a>
-
-                    <a href="{% url 'cart:cart_detail' %}" class="action-btn wishlist-btn">
-                        <i class="fas fa-shopping-cart"></i>{{ cart_item_count|default:0 }}
-                    </a>
                     
                     <a href="{% url 'users:profile' %}" class="user-btn">
                         {% if user.profile.profile_picture %}
@@ -123,7 +115,8 @@
         <button class="nav-close-btn" id="navCloseBtn" aria-label="Close navigation">
             <i class="fas fa-times"></i>
         </button>
-    </div>        
+    </div>  
+    <!-- car . -->      
     <ul class="category-nav-list">
         <li class="category-nav-item has-dropdown">
             <a href="#" class="category-nav-link dropdown-toggle" aria-expanded="false" aria-controls="carMenu">
@@ -140,36 +133,117 @@
                 </li>
                 <li class="category-nav-item">
                     <a href="{% url 'vehicles:vehicle_add' %}" class="category-nav-link">
-                        <i class="fas fa-user-tie"></i>
+                        <i class="fas fa-plus"></i>
                         <span class="link-text">{% trans "Add car" %}</span>
                     </a>
                 </li>
             </ul>
         </li>
-        <li class="category-nav-item {% if request.resolver_match.app_name == 'houses' %}active{% endif %}">
-            <a href="{% url 'houses:house_list' %}" class="category-nav-link">
+        <!-- car ... -->
+         
+        <!-- house . -->
+        <li class="category-nav-item has-dropdown">
+            <a href="#" class="category-nav-link dropdown-toggle" aria-expanded="false" aria-controls="houseMenu">
                 <i class="fas fa-home"></i>
-                <span class="link-text">{% trans "Houses for Sale" %}</span>
+                <span class="link-text">{% trans "House Section"%} </span>
+                <i class="fas fa-chevron-down dropdown-arrow"></i>
             </a>
+            <ul id="houseMenu" class="category-nav-dropdown">
+                <li class="category-nav-item">
+                    <a href="{% url 'houses:house_list' %}" class="category-nav-link">
+                        <i class="fas fa-list"></i>
+                        <span class="link-text">{% trans "All Houses" %}</span>
+                    </a>
+                </li>
+                <li class="category-nav-item">
+                    <a href="{% url 'houses:house_create' %}" class="category-nav-link">
+                        <i class="fas fa-plus"></i>
+                        <span class="link-text">{% trans "Add House" %}</span>
+                    </a>
+                </li>
+            </ul>
         </li>
-        <li class="category-nav-item {% if request.resolver_match.app_name == 'electronics' %}active{% endif %}">
-            <a href="{% url 'electronics:product_list' %}" class="category-nav-link">
-                <i class="fas fa-laptop"></i>
-                <span class="link-text">{% trans "Electronics" %}</span>
+        <!-- house ... -->
+
+        <!-- electronics . -->
+         <li class="category-nav-item has-dropdown">
+            <a href="#" class="category-nav-link dropdown-toggle" aria-expanded="false" aria-controls="electronicsMenu">
+                <i class="fas fa-tv"></i>
+                <span class="link-text">{% trans "Electronics Section" %}</span>
+                <i class="fas fa-chevron-down dropdown-arrow"></i>
             </a>
+            <ul id="electronicsMenu" class="category-nav-dropdown">
+                <li class="category-nav-item">
+                    <a href="{% url 'electronics:product_list' %}" class="category-nav-link">
+                        <i class="fas fa-list"></i>
+                        <span class="link-text">{% trans "All Electronics" %}</span>
+                    </a>
+                </li>
+                <li class="category-nav-item">
+                    <a href="{% url 'electronics:product_create' %}" class="category-nav-link">
+                        <i class="fas fa-plus"></i>
+                        <span class="link-text">{% trans "Add Electronics" %}</span>
+                    </a>
+                </li>
+            </ul>
         </li>
-        <li class="category-nav-item {% if request.resolver_match.app_name == 'clothings' %}active{% endif %}">
-            <a href="{% url 'clothings:clothing_list' %}" class="category-nav-link">
+        <!-- electronics ... -->
+
+        <!-- clothing . -->
+         <li class="category-nav-item has-dropdown">
+            <a href="#" class="category-nav-link dropdown-toggle" aria-expanded="false" aria-controls="clothingMenu">
                 <i class="fas fa-tshirt"></i>
-                <span class="link-text">{% trans "Clothing" %}</span>
+                <span class="link-text">{% trans "Clothing Section" %}</span>
+                <i class="fas fa-chevron-down dropdown-arrow"></i>
             </a>
+            <ul id="clothingMenu" class="category-nav-dropdown">
+                <li class="category-nav-item">
+                    <a href="{% url 'clothings:clothing_list' %}" class="category-nav-link">
+                        <i class="fas fa-list"></i>
+                        <span class="link-text">{% trans "All Clothing" %}</span>
+                    </a>
+                </li>
+                <li class="category-nav-item">
+                    <a href="{% url 'clothings:clothing_create' %}" class="category-nav-link">
+                        <i class="fas fa-plus"></i>
+                        <span class="link-text">{% trans "Add Clothing" %}</span>
+                    </a>
+                </li>
+            </ul>
         </li>
-        <li class="category-nav-item {% if request.resolver_match.app_name == 'poultryitems' %}active{% endif %}">
-            <a href="{% url 'poultryitems:index' %}" class="category-nav-link">
+        <!-- clothing ... -->
+
+        <!-- poultry . -->
+         <li class="category-nav-item has-dropdown">
+            <a href="#" class="category-nav-link dropdown-toggle" aria-expanded="false" aria-controls="poultryMenu">
                 <i class="fas fa-feather-alt"></i>
                 <span class="link-text">{% trans "Poultry Section" %}</span>
+                <i class="fas fa-chevron-down dropdown-arrow"></i>
             </a>
+            <ul id="poultryMenu" class="category-nav-dropdown">
+                <li class="category-nav-item">
+                    <a href="{% url 'poultryitems:item_list' %}" class="category-nav-link">
+                        <i class="fas fa-list"></i>
+                        <span class="link-text">{% trans "Poultry Items" %}</span>
+                    </a>
+                </li>
+                <li class="category-nav-item">
+                    <a href="{% url 'poultryitems:egg_sellers' %}" class="category-nav-link">
+                        <i class="fas fa-list"></i>
+                        <span class="link-text">{% trans "Poultry Eggs" %}</span>
+                    </a>
+                </li>
+                <li class="category-nav-item">
+                    <a href="{% url 'poultryitems:chicken_sellers_list' %}" class="category-nav-link">
+                        <i class="fas fa-list"></i>
+                        <span class="link-text">{% trans "Poultry Chickens" %}</span>
+                    </a>
+                </li>
+            </ul>
         </li>
+        <!-- poultry ... -->
+
+        <!-- user & admin . -->
         <li class="category-nav-item has-dropdown">
             <a href="#" class="category-nav-link dropdown-toggle" aria-expanded="false" aria-controls="userMenu">
                 <i class="fas fa-user-circle"></i>
@@ -177,30 +251,62 @@
                 <i class="fas fa-chevron-down dropdown-arrow"></i>
             </a>
             <ul id="userMenu" class="category-nav-dropdown">
-                {% if user.is_authenticated %}
+                
                 <li class="category-nav-item">
                     <a href="{% url 'users:profile' %}" class="category-nav-link">
                         <i class="fas fa-user-cog"></i>
-                        <span class="link-text">{% trans "Profile" %}</span>
+                        <span class="link-text">{% trans "My Profile" %}</span>
                     </a>
                 </li>
+
                 <li class="category-nav-item">
-                    <a href="{% url 'conversation:inbox' %}" class="category-nav-link">
-                        <i class="far fa-envelope"></i>
-                        <span class="link-text">{% trans "Messages" %}</span>
-                        <span class="count" id="navbarUnread">0</span>
+                    <a href="{% url 'users:profile_update' %}" class="category-nav-link">
+                        <i class="fas fa-user-cog"></i>
+                        <span class="link-text">{% trans "Edit Profile" %}</span>
                     </a>
                 </li>
-                {% else %}
+
+<li class="category-nav-item">
+    <a href="{% url 'conversation:inbox' %}" class="category-nav-link">
+        <i class="far fa-envelope"></i>
+        <span class="link-text">{% trans "Messages" %}</span>
+        <span class="count" id="navbarUnread">
+            {% if request.user.is_authenticated %}
+                {{ request.user.get_unread_message_count }}
+            {% else %}
+                0
+            {% endif %}
+        </span>
+    </a>
+</li>
+
+                <li class="category-nav-item">
+                    <a href="{% url 'cart:cart_detail' %}" class="category-nav-link">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="link-text">{% trans "Cart" %}</span>
+                        <span class="count" id="navbarCartCount">{{ cart_item_count|default:0 }}</span>
+                    </a>
+                </li>
+                
                 <li class="category-nav-item">
                     <a href="{% url 'users:register' %}" class="category-nav-link">
                         <i class="fas fa-user-plus"></i>
                         <span class="link-text">{% trans "Register" %}</span>
                     </a>
                 </li>
-                {% endif %}
+
+                <li class="category-nav-item">
+                    <a href="{% url 'users:register' %}" class="category-nav-link">
+                        <i class="fas fa-user-plus"></i>
+                        <span class="link-text">{% trans "Logout" %}</span>
+                    </a>
+                </li>
+                
             </ul>
         </li>
+        <!-- user & admin ... -->
+
+        <!-- user actions -->
         <li class="category-nav-item has-dropdown">
             <a href="#" class="category-nav-link dropdown-toggle" aria-expanded="false" aria-controls="adminMenu">
                 <i class="fas fa-lock"></i>
@@ -208,7 +314,6 @@
                 <i class="fas fa-chevron-down dropdown-arrow"></i>
             </a>
             <ul id="adminMenu" class="category-nav-dropdown">
-                {% if user.is_staff or user.is_superuser %}
                 <li class="category-nav-item">
                     <a href="{% url 'base:admin_links' %}" class="category-nav-link">
                         <i class="fas fa-user-shield"></i>
@@ -221,7 +326,6 @@
                         <span class="link-text">{% trans "Messages" %}</span>
                     </a>
                 </li>
-                {% endif %}
                 <li class="category-nav-item">
                     <a href="{% url 'users:user_list' %}" class="category-nav-link">
                         <i class="fas fa-users"></i>
@@ -230,18 +334,55 @@
                 </li>
             </ul>
         </li>
+        <!-- user actions ... -->
+
+                <!-- language switch . -->
+        <li class="category-nav-item has-dropdown">
+            <a href="#" class="category-nav-link dropdown-toggle" aria-expanded="false" aria-controls="languageMenu">
+                <i class="fas fa-globe"></i>
+                <span class="link-text">{% trans "Language" %}</span>
+                <i class="fas fa-chevron-down dropdown-arrow"></i>
+            </a>
+            <ul id="languageMenu" class="category-nav-dropdown">
+                <li class="category-nav-item">
+                    <a href="{% url 'set_language' %}?language=en" class="category-nav-link">
+                        <i class="fas fa-flag-usa"></i>
+                        <span class="link-text">English</span>
+                    </a>
+                </li>
+                <li class="category-nav-item">
+                    <a href="{% url 'set_language' %}?language=am" class="category-nav-link">
+                        <i class="fas fa-flag"></i>
+                        <span class="link-text">አማርኛ</span>
+                    </a>
+                </li>
+                <li class="category-nav-item">
+                    <a href="{% url 'set_language' %}?language=om" class="category-nav-link">
+                        <i class="fas fa-flag"></i>
+                        <span class="link-text">Oromiffa</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <!-- language switch ... -->
+
+        <!-- contact us . -->
         <li class="category-nav-item {% if request.resolver_match.app_name == 'contact' %}active{% endif %}">
             <a href="{% url 'contact:contact_us' %}" class="category-nav-link">
                 <i class="fas fa-headset"></i>
                 <span class="link-text">{% trans "Contact Us" %}</span>
             </a>
         </li>
+        <!-- contact us ... -->
+
+        <!-- about us . -->
         <li class="category-nav-item {% if request.resolver_match.url_name == 'about_us' %}active{% endif %}">
             <a href="{% url 'base:about_us' %}" class="category-nav-link">
                 <i class="fas fa-info-circle"></i>
                 <span class="link-text">{% trans "About Us" %}</span>
             </a>
         </li>
+        <!-- about us ... -->
     </ul>
 </nav>
 

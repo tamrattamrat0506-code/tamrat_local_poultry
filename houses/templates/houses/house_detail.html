@@ -22,6 +22,8 @@
                     <img class="thumbnail" src="{{ image.image.url }}" alt="House Image" loading="lazy">
                 {% endfor %}
             </div>
+            <a href="{% url 'conversation:new' app_label='houses' model_name='house' object_id=house.id %}" class="start-conversation-btn">
+</a>
             <div class="interaction-buttons">
                     <button type="button" 
                             class="interaction-button like-button"

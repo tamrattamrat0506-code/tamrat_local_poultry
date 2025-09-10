@@ -12,7 +12,7 @@
 
 <div class="inbox-container">
   <h1 class="inbox-heading">{% trans "Your Conversations" %}</h1>
-  
+
   <div class="conversation-list">
     {% for conversation in conversations %}
     <a href="{% url 'conversation:detail' conversation.id %}" 

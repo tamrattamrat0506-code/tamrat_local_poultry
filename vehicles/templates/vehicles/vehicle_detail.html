@@ -9,7 +9,6 @@
 {% endblock %}
 
 {% block content %}
-
 <div class="vehicle-detail-container">
     <!-- Main Content -->
     <div class="vehicle-content">
@@ -25,6 +24,10 @@
                     <img src="{{ image.image.url }}" alt="Thumbnail" class="thumbnail" onclick="updateMainImage(this)">
                 {% endfor %}
             </div>
+
+            <!-- conversation Buttons -->
+<a href="{% url 'conversation:new' app_label='vehicles' model_name='vehicle' object_id=vehicle.id %}" class="start-conversation-btn">{% trans "Start Conversation" %}</a>
+
             <div class="interaction-buttons">
                     <button type="button" class="interaction-button like-btn" onclick="likeVehicle('{{ vehicle.id }}')">
                         <i class="fas fa-thumbs-up"></i>

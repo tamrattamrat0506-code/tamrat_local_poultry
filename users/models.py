@@ -56,7 +56,23 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return f"{self.username} ({self.phone_number})"
- 
+
+    def get_unread_message_count(self):
+        """
+        Returns the number of unread messages for this user
+        """
+        if not self.is_authenticated:
+            return 0
+            
+        try:
+            from conversation.models import ConversationMessage
+            return ConversationMessage.objects.filter(
+                conversation__members=self,
+                is_read=False,
+            ).exclude(created_by=self).count()  
+        except:
+            return 0
+        
 class Profile(models.Model):
     user = models.OneToOneField(
         CustomUser,

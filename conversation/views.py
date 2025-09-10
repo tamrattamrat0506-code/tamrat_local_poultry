@@ -1,12 +1,15 @@
+# conversation/views.py
+from django.contrib.contenttypes.models import ContentType
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, get_object_or_404, redirect
 from .models import Conversation, ConversationMessage
-from poultryitems.models import Item
 from .forms import ConversationMessageForm
 from django.core.cache import cache
 from django.http import JsonResponse
 from asgiref.sync import sync_to_async
 from django.views.decorators.cache import never_cache
+from django.contrib import messages
+from .forms import ConversationMessageForm
 
 @login_required
 @never_cache 
@@ -49,14 +52,30 @@ def inbox(request):
         'unread_counts': unread_counts,
     })
 
-def new_conversation(request, item_pk):
-    item = get_object_or_404(Item, pk=item_pk)
+def new_conversation(request, app_label, model_name, object_id):
+    # Get the content type and model class
+    content_type = ContentType.objects.get(app_label=app_label, model=model_name)
+    model_class = content_type.model_class()
+    item = get_object_or_404(model_class, id=object_id)
     
     if item.created_by == request.user:
-        return redirect('dashboard:index')
+        messages.error(request, "You cannot start a conversation with yourself.")
+        redirect_map = {
+            'vehicles': 'vehicles:vehicle_detail',
+            'clothings': 'clothings:clothing_detail',
+            'electronics': 'electronics:electronic_detail',
+            'houses': 'houses:house_detail',
+            'poultryitems': 'poultryitems:item_detail',
+        }
+        if app_label in redirect_map:
+            return redirect(redirect_map[app_label], slug=item.slug)
+        else:
+            return redirect('/')
     
+    # Check for existing conversation
     conversation = Conversation.objects.filter(
-        item=item,
+        content_type=content_type,
+        object_id=item.id,
         members=request.user
     ).first()
     
@@ -66,9 +85,14 @@ def new_conversation(request, item_pk):
     if request.method == 'POST':
         form = ConversationMessageForm(request.POST)
         if form.is_valid():
-            conversation = Conversation.objects.create(item=item)
+            # Create new conversation
+            conversation = Conversation.objects.create(
+                content_type=content_type,
+                object_id=item.id
+            )
             conversation.members.add(request.user, item.created_by)
             
+            # Create message
             conversation_message = form.save(commit=False)
             conversation_message.conversation = conversation
             conversation_message.created_by = request.user
@@ -118,6 +142,7 @@ def mark_all_read(request):
         # Implementation here
         return JsonResponse({'status': 'success'})
     return JsonResponse({'status': 'error'}, status=400)
+
 def get_unread_count(user, conversation):
     return ConversationMessage.objects.filter(
         conversation=conversation,

@@ -22,10 +22,6 @@
         <p><strong>{% trans "Location:" %}</strong> {{ user.profile.location|default:"-" }}</p>
         <p><strong>{% trans "Bio:" %}</strong> {{ user.profile.bio|default:"-" }}</p>
     </div>
-
-    <div class="profile-actions">
-        <a href="{% url 'users:profile_update' %}" class="btn btn-primary">{% trans "Edit Profile" %}</a>
-    </div>
 </div>
 {% endblock %}
 
