@@ -9,7 +9,6 @@ from django.http import JsonResponse
 from asgiref.sync import sync_to_async
 from django.views.decorators.cache import never_cache
 from django.contrib import messages
-from .forms import ConversationMessageForm
 
 @login_required
 @never_cache 
@@ -31,7 +30,7 @@ def unread_count_api(request):
 def inbox(request):
     conversations = Conversation.objects.filter(
         members=request.user
-    ).prefetch_related('members', 'item', 'messages')
+    ).prefetch_related('members', 'messages')
     
     unread_counts = {}
     for conv in conversations:
@@ -52,13 +51,22 @@ def inbox(request):
         'unread_counts': unread_counts,
     })
 
+@login_required(login_url='login')
 def new_conversation(request, app_label, model_name, object_id):
-    # Get the content type and model class
     content_type = ContentType.objects.get(app_label=app_label, model=model_name)
     model_class = content_type.model_class()
     item = get_object_or_404(model_class, id=object_id)
     
-    if item.created_by == request.user:
+    # Get the item owner - handle different field names
+    if hasattr(item, 'created_by'):
+        item_owner = item.created_by
+    elif hasattr(item, 'seller'):  # For electronics products
+        item_owner = item.seller
+    else:
+        messages.error(request, "Could not determine item owner.")
+        return redirect('/')
+    
+    if item_owner == request.user:
         messages.error(request, "You cannot start a conversation with yourself.")
         redirect_map = {
             'vehicles': 'vehicles:vehicle_detail',
@@ -68,15 +76,18 @@ def new_conversation(request, app_label, model_name, object_id):
             'poultryitems': 'poultryitems:item_detail',
         }
         if app_label in redirect_map:
-            return redirect(redirect_map[app_label], slug=item.slug)
+            # Handle different URL patterns (slug vs id)
+            if hasattr(item, 'slug'):
+                return redirect(redirect_map[app_label], slug=item.slug)
+            else:
+                return redirect(redirect_map[app_label], pk=item.id)
         else:
             return redirect('/')
     
-    # Check for existing conversation
     conversation = Conversation.objects.filter(
         content_type=content_type,
         object_id=item.id,
-        members=request.user
+        members__id=request.user.id 
     ).first()
     
     if conversation:
@@ -85,14 +96,12 @@ def new_conversation(request, app_label, model_name, object_id):
     if request.method == 'POST':
         form = ConversationMessageForm(request.POST)
         if form.is_valid():
-            # Create new conversation
             conversation = Conversation.objects.create(
                 content_type=content_type,
                 object_id=item.id
             )
-            conversation.members.add(request.user, item.created_by)
+            conversation.members.add(request.user, item_owner)  # Use item_owner instead of item.created_by
             
-            # Create message
             conversation_message = form.save(commit=False)
             conversation_message.conversation = conversation
             conversation_message.created_by = request.user
@@ -107,9 +116,10 @@ def new_conversation(request, app_label, model_name, object_id):
         'item': item
     })
 
+@login_required(login_url='login')
 def detail(request, pk):
     conversation = get_object_or_404(
-        Conversation.objects.filter(members=request.user),
+        Conversation.objects.filter(members__id=request.user.id),  
         pk=pk
     )
     
@@ -125,8 +135,7 @@ def detail(request, pk):
             conversation_message.conversation = conversation
             conversation_message.created_by = request.user
             conversation_message.save()
-            
-            conversation.save() 
+             
             return redirect('conversation:detail', pk=pk)
     else:
         form = ConversationMessageForm()
@@ -139,9 +148,23 @@ def detail(request, pk):
 @login_required
 def mark_all_read(request):
     if request.method == 'POST':
-        # Implementation here
-        return JsonResponse({'status': 'success'})
-    return JsonResponse({'status': 'error'}, status=400)
+        try:
+            conversations = Conversation.objects.filter(members=request.user)
+            
+            for conversation in conversations:
+                ConversationMessage.objects.filter(
+                    conversation=conversation,
+                    is_read=False
+                ).exclude(created_by=request.user).update(is_read=True)
+                
+                cache_key = f"unread_{request.user.id}_{conversation.id}"
+                cache.delete(cache_key)
+            
+            return JsonResponse({'status': 'success', 'message': 'All messages marked as read'})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+    
+    return JsonResponse({'status': 'error', 'message': 'Only POST requests allowed'}, status=400)
 
 def get_unread_count(user, conversation):
     return ConversationMessage.objects.filter(
