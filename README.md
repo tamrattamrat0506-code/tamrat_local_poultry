@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Pulsing & glowing text
 Buttons and cards with glowing animated borders
 Shimmer & shine effects
@@ -121,3 +122,6 @@ clean, modern, elegant, minimal Design Style
 dropdown menus, animations, responsive behavior Functionality
 
 Reduce the CSS by merging duplicate rules.
+=======
+"# poultryweb" 
+>>>>>>> 2092025d (A new project modern E-commerce for render)

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 services:
   - type: web
     name: project
@@ -8,3 +9,34 @@ services:
       python manage.py migrate
       python manage.py create_render_superuser
     startCommand: gunicorn project.wsgi:application
+=======
+# render.yaml
+
+services:
+  - type: web
+    name: poultry-website
+    runtime: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn project.wsgi:application --bind 0.0.0.0:$PORT"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: poultry_db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: WEB_CONCURRENCY
+        value: 4
+      - key: CLOUDINARY_CLOUD_NAME
+        value: doixo5oiw
+      - key: CLOUDINARY_API_KEY
+        value: 435759228322341
+      - key: CLOUDINARY_API_SECRET
+        value: H3_ZVEXWGcyuE28IfKWUYsTo5sY
+      - key: PYTHON_VERSION
+        value: 3.9.13
+
+databases:
+  - name: poultry_db
+    plan: free
+>>>>>>> 2092025d (A new project modern E-commerce for render)
