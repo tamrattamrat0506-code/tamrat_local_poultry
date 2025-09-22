@@ -4,8 +4,8 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.like-button').forEach(button => {
         button.addEventListener('click', function(e) {
             e.preventDefault();
-            const itemId = this.getAttribute('data-item-id');
-            likeClothing(itemId, this);
+            const clothingId = this.getAttribute('data-item-id');
+            toggleLike(clothingId, this);
         });
     });
 
@@ -13,15 +13,15 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.share-button').forEach(button => {
         button.addEventListener('click', function(e) {
             e.preventDefault();
-            const itemId = this.getAttribute('data-item-id');
-            shareClothing(itemId, this);
+            const clothingId = this.getAttribute('data-item-id');
+            shareClothing(clothingId, this);
         });
     });
 });
 
-async function likeClothing(itemId, button) {
+async function toggleLike(clothingId, button) {
     try {
-        const response = await fetch(`/en/clothings/${itemId}/like/`, {
+        const response = await fetch(`/en/clothings/clothing/${clothingId}/like/`, {
             method: 'POST',
             headers: {
                 'X-CSRFToken': getCookie('csrftoken'),
@@ -53,7 +53,7 @@ async function likeClothing(itemId, button) {
     }
 }
 
-async function shareClothing(itemId, button) {
+async function shareClothing(clothingId, button) {
     try {
         // First try the Web Share API
         if (navigator.share) {
@@ -64,10 +64,10 @@ async function shareClothing(itemId, button) {
             });
             
             // Only increment share count if sharing was successful
-            await sendShareRequest(itemId, button);
+            await sendShareRequest(clothingId, button);
         } else {
             // Fallback for browsers without Web Share API
-            await sendShareRequest(itemId, button);
+            await sendShareRequest(clothingId, button);
             copyToClipboard(window.location.href);
             
             alert('Link copied to clipboard!');
@@ -80,9 +80,9 @@ async function shareClothing(itemId, button) {
     }
 }
 
-async function sendShareRequest(itemId, button) {
+async function sendShareRequest(clothingId, button) {
     try {
-        const response = await fetch(`/en/clothings/${itemId}/share/`, {
+        const response = await fetch(`/en/clothings/clothing/${clothingId}/share/`, {
             method: 'POST',
             headers: {
                 'X-CSRFToken': getCookie('csrftoken'),

@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.1/css/lightgallery-bundle.min.css">
 {% endblock %}
- 
+
 {% block content %}
 <div class="product-detail-container">
     <!-- Main Content -->
@@ -33,11 +33,14 @@
 <a href="{% url 'conversation:new' app_label='vehicles' model_name='vehicle' object_id=vehicle.id %}" class="start-conversation-btn">{% trans "Start Conversation" %}</a>
 
             <div class="interaction-buttons">
-                    <button type="button" class="interaction-button like-btn" onclick="likeVehicle('{{ vehicle.id }}')">
-                        <i class="fas fa-thumbs-up"></i>
-                        {{ vehicle.like_count }}
-                        <span class="btn-text">{% trans "Likes" %}</span>
-                    </button>
+                    <button type="button"
+    class="interaction-button like-button {% if has_liked %}liked{% endif %}"
+        aria-label="Like this item"
+        data-item-id="{{ vehicle.id }}"
+        data-action="like">
+    <i class="fas fa-thumbs-up"></i>
+    <span class="interaction-count">{{ vehicle.like_count }}</span>
+</button>
                     
                     <button type="button" class="interaction-button share-btn" onclick="shareVehicle('{{ vehicle.id }}')">
                         <i class="fas fa-share-alt"></i>

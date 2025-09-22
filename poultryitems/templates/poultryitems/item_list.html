@@ -32,26 +32,26 @@
                 <i class="fas fa-shopping-cart"></i>
             </span>
     
-            <div class="interaction-buttons">
+            <!-- In both item_list.html and item_detail.html -->
+<div class="interaction-buttons">
+    <button type="button"
+            class="interaction-button like-button {% if item.has_liked %}liked{% endif %}"
+            aria-label="Like this item"
+            data-item-id="{{ item.id }}"
+            data-action="like">
+        <i class="fas fa-thumbs-up"></i>
+        <span class="interaction-count">{{ item.like_count }}</span>
+    </button>
 
-                <button type="button" 
-                        class="interaction-button like-button"
-                        aria-label="Like this item"
-                        data-item-id="{{ item.id }}"
-                        data-action="like">
-                    <i class="fas fa-thumbs-up" aria-hidden="true"></i> 
-                    <span class="interaction-count">{{ item.like_count }}</span>
-                </button>
-
-                <button type="button" 
-                        class="interaction-button share-button"
-                        aria-label="Share this item"
-                        data-item-id="{{ item.id }}"
-                        data-action="share"> 
-                    <i class="fas fa-share-alt" aria-hidden="true"></i> 
-                    <span class="interaction-count">{{ item.share_count }}</span>
-                </button>
-            </div>
+    <button type="button" 
+            class="interaction-button share-button"
+            aria-label="Share this item"
+            data-item-id="{{ item.id }}"
+            data-action="share"> 
+        <i class="fas fa-share-alt" aria-hidden="true"></i> 
+        <span class="interaction-count">{{ item.share_count }}</span>
+    </button>
+</div>
          </div>
                 
                 <div class="card-content">

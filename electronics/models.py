@@ -30,12 +30,32 @@ class Product(models.Model):
     like_count = models.PositiveIntegerField(default=0)
     share_count = models.PositiveIntegerField(default=0)
     is_featured = models.BooleanField(default=True)
-
+    liked_by = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        related_name='liked_electronics',
+        blank=True
+    )
+    
     def increment_likes(self):
         self.like_count += 1
-        self.save(update_fields=['like_count'])
+        self.save()
         return self.like_count
-
+    
+    def toggle_like(self, user):
+        if user in self.liked_by.all():
+            self.liked_by.remove(user)
+        else:
+            self.liked_by.add(user)
+        self.like_count = self.liked_by.count()
+        self.save()
+        return self.like_count
+    
+    def has_liked(self, user):
+        """Return True if the user has liked this product."""
+        if user.is_authenticated:
+            return self.liked_by.filter(pk=user.pk).exists()
+        return False
+    
     def increment_shares(self):
         self.share_count += 1
         self.save(update_fields=['share_count'])

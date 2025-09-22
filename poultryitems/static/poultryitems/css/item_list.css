@@ -394,3 +394,34 @@ h3 {
   transform: translateY(-6px);
   box-shadow: 0 10px 20px rgb(0 0 0 / 0.15);
 }
+.interaction-button.liked {
+    border-color: var(--primary);
+    background: #02fce7ff;
+    color: red;
+}
+
+.interaction-button.liked {
+    color: #3b5998;
+    border-color: #3b5998;
+}
+
+.interaction-button.liked i {
+    color: #3b5998;
+}
+
+.interaction-button {
+    transition: all 0.3s ease;
+    border: 1px solid #ddd;
+    padding: 8px 16px;
+    border-radius: 4px;
+    background: white;
+    cursor: pointer;
+}
+
+.interaction-button:hover {
+    background: #f8f9fa;
+}
+
+.interaction-button.active {
+    transform: scale(0.95);
+}

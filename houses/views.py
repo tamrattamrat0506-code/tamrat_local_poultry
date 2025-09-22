@@ -14,13 +14,14 @@ from django.contrib.contenttypes.models import ContentType
 from django.utils.decorators import method_decorator
 from cart.models import CartItem
 from cart.views import _get_cart
+from django.contrib.auth.decorators import login_required, user_passes_test
 
+@login_required
 @require_POST
-@csrf_exempt
 def like_house(request, house_id):
     try:
         house = House.objects.get(id=house_id)
-        new_count = house.increment_likes()
+        new_count = house.toggle_like(request.user)
         return JsonResponse({
             'status': 'success',
             'like_count': new_count,
@@ -49,14 +50,6 @@ class HouseListView(ListView):
     context_object_name = 'houses'
     paginate_by = 7
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        category_slug = self.kwargs.get('category_slug')
-        if category_slug:
-            category = get_object_or_404(HouseCategory, slug=category_slug)
-            queryset = queryset.filter(category__iexact=category.name)
-        return queryset.order_by('-created_by')
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         houses = context['houses']
@@ -69,10 +62,17 @@ class HouseListView(ListView):
             object_id__in=houses.values_list('id', flat=True)
         ).values_list('object_id', flat=True)
 
+        # Preload liked houses for the user
+        liked_house_ids = []
+        if self.request.user.is_authenticated:
+            liked_house_ids = self.request.user.liked_houses.values_list('id', flat=True)
+
         for house in houses:
             house.is_carted = house.id in cart_house_ids
+            house.has_liked = house.id in liked_house_ids
 
         return context
+
     
 class HouseDetailView(DetailView):
     model = House
@@ -85,7 +85,6 @@ class HouseDetailView(DetailView):
         context['images'] = house.images.all()
         context['app_label'] = house._meta.app_label
         context['model_name'] = house._meta.model_name
-
         cart = _get_cart(self.request)
         house_ct = ContentType.objects.get_for_model(house)
         context['house'].is_carted = CartItem.objects.filter(
@@ -93,8 +92,14 @@ class HouseDetailView(DetailView):
             content_type=house_ct,
             object_id=house.id
         ).exists()
+        user = self.request.user
+        context['has_liked'] = (
+            user.is_authenticated 
+            and house.liked_by.filter(pk=user.pk).exists()
+        )
 
         return context
+
     
 class HouseCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = House
@@ -125,13 +130,11 @@ class HouseUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
             HouseImage.objects.create(house=self.object, image=f)
         return response
 
-# project/houses/views.py
 class HouseDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = House
     success_url = reverse_lazy('houses:house_list')
     success_message = "House listing deleted successfully!"
     
-    # Completely disable template rendering by overriding get method
     def get(self, request, *args, **kwargs):
         return redirect(self.success_url)
 
@@ -195,8 +198,11 @@ def house_detail(request, pk):
         object_id=house.id
     ).exists()
 
+    has_liked = request.user.is_authenticated and house.liked_by.filter(pk=request.user.pk).exists()
+
     context = {
         'house': house,
         'images': images,
+        'has_liked': has_liked,
     }
     return render(request, 'houses/house_detail.html', context)

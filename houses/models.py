@@ -60,12 +60,26 @@ class House(models.Model):
         related_name='houses'
     )
     like_count = models.PositiveIntegerField(default=0)
+    liked_by = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        related_name='liked_houses',
+        blank=True
+    )
     share_count = models.PositiveIntegerField(default=0)
-    
+    def toggle_like(self, user):
+        if user in self.liked_by.all():
+            self.liked_by.remove(user)
+        else:
+            self.liked_by.add(user)
+        self.like_count = self.liked_by.count()
+        self.save()
+        return self.like_count
+
     def increment_likes(self):
         self.like_count += 1
         self.save()
         return self.like_count
+
     def increment_shares(self):
         self.share_count += 1
         self.save()

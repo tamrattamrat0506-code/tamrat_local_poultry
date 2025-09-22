@@ -29,6 +29,27 @@ from .forms import TrainingEnrollmentForm
 from django.contrib import messages
 from .models import TrainingEnrollment
 
+@require_POST
+@csrf_exempt
+def like_item(request, pk):
+    try:
+        item = get_object_or_404(Item, pk=pk)
+        new_count = item.toggle_like(request.user)
+        has_liked = item.liked_by.filter(pk=request.user.pk).exists()
+        return JsonResponse({
+            'status': 'success',
+            'like_count': new_count,
+            'has_liked': has_liked,
+            'item_id': pk
+        })
+    except Item.DoesNotExist:
+        return JsonResponse({'status': 'error'}, status=404)
+def share_item(request, pk):
+    item = get_object_or_404(Item, pk=pk)
+    item.share_count += 1
+    item.save()
+    return JsonResponse({'shares': item.share_count})
+
 @login_required
 @require_POST
 def add_to_cart(request, pk):
@@ -64,6 +85,31 @@ class ItemListView(ListView):
     paginate_by = 12
     ordering = ['-created_at']
 
+    def get_queryset(self):
+        return Item.objects.filter(is_featured=True).order_by('-created_at')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        items = context['items']
+
+        cart = _get_cart(self.request)
+        item_ct = ContentType.objects.get_for_model(Item)
+        cart_item_ids = CartItem.objects.filter(
+            cart=cart,
+            content_type=item_ct,
+            object_id__in=items.values_list('id', flat=True)
+        ).values_list('object_id', flat=True)
+
+        liked_item_ids = []
+        if self.request.user.is_authenticated:
+            liked_item_ids = self.request.user.liked_items.values_list('id', flat=True)
+
+        for item in items:
+            item.is_carted = item.id in cart_item_ids
+            item.has_liked = item.id in liked_item_ids
+
+        return context
+
 class ItemDetailView(DetailView):
     model = Item
     template_name = 'poultryitems/item_detail.html'
@@ -76,11 +122,12 @@ class ItemDetailView(DetailView):
         context['related_items'] = Item.objects.filter(category=item.category).exclude(id=item.id)[:4]
         cart = _get_cart(self.request)
         item_ct = ContentType.objects.get_for_model(Item)
-        item.is_carted = CartItem.objects.filter(
-            cart=cart,
-            content_type=item_ct,
-            object_id=item.id
-        ).exists()
+        user = self.request.user
+        context['has_liked'] = (
+            user.is_authenticated
+            and item.liked_by.filter(pk=user.pk).exists()
+        )
+
         return context
     
 class ItemCreateView(LoginRequiredMixin, CreateView):
@@ -117,18 +164,6 @@ def item_delete(request, pk):
     if request.method == 'POST':
         item.delete()
     return redirect('poultryitems:item_list')
-
-def like_item(request, pk):
-    item = get_object_or_404(Item, pk=pk)
-    item.like_count += 1
-    item.save()
-    return JsonResponse({'likes': item.like_count})
-
-def share_item(request, pk):
-    item = get_object_or_404(Item, pk=pk)
-    item.share_count += 1
-    item.save()
-    return JsonResponse({'shares': item.share_count})
 
 def chicken_sellers(request):
     return render(request, 'poultryitems/chicken_sellers.html')

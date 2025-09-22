@@ -17,7 +17,7 @@ from cart.views import _get_cart
 def like_vehicle(request, vehicle_id):
     try:
         vehicle = Vehicle.objects.get(id=vehicle_id)
-        new_count = vehicle.increment_likes()
+        new_count = vehicle.toggle_like(request.user)
         return JsonResponse({
             'status': 'success',
             'like_count': new_count,
@@ -63,8 +63,13 @@ class VehicleListView(ListView):
             object_id__in=vehicles.values_list('id', flat=True)
         ).values_list('object_id', flat=True)
 
+        liked_vehicle_ids = []
+        if self.request.user.is_authenticated:
+            liked_vehicle_ids = self.request.user.liked_vehicles.values_list('id', flat=True)
+
         for vehicle in vehicles:
             vehicle.is_carted = vehicle.id in cart_vehicle_ids
+            vehicle.has_liked = vehicle.id in liked_vehicle_ids
 
         return context
 
@@ -88,6 +93,11 @@ class VehicleDetailView(DetailView):
             content_type=vehicle_ct,
             object_id=vehicle.id
         ).exists()
+        user = self.request.user
+        context['has_liked'] = (
+            user.is_authenticated
+            and vehicle.liked_by.filter(pk=user.pk).exists()
+        )
 
         return context
 

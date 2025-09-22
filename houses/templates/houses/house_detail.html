@@ -31,16 +31,15 @@
 
 <!-- conversation Buttons -->
 <a href="{% url 'conversation:new' app_label='houses' model_name='house' object_id=house.id %}" class="start-conversation-btn">{% trans "Start Conversation" %}</a>
-
             <div class="interaction-buttons">
-                    <button type="button" 
-                            class="interaction-button like-button"
-                            aria-label="{% trans 'Like this house' %}"
-                            data-item-id="{{ house.id }}"
-                            data-action="like">
-                        <i class="fas fa-thumbs-up" aria-hidden="true"></i> 
-                        <span class="interaction-count" id="like-count" aria-live="polite">{{ house.like_count }}</span>
-                    </button>
+                    <button type="button"
+        class="interaction-button like-button {% if has_liked %}liked{% endif %}"
+        aria-label="Like this item"
+        data-item-id="{{ house.id }}"
+        data-action="like">
+    <i class="fas fa-thumbs-up"></i>
+    <span class="interaction-count">{{ house.like_count }}</span>
+</button>
                     
                     <button type="button" 
                             class="interaction-button share-button"

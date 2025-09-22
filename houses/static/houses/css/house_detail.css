@@ -293,7 +293,8 @@
 
 .interaction-button.liked {
     border-color: var(--primary);
-    background: #e3f2fd;
+    background: #02fce7ff;
+    color: red;
 }
 
 .interaction-button .fas {

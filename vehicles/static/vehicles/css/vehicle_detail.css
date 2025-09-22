@@ -297,7 +297,7 @@
  
 .interaction-button.liked {
     border-color: var(--primary);
-    background: #e3f2fd;
+    background: #0d70b6;
 }
 
 .interaction-button .fas {
@@ -444,4 +444,10 @@
     .main-image:hover img {
         transform: none;
     }
+}
+
+.interaction-button.liked {
+    border-color: var(--primary);
+    background: #02fce7ff;
+    color: red;
 }

@@ -43,15 +43,14 @@
                 </span>
 
                 <div class="interaction-buttons">
-                        <button type="button" 
-                            class="interaction-button like-button"
-                            aria-label="Like this item"
-                            data-item-id="{{ house.id }}"
-                            data-action="like">
-                                <i class="fas fa-thumbs-up" aria-hidden="true"></i> 
-                                <span class="interaction-count" id="like-count" aria-live="polite">{{ house.like_count }}</span>
-                        </button>
-                    
+                        <button type="button"
+        class="interaction-button like-button {% if house.has_liked %}liked{% endif %}"
+        aria-label="Like this item"
+        data-item-id="{{ house.id }}"
+        data-action="like">
+    <i class="fas fa-thumbs-up"></i>
+    <span class="interaction-count">{{ house.like_count }}</span>
+</button> 
                         <button type="button" 
                             class="interaction-button share-button"
                             aria-label="Share this item"

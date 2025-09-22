@@ -412,3 +412,8 @@ h3 {
   transform: translateY(-6px);
   box-shadow: 0 10px 20px rgb(0 0 0 / 0.15);
 }
+.interaction-button.liked {
+    border-color: var(--primary);
+    background: #02fce7ff;
+    color: red;
+}

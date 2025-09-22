@@ -1,44 +1,27 @@
 // clothing_detail.js
-document.addEventListener('DOMContentLoaded', function() {
-    initInteractionButtons();
-    initImageGallery();
+document.addEventListener('DOMContentLoaded', function () {
+    const likeButton = document.querySelector('.like-button');
+    const shareButton = document.querySelector('.share-button');
+
+    if (likeButton) {
+        likeButton.addEventListener('click', function (e) {
+            e.preventDefault();
+            const clothingId = this.getAttribute('data-item-id');
+            toggleLikeDetail(clothingId, this);
+        });
+    }
+    if (shareButton) {
+        shareButton.addEventListener('click', function (e) {
+            e.preventDefault();
+            const clothingId = this.getAttribute('data-item-id');
+            shareclothingDetail(clothingId, this);
+        });
+    }
 });
 
-function initInteractionButtons() {
-    const likeButtons = document.querySelectorAll('.like-button');
-    likeButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
-            const clothingId = this.dataset.itemId;
-            likeClothing(clothingId, this);
-        });
-    });
-
-    const shareButtons = document.querySelectorAll('.share-button');
-    shareButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
-            const clothingId = this.dataset.itemId;
-            shareClothing(clothingId, this);
-        });
-    });
-}
-
-// Image gallery functionality
-function initImageGallery() {
-    const mainImage = document.getElementById('mainClothingImage');
-    const thumbnails = document.querySelectorAll('.thumbnail');
-
-    thumbnails.forEach(thumbnail => {
-        thumbnail.addEventListener('click', () => {
-            mainImage.src = thumbnail.src;
-        });
-    });
-}
-
-async function likeClothing(clothingId, button) {
+async function toggleLikeDetail(clothingId, button) {
     try {
-        const response = await fetch(`/clothings/like/${clothingId}/`, {
+        const response = await fetch(`/en/clothings/clothing/${clothingId}/like/`, {
             method: 'POST',
             headers: {
                 'X-CSRFToken': getCookie('csrftoken'),
@@ -47,12 +30,32 @@ async function likeClothing(clothingId, button) {
             credentials: 'same-origin'
         });
 
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
         const data = await response.json();
+
         if (data.status === 'success') {
-            button.querySelector('.interaction-count').textContent = data.like_count;
+            const countElement = document.getElementById('like-count');
+            if (countElement) countElement.textContent = data.like_count;
+
+            // Toggle liked state
+            if (button.classList.contains('liked')) {
+                button.classList.remove('liked');
+                button.innerHTML = `<i class="far fa-thumbs-up"></i> 
+                                    <span class="interaction-count" id="like-count">${data.like_count}</span>`;
+            } else {
+                button.classList.add('liked');
+                button.innerHTML = `<i class="fas fa-thumbs-up"></i> 
+                                    <span class="interaction-count" id="like-count">${data.like_count}</span>`;
+            }
+
+            // Flash effect
+            button.style.backgroundColor = '#e3f2fd';
+            setTimeout(() => { button.style.backgroundColor = ''; }, 400);
         }
-    } catch (err) {
-        console.error(err);
+    } catch (error) {
+        console.error('Like toggle error:', error);
+        alert('Failed to like/unlike. Please try again.');
     }
 }
 
@@ -77,11 +80,16 @@ async function shareClothing(clothingId, button) {
 }
 
 function getCookie(name) {
-    const cookies = document.cookie.split(';').map(c => c.trim());
-    for (let cookie of cookies) {
-        if (cookie.startsWith(name + '=')) {
-            return decodeURIComponent(cookie.split('=')[1]);
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
         }
     }
-    return null;
+    return cookieValue;
 }

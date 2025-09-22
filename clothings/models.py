@@ -46,10 +46,24 @@ class ClothingItem(models.Model):
         on_delete=models.CASCADE,
         related_name='clothes'
     )
-    
+    liked_by = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        related_name='liked_clothings',
+        blank=True
+    )
+
     def increment_likes(self):
         self.like_count += 1
         self.save(update_fields=['like_count'])
+        return self.like_count
+
+    def toggle_like(self, user):
+        if user in self.liked_by.all():
+            self.liked_by.remove(user)
+        else:
+            self.liked_by.add(user)
+        self.like_count = self.liked_by.count()
+        self.save()
         return self.like_count
 
     def increment_shares(self):
@@ -57,6 +71,12 @@ class ClothingItem(models.Model):
         self.save(update_fields=['share_count'])
         return self.share_count
     
+    def has_liked(self, user):
+        """Return True if the user has liked this vehicle."""
+        if user.is_authenticated:
+            return self.liked_by.filter(pk=user.pk).exists()
+        return False
+
     def __str__(self):
         return f"{self.name} ({self.category})"
 

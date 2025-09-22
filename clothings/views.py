@@ -19,16 +19,20 @@ from django.views.decorators.csrf import csrf_protect
 from .forms import ClothingItemForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import ClothingItemForm as ClothingFormForm
+
 @require_POST
 @login_required
 def like_clothing(request, clothing_id):
-        clothing = get_object_or_404(ClothingItem, id=clothing_id)
-        new_like_count = clothing.increment_likes()
+    try:
+        clothing = ClothingItem.objects.get(id=clothing_id)
+        new_count = clothing.toggle_like(request.user)
         return JsonResponse({
             'status': 'success',
-            'like_count': new_like_count,
+            'like_count': new_count,
             'clothing_id': clothing_id
         })
+    except ClothingItem.DoesNotExist:
+        return JsonResponse({'status': 'error'}, status=404)
 
 @require_POST
 @login_required
@@ -64,9 +68,13 @@ class ClothingListView(ListView):
             object_id__in=clothes.values_list('id', flat=True)
         ).values_list('object_id', flat=True)
 
+        liked_clothe_ids = []
+        if self.request.user.is_authenticated:
+            liked_clothe_ids = self.request.user.liked_clothings.values_list('id', flat=True)
+
         for item in clothes:
             item.is_carted = item.id in cart_clothing_ids
-
+            item.has_liked = item.id in liked_clothe_ids
         return context
 
 
@@ -133,6 +141,11 @@ class ClothingDetailView(DetailView):
             content_type=clothing_ct,
             object_id=product.id
         ).exists()
+        user = self.request.user
+        context['has_liked'] = (
+            user.is_authenticated 
+            and product.liked_by.filter(pk=user.pk).exists()
+        )
 
         return context
     

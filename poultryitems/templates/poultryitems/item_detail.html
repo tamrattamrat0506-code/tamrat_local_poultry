@@ -15,30 +15,77 @@
 <main class="item-detail" itemscope itemtype="http://schema.org/Product">
     
     <section class="seller-card" aria-labelledby="seller-heading">
-        <div class="seller-profile">
-            <a href="{% url 'users:seller_profile' item.created_by.id %}" class="seller-link" aria-label="View seller profile">
-                {% if item.created_by %}
+    <div class="seller-profile">
+        {% if item.created_by %}
+            <a href="{% url 'users:seller_profile' item.created_by.id %}" 
+               class="seller-link" 
+               aria-label="View seller profile">
+                {% if item.created_by.profile.profile_picture %}
                     <img src="{{ item.created_by.profile.profile_picture.url }}" 
-                         alt="Seller profile picture" 
+                         alt="{{ item.created_by.username }} profile picture" 
                          class="seller-avatar"
-                         width="60" 
-                         height="60"
-                         loading="lazy">
+                         width="60" height="60" loading="lazy">
                 {% else %}
                     <div class="seller-avatar default-avatar" aria-hidden="true">
                         <i class="fas fa-user-circle" role="presentation"></i>
                     </div>
                 {% endif %}
                 <div class="seller-info">
-                    <h2 id="seller-heading" class="seller-name">{{ item.created_by.profile.user_name|default:item.created_by.phone_number }}</h2>
-                    <span class="seller-label">{% trans "Seller" %}</span>
+                    <h2 id="seller-heading" class="seller-name">
+                        {{ item.created_by.profile.username|default:item.created_by.username|default:item.created_by.phone_number }}
+                        {{ item.created_by.profile.user_name|default:item.created_by.phone_number }}
+                    </h2>
+
+                    
+                    <span class="seller-label">{% trans "Seller Profile" %}</span>
+                    
                 </div>
             </a>
-        </div>
-        
-        <a href="{% url 'conversation:new' app_label='poultryitems' model_name='item' object_id=item.id %}" class="start-conversation-btn"></a>
-        
-    </section>
+        {% else %}
+            <div class="seller-info">
+                <h2 id="seller-heading" class="seller-name">{% trans "Unknown Seller" %}</h2>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Contact seller -->
+    <div class="seller-actions">
+        <a href="{% url 'conversation:new' app_label='poultryitems' model_name='item' object_id=item.id %}" 
+           class="start-conversation-btn">
+            <i class="fas fa-comments"></i> {% trans "Contact Seller" %}
+        </a>
+    </div>
+
+    <!-- Optional: Social media links -->
+    {% if item.created_by and item.created_by.profile %}
+    <div class="seller-socials">
+        <ul>
+            {% if item.created_by.profile.telegram %}
+                <li><a href="https://t.me/{{ item.created_by.profile.telegram }}" target="_blank"><i class="fab fa-telegram"></i></a></li>
+            {% endif %}
+            {% if item.created_by.profile.facebook %}
+                <li><a href="https://facebook.com/{{ item.created_by.profile.facebook }}" target="_blank"><i class="fab fa-facebook"></i></a></li>
+            {% endif %}
+            {% if item.created_by.profile.instagram %}
+                <li><a href="https://instagram.com/{{ item.created_by.profile.instagram }}" target="_blank"><i class="fab fa-instagram"></i></a></li>
+            {% endif %}
+            {% if item.created_by.profile.linkedin %}
+                <li><a href="https://linkedin.com/in/{{ item.created_by.profile.linkedin }}" target="_blank"><i class="fab fa-linkedin"></i></a></li>
+            {% endif %}
+            {% if item.created_by.profile.imo %}
+                <li><a href="https://imo.im/{{ item.created_by.profile.imo }}" target="_blank"><i class="fas fa-comment"></i></a></li>
+            {% endif %}
+            {% if item.created_by.profile.tiktok %}
+                <li><a href="https://tiktok.com/@{{ item.created_by.profile.tiktok }}" target="_blank"><i class="fab fa-tiktok"></i></a></li>
+            {% endif %}
+            {% if item.created_by.profile.email %}
+                <li><a href="mailto:{{ item.created_by.profile.email }}"><i class="fas fa-envelope"></i></a></li>
+            {% endif %}
+        </ul>
+    </div>
+    {% endif %}
+</section>
+
 
     <!-- Product Main Content -->
     <article class="product-content">
@@ -57,23 +104,25 @@
             <figcaption class="visually-hidden">Main product image</figcaption>
             
             <div class="product-interactions">
-                <button type="button" 
-                        class="interaction-button like-button"
-                        aria-label="Like this item"
-                        data-item-id="{{ item.id }}"
-                        data-action="like">
-                    <i class="fas fa-thumbs-up" aria-hidden="true"></i> 
-                    <span class="interaction-count" id="like-count" aria-live="polite">{{ item.like_count }}</span>
-                </button>
-                
-                <button type="button" 
-                        class="interaction-button share-button"
-                        aria-label="Share this item"
-                        data-item-id="{{ item.id }}"
-                        data-action="share">
-                    <i class="fas fa-share-alt" aria-hidden="true"></i> 
-                    <span class="interaction-count" id="share-count" aria-live="polite">{{ item.share_count }}</span>
-                </button>
+                <div class="interaction-buttons">
+    <button type="button"
+            class="interaction-button like-button {% if item.has_liked %}liked{% endif %}"
+            aria-label="Like this item"
+            data-item-id="{{ item.id }}"
+            data-action="like">
+        <i class="fas fa-thumbs-up"></i>
+        <span class="interaction-count">{{ item.like_count }}</span>
+    </button>
+
+    <button type="button" 
+            class="interaction-button share-button"
+            aria-label="Share this item"
+            data-item-id="{{ item.id }}"
+            data-action="share"> 
+        <i class="fas fa-share-alt" aria-hidden="true"></i> 
+        <span class="interaction-count">{{ item.share_count }}</span>
+    </button>
+</div>
 
                 <a href="{% url 'cart:add_to_cart' 'poultryitems' 'item' item.id %}" class="add-to-cart-btn">
                     <i class="fas fa-shopping-cart"></i>

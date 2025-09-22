@@ -193,6 +193,12 @@
     font-weight: 600;
 }
 
+.interaction-button.liked {
+    border-color: var(--primary);
+    background: #02fce7ff;
+    color: red;
+}
+
 /* Card body */
 .card-body {
     padding: 1.1rem;

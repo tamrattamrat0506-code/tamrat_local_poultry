@@ -32,7 +32,7 @@
 
 
         <div class="interaction-buttons">
-            <button type="button" class="interaction-button like-button" data-item-id="{{ clothing.id }}">
+            <button type="button" class="interaction-button like-button {% if has_liked %}liked{% endif %}" data-item-id="{{ clothing.id }}">
                 <i class="fas fa-thumbs-up"></i> <span class="interaction-count">{{ clothing.like_count }}</span>
             </button>
             <button type="button" class="interaction-button share-button" data-item-id="{{ clothing.id }}">

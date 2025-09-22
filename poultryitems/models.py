@@ -60,7 +60,33 @@ class Item(models.Model):
     )
     like_count = models.PositiveIntegerField(default=0)
     share_count = models.PositiveIntegerField(default=0)
+    liked_by = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        related_name='liked_items',
+        blank=True
+    )
+
+    def increment_likes(self):
+        self.like_count += 1
+        self.save()
+        return self.like_count
     
+    def toggle_like(self, user):
+        if user in self.liked_by.all():
+            self.liked_by.remove(user)
+        else:
+            self.liked_by.add(user)
+        self.like_count = self.liked_by.count()
+        self.save()
+        return self.like_count
+    
+    def has_liked(self, user):
+        """Return True if the user has liked this item."""
+        if user.is_authenticated:
+            return self.liked_by.filter(pk=user.pk).exists()
+        return False
+
+
     def __str__(self):
         return self.name
 
@@ -181,13 +207,6 @@ class ConsultationBooking(models.Model):
     def __str__(self):
         return f"Booking for {self.user_name} with {self.consultant.name}"
 
-
-
-
-
-
-
-# egg for sell
 class EggSeller(models.Model):
     class EggType(models.TextChoices):
         ORGANIC = 'organic', _('Organic')
@@ -282,9 +301,6 @@ class EggOrder(models.Model):
             self.total_price = self.quantity * self.seller.price_per_dozen
         super().save(*args, **kwargs)
 
-# chickens for sell
-
-
 class ChickenSeller(models.Model):
     BREED_CHOICES = [
         ('rhode_island_red', _('Rhode Island Red')),
@@ -295,7 +311,6 @@ class ChickenSeller(models.Model):
         ('other', _('Other')),
     ]
     
-    # Using your custom user model from the users app
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='chicken_seller')
     farm_name = models.CharField(max_length=200, verbose_name=_("Farm Name"))
     location = models.CharField(max_length=100, verbose_name=_("Location"))

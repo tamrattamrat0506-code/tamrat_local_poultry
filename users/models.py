@@ -3,7 +3,6 @@ from django.db import models
 from django.core.validators import RegexValidator
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
 from django.contrib.auth import get_user_model
 import os
 
@@ -87,6 +86,13 @@ class Profile(models.Model):
     
     bio = models.TextField(max_length=500, blank=True)
     location = models.CharField(max_length=100, blank=True)
+    telegram = models.CharField(max_length=100, blank=True, null=True)
+    facebook = models.CharField(max_length=100, blank=True, null=True)
+    instagram = models.CharField(max_length=100, blank=True, null=True)
+    linkedin = models.CharField(max_length=100, blank=True, null=True)
+    imo = models.CharField(max_length=100, blank=True, null=True)
+    tiktok = models.CharField(max_length=100, blank=True, null=True)
+    email = models.EmailField(blank=True, null=True)
 
     def __str__(self):
         return f"{self.user.username}'s Profile"

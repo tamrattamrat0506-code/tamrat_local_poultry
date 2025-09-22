@@ -402,3 +402,9 @@ h3 {
     gap: 0.5rem;
     flex-wrap: wrap;
 }
+
+.interaction-button.liked {
+    border-color: var(--primary);
+    background: #02fce7ff;
+    color: red;
+}

@@ -16,13 +16,17 @@ from django.views.decorators.http import require_POST
 @require_POST
 @login_required
 def like_product(request, product_id):
-    product = get_object_or_404(Product, id=product_id)
-    new_like_count = product.increment_likes()
-    return JsonResponse({
-        'status': 'success',
-        'like_count': new_like_count,
-        'product_id': product_id,
-    })
+    try:
+        product = Product.objects.get(id=product_id)
+        new_count = product.toggle_like(request.user)
+        return JsonResponse({
+            'status': 'success',
+            'like_count': new_count,
+            'product_id': product_id,
+        })
+    except Product.DoesNotExist:
+        return JsonResponse({'status':'errror'})
+
 
 @require_POST
 @login_required
@@ -46,8 +50,10 @@ def product_list(request):
         object_id__in=products.values_list('id', flat=True)
     ).values_list('object_id', flat=True)
 
+    user = request.user
     for product in products:
         product.is_carted = product.id in cart_product_ids
+        product.has_liked = product.has_liked(user) if hasattr(product, 'has_liked') else False
 
     return render(request, 'electronics/product_list.html', {'products': products})
 
@@ -61,6 +67,8 @@ def product_detail(request, pk):
         content_type=product_ct,
         object_id=product.id
     ).exists()
+    user = request.user
+    product.has_liked = product.has_liked(user) if hasattr(product, 'has_liked') else False
 
     return render(request, 'electronics/product_detail.html', {
         'product': product,

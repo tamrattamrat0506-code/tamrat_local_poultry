@@ -35,7 +35,7 @@
 </a>
             <div class="interaction-buttons">
                     <button type="button" 
-                            class="interaction-button like-button" 
+                            class="interaction-button like-button {% if product.has_liked %}liked{% endif %}" 
                             aria-label="Like this product"
                             data-item-id="{{ product.id }}">
                         <i class="fas fa-thumbs-up" aria-hidden="true"></i> 

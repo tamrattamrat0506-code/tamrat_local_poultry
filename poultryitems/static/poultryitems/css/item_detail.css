@@ -330,3 +330,28 @@
         grid-template-columns: repeat(2, 1fr);
     }
 }
+.interaction-button.liked {
+    color: #3b5998;
+    border-color: #3b5998;
+}
+
+.interaction-button.liked i {
+    color: #3b5998;
+}
+
+.interaction-button {
+    transition: all 0.3s ease;
+    border: 1px solid #ddd;
+    padding: 8px 16px;
+    border-radius: 4px;
+    background: white;
+    cursor: pointer;
+}
+
+.interaction-button:hover {
+    background: #f8f9fa;
+}
+
+.interaction-button.active {
+    transform: scale(0.95);
+}

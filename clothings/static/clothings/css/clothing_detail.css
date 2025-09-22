@@ -464,3 +464,9 @@
     color: #777;
     margin-top: 2px;
 }
+
+.interaction-button.liked {
+    border-color: var(--primary);
+    background: #02fce7ff;
+    color: red;
+}

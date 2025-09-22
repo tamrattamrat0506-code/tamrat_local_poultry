@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
         button.addEventListener('click', function(e) {
             e.preventDefault();
             const productId = this.getAttribute('data-item-id');
-            likeProduct(productId, this);
+            toggleLike(productId, this);
         });
     });
 
@@ -19,13 +19,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-async function likeProduct(productId, button) {
+async function toggleLike(productId, button) {
     try {
         const response = await fetch(`/en/electronics/product/${productId}/like/`, {
             method: 'POST',
             headers: {
                 'X-CSRFToken': getCookie('csrftoken'),
-                'Content-Type': 'application/x-www-form-urlencoded',
             },
             credentials: 'same-origin'
         });
@@ -38,18 +37,19 @@ async function likeProduct(productId, button) {
         
         if (data.status === 'success') {
             const countElement = button.querySelector('.interaction-count');
-            countElement.textContent = data.like_count;
-            button.classList.add('liked');
-            // Visual feedback
-            button.innerHTML = `<i class="fas fa-thumbs-up"></i> ${data.like_count}`;
+            if (countElement) {
+                countElement.textContent = data.like_count;
+            }
+
+            button.classList.toggle('liked');
             button.style.backgroundColor = '#e3f2fd';
             setTimeout(() => {
                 button.style.backgroundColor = '';
-            }, 500);
+            }, 400);
         }
     } catch (error) {
-        console.error('Like error:', error);
-        alert('Failed to like. Please try again.');
+        console.error('Like toggle error:', error);
+        alert('Failed to like/unlike. Please try again.');
     }
 }
 
