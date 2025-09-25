@@ -208,6 +208,11 @@ class ConsultationBooking(models.Model):
         return f"Booking for {self.user_name} with {self.consultant.name}"
 
 class EggSeller(models.Model):
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='egg_seller'
+    )
     class EggType(models.TextChoices):
         ORGANIC = 'organic', _('Organic')
         FREE_RANGE = 'free_range', _('Free Range')
@@ -286,7 +291,7 @@ class EggOrder(models.Model):
     customer_address = models.TextField()
     
     quantity = models.PositiveIntegerField(help_text=_("Number of dozens ordered"))
-    total_price = models.DecimalField(max_digits=8, decimal_places=2)
+    total_price = models.DecimalField(max_digits=18, decimal_places=3)
     special_instructions = models.TextField(blank=True)
     
     status = models.CharField(max_length=20, choices=Status.choices, default=Status.PENDING)

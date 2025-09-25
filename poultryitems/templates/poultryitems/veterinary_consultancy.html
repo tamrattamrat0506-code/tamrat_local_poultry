@@ -14,6 +14,11 @@
 
 {% block content %}
 <div class="veterinary-consultancy">
+    
+    <a href="{% url 'poultryitems:index' %}" class="back-to-home">
+            <i class="fas fa-arrow-left"></i> {% trans "Back" %}
+        </a>
+
     <div id="consultants" class="consultants-list">
         <h2>{% trans "Our Expert Consultants" %}</h2>
         

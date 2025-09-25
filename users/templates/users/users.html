@@ -16,7 +16,7 @@
     
     <div class="user-cards-container">
         {% for user in users %}
-        <div class="user-card">
+        <div class="user-card {% if user.is_staff %}staff{% endif %}">
             <div class="user-avatar">
                 <img src="{{ user.profile.profile_picture.url }}" alt="{{ user.username }}'s profile picture" class="profile-img">
             </div>

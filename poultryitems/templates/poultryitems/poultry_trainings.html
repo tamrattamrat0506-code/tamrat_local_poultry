@@ -9,9 +9,14 @@
 {% block css %}
 <link rel="stylesheet" href="{% static 'poultryitems/css/poultry_trainings.css' %}">
 {% endblock %}
-
+ 
 {% block content %}
 <section class="training-container fade-in">
+
+    <a href="{% url 'poultryitems:index' %}" class="back-to-home">
+            <i class="fas fa-arrow-left"></i> {% trans "Back" %}
+        </a>
+        
     <div class="training-header">
         <h1 class="training-title">Poultry Training Programs</h1>
         <p class="training-subtitle">Enhance your poultry farming skills with our specialized training programs on Meat Chickens, Layer Chickens, and Dual Purpose Chickens. Whether you're a beginner or an experienced farmer, our courses are designed to provide you with the knowledge and techniques needed for successful poultry management.</p>

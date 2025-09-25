@@ -28,6 +28,9 @@ from django.shortcuts import render, redirect
 from .forms import TrainingEnrollmentForm
 from django.contrib import messages
 from .models import TrainingEnrollment
+from django.views.decorators.csrf import csrf_protect
+from django.utils.decorators import method_decorator
+from decimal import Decimal, InvalidOperation
 
 @require_POST
 @csrf_exempt
@@ -223,7 +226,7 @@ def book_consultation(request):
 
 # eggs for sell
 def egg_sellers(request):
-    sellers = EggSeller.objects.filter(is_active=True)
+    sellers = EggSeller.objects.filter(is_active=True).select_related('user__profile')
     form = EggSellerFilterForm(request.GET or None)
     
     if form.is_valid():
@@ -251,16 +254,6 @@ def egg_sellers(request):
         'filter_form': form,
     }
     return render(request, 'poultryitems/egg_sellers.html', context)
-
-def egg_seller_detail(request, pk):
-    seller = get_object_or_404(EggSeller, pk=pk, is_active=True)
-    order_form = EggOrderForm(initial={'quantity': seller.min_order_quantity})
-    
-    context = {
-        'seller': seller,
-        'order_form': order_form,
-    }
-    return render(request, 'poultryitems/egg_seller_detail.html', context)
 
 @require_POST
 @csrf_exempt
@@ -311,10 +304,17 @@ def is_staff(user):
 @login_required
 @user_passes_test(is_staff)
 def add_egg_seller(request):
+    
+    if hasattr(request.user, 'egg_seller'):
+        messages.error(request, _('You already have an egg seller profile!'))
+        return redirect('poultryitems:egg_sellers')
+    
     if request.method == 'POST':
         form = EggSellerForm(request.POST)
         if form.is_valid():
-            form.save()
+            egg_seller = form.save(commit=False)
+            egg_seller.user = request.user
+            egg_seller.save()
             messages.success(request, _('Egg seller added successfully!'))
             return redirect('poultryitems:egg_sellers')
     else:
@@ -329,13 +329,39 @@ def edit_egg_seller(request, pk):
     if request.method == 'POST':
         form = EggSellerForm(request.POST, instance=seller)
         if form.is_valid():
-            form.save()
+            egg_seller = form.save(commit=False)
+            # For safety, ensure the user remains the same (though it shouldn't change)
+            egg_seller.user = seller.user  # Keep the original user
+            egg_seller.save()
             messages.success(request, _('Egg seller updated successfully!'))
             return redirect('poultryitems:egg_sellers')
     else:
         form = EggSellerForm(instance=seller)
     
     return render(request, 'poultryitems/edit_egg_seller.html', {'form': form, 'seller': seller})
+
+@login_required
+def egg_seller_orders(request):
+    seller = get_object_or_404(EggSeller, user=request.user)
+    orders = EggOrder.objects.filter(seller=seller).order_by('-order_date')
+
+    # Optional: sanitize problematic decimal fields
+    valid_orders = []
+    for order in orders:
+        try:
+            # Force conversion to Decimal to catch errors
+            if order.total_price is not None:
+                Decimal(order.total_price)
+            if order.quantity is not None:
+                Decimal(order.quantity)
+            valid_orders.append(order)
+        except InvalidOperation:
+            print(f"Problematic order: {order.id}")
+            continue
+
+    return render(request, 'poultryitems/egg_seller_orders.html', {'orders': valid_orders})
+
+
 
 def chicken_sellers_list(request):
     sellers = ChickenSeller.objects.filter(is_active=True)
@@ -445,27 +471,32 @@ def delete_seller_ajax(request, seller_id):
 
 @login_required
 @user_passes_test(is_staff)
-def delete_egg_seller(request, pk):
-    seller = get_object_or_404(EggSeller, pk=pk)
-    
-    if request.method == 'POST':
-        seller.delete()
-        messages.success(request, _('Egg seller deleted successfully!'))
-        return redirect('poultryitems:egg_sellers')
-    
-    return render(request, 'poultryitems/delete_egg_seller.html', {'seller': seller})
-
-@login_required
-@user_passes_test(is_staff)
 @require_POST
-@csrf_exempt
 def delete_egg_seller_ajax(request, pk):
-    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-        seller = get_object_or_404(EggSeller, pk=pk)
-        seller.delete()
-        return JsonResponse({'success': True, 'message': _('Egg seller deleted successfully!')})
-    
-    return JsonResponse({'success': False, 'error': _('Invalid request')})
+    try:
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            seller = get_object_or_404(EggSeller, pk=pk)
+            seller_name = seller.farm_name
+            seller.delete()
+            return JsonResponse({
+                'success': True, 
+                'message': f'{seller_name} has been deleted successfully!'
+            })
+        else:
+            return JsonResponse({
+                'success': False, 
+                'error': 'Invalid request method. Only AJAX requests are allowed.'
+            }, status=400)
+    except EggSeller.DoesNotExist:
+        return JsonResponse({
+            'success': False, 
+            'error': 'Seller not found.'
+        }, status=404)
+    except Exception as e:
+        return JsonResponse({
+            'success': False, 
+            'error': f'Error deleting seller: {str(e)}'
+        }, status=500)
 
 def poultry_trainings(request):
     if request.method == 'POST':
